@@ -1,0 +1,47 @@
+main{
+  font-family: "Inter", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+img{
+  width: 80%;
+  max-width: 342px;
+}
+
+.buttonsContainer {
+  display:flex;
+  flex-direction: row;
+  column-gap: 64px;
+  margin-top: 100px;
+
+  button{
+    border: 1px solid black;
+    border-radius: 6px;
+    height:40px;
+    width:160px;
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: white;
+  }
+
+  button:hover{
+    box-shadow: 0px 4px 8px #00000033;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .buttonsContainer {
+    flex-direction: column;
+    row-gap: 40px;
+    width: 60%;
+
+    button{
+      width: 100%;
+    }
+  }
+}
