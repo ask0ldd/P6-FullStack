@@ -1,0 +1,33 @@
+header{
+    height:90px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    border-bottom: 1px solid black;
+    justify-content: space-between;
+
+    .logo{
+        height:60px;
+    }
+
+    nav{
+        display: flex;
+        flex-direction: row;
+    }
+
+    nav ul{
+        display: flex;
+        flex-direction: row;
+        column-gap: 2rem;
+    }
+
+    .active-link {
+        font-weight: bold;
+        color: red; /* or any other desired color */
+    }
+
+    .active{
+        color: red;
+    }
+}
