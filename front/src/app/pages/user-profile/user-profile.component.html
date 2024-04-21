@@ -1,0 +1,19 @@
+<app-header></app-header>
+<main>
+    <section>
+        <h1>Profil Utilisateur</h1>
+        <form>
+            <input type="text" placeholder="Username"/>
+            <input type="text" placeholder="email@email.fr"/>
+            <button type="submit">Sauvegarder</button>
+        </form>
+        <p role="button" class="logoutButton">se déconnecter</p>
+        <hr style="width: 90%; margin: 0 auto;"/>
+    </section>
+    <section *ngIf="(topics$ | async) as topics" class="subscriptionsContainer">
+        <h2>Abonnements</h2>
+        <div class="themesContainer">
+            <app-topic-card *ngFor="let topic of topics" [title]="topic.name" [subscribed]="true" [description]="topic.description"></app-topic-card>
+        </div>
+    </section>
+</main>
