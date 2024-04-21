@@ -1,0 +1,48 @@
+:host{
+    flex:1 1 40%;
+}
+
+article{
+    width: 100%;
+    background-color: #F5F5F5;
+    border-radius: 8px;
+    border:1px solid #e0e0e0;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+
+    h3{
+        font-size: 16px;
+        margin-bottom: 1rem;
+    }
+
+    p{
+        font-size: 14px;
+        margin-bottom: 1rem;
+        height:68px;
+    }
+
+    button{
+        border:none;
+        background-color: #7763C5;
+        color:white;
+        font-weight: 700;
+        height:40px;
+        width: 166px;
+        align-self: center;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    button:hover{
+        background-color: #957cda;
+        box-shadow: 0 4px 8px #7763C533;
+    }
+
+    /*button.unsubscribe{
+        border: 1px solid #7763C5;
+        color:#7763C5;
+        background-color: white;
+        box-shadow: 0 4px 8px #7763C533;
+    }*/
+}
