@@ -1,0 +1,6 @@
+<app-header></app-header>
+<main *ngIf="retrievedTopics">
+    <section class="topicsContainer">
+        <app-topic-card *ngFor="let topic of retrievedTopics" (askParentForUnsubscription)="unsubscribe($event)" (askParentForSubscription)="subscribe($event)" [subscribed]="isUserSubscribed(topic)" [title]="topic.name" [description]="topic.description" [topicId]="topic.id"></app-topic-card>
+    </section>
+</main>
