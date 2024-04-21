@@ -1,0 +1,65 @@
+header{
+    height:90px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    border-bottom: 1px solid black;
+
+    .logo{
+        height:60px;
+    }
+}
+
+main{
+    padding:1.5rem;
+    font-family: "Inter", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.backButton{
+    width: 41px;
+    align-self: flex-start;
+    cursor: pointer;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 3rem;
+    width: 100%;
+    max-width: 400px;
+
+    input{
+        height:50px;
+        margin-bottom: 1.5rem;
+        margin-top: 0.75rem;
+        padding:0 0.5rem;
+    }
+
+    button{
+        height:40px;
+        width: 132px;
+        background-color: #7763C5;
+        color:#FFFFFFFF;
+        border-radius: 6px;
+        border: none;
+        margin:0 auto;
+        font-family: "Inter", sans-serif;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    button:hover{
+        background-color: #7763C5cc;
+        box-shadow: 0 4px 8px #7763C555;
+    }
+}
