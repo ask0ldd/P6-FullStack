@@ -5,6 +5,7 @@ import { DetailsComponent } from './details/details.component';
 import { FormComponent } from './form/form.component';
 import { SharedModule } from '../shared/shared.module';
 import { ListComponent } from './list/list.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [

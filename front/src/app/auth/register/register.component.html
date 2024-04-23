@@ -2,13 +2,13 @@
 <main>
     <img class="backButton" routerLink="/" src="/assets/backarrow.png" alt="backButton">
     <h1>Inscription</h1>
-    <form>
+    <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
         <label>Nom d’utilisateur</label>
-        <input type="text"/>
+        <input type="text" formControlName="username"/>
         <label>Adresse e-mail</label>
-        <input type="text"/>
+        <input type="text" formControlName="email"/>
         <label>Mot de passe</label>
-        <input type="text"/>
+        <input type="text" formControlName="password"/>
         <button type="submit">S’inscrire</button>
     </form>
 </main>
