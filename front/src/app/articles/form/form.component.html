@@ -1,0 +1,12 @@
+<app-header></app-header>
+<main>
+    <img class="backButton" routerLink="/articles/list" src="/assets/backarrow.png" alt="backButton">
+    <h1>Créer un nouvel article</h1>
+    <form (ngSubmit)="onSubmit()" [formGroup]="articleForm">
+        <input type="text" placeholder="Sélectionner un thème" formControlName="theme"/>
+        <input type="text" placeholder="Titre de l’article" formControlName="title"/>
+        <textarea placeholder="Contenu de l’article" formControlName="content">
+        </textarea>
+        <button type="submit">Créer</button>
+    </form>
+</main>
