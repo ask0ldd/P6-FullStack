@@ -1,0 +1,27 @@
+<app-header></app-header>
+<main *ngIf="(article$ | async) as article">
+    <img class="backButton" routerLink="/articles/list" src="/assets/backarrow.png" alt="backButton">
+    <h1>{{article.title}}</h1>
+    <section class="articleContainer">
+        <div class="dateAuteurTopicContainer">
+            <span>{{article.topic.createdAt}}</span>
+            <span>{{article.user.userName}}</span>
+            <span>{{article.topic.name}}</span>
+        </div>
+        <p>Content: {{article.content}}</p>
+        <hr/>
+    </section>
+    <hr style="max-width: 1280px;"/>
+    <section *ngIf="article.comments?.length" class="commentsHistoryContainer">
+        <h3>Commentaires</h3>
+        <article *ngFor="let comment of article.comments" class="commentContainer">
+            <span>{{comment.user.userName}}</span>
+            <div class="comment">{{comment.content}}</div>
+        </article>
+    </section>
+    <section class="newCommentContainer">
+        <textarea placeholder="Écrivez ici votre commentaire"></textarea>
+        <img src="/assets/sendicon.png" alt="">
+    </section>
+
+</main>
