@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ILoginRequest } from 'src/app/interfaces/Requests/ILoginRequest';
+import { IJwtResponse } from 'src/app/interfaces/Responses/IJwtResponse';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -11,19 +12,19 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  public loginForm = this.fb.group({
+  public loginForm : FormGroup = this.fb.group({
     emailOrUsername: [
       '',
       [
         Validators.required,
-        Validators.min(3)
+        Validators.minLength(3)
       ]
     ],
     password: [
       '',
       [
         Validators.required,
-        Validators.min(3)
+        Validators.minLength(8)
       ]
     ]
   });
@@ -37,8 +38,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(){
+  onSubmit(): void{
     const loginregisterRequest = this.loginForm.value as ILoginRequest;
+    this.authService.login$(loginregisterRequest).subscribe((jwtResponse : IJwtResponse )=> {
+      localStorage.setItem('token', jwtResponse.token);
+      localStorage.setItem('username', jwtResponse.username)
+    })
   }
 
 }
