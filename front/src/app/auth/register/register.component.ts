@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IRegisterRequest } from 'src/app/interfaces/Requests/IRegisterRequest';
+import { IJwtResponse } from 'src/app/interfaces/Responses/IJwtResponse';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -11,12 +12,12 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent implements OnInit {
 
-  public registerForm = this.fb.group({
-    userName : [
+  public registerForm : FormGroup = this.fb.group({
+    username : [
       '',
       [
         Validators.required,
-        Validators.min(3)
+        Validators.minLength(3)
       ]
     ],
     email: [
@@ -30,7 +31,7 @@ export class RegisterComponent implements OnInit {
       '',
       [
         Validators.required,
-        Validators.min(3)
+        Validators.minLength(8)
       ]
     ]
   });
@@ -44,8 +45,11 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(){
+  onSubmit(): void{
     const registerRequest = this.registerForm.value as IRegisterRequest;
+    this.authService.register$(registerRequest).subscribe((jwtResponse : IJwtResponse )=> {
+      localStorage.setItem('token', jwtResponse.token);
+    })
   }
 
 }
