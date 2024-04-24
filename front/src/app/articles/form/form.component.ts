@@ -1,8 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable, of, take } from 'rxjs';
 import { IArticle } from 'src/app/interfaces/IArticle';
+import { ITopic } from 'src/app/interfaces/ITopic';
 import { ArticleService } from 'src/app/services/article.service';
+import { TopicService } from 'src/app/services/topic.service';
 
 @Component({
   selector: 'app-form',
@@ -11,34 +14,52 @@ import { ArticleService } from 'src/app/services/article.service';
 })
 export class FormComponent implements OnInit {
 
-  public articleForm = this.fb.group({
-    email: [
+  // retrievedTopics : ITopic[] = []
+  topics$ : Observable<ITopic[]> = of([])
+
+  public articleForm : FormGroup = this.fb.group({
+    topicId: [
       '',
       [
         Validators.required,
-        Validators.email
+        Validators.min(1)
       ]
     ],
-    password: [
+    title: [
       '',
       [
         Validators.required,
-        Validators.min(3)
+        Validators.minLength(3)
+      ]
+    ],
+    content: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.nullValidator
       ]
     ]
   });
 
-  constructor(/*private authService: AuthService,*/
+  constructor(
     private fb: FormBuilder,
     private router: Router,
-    private articleService: ArticleService) {
+    private articleService: ArticleService,
+    private topicService : TopicService,
+  ) {
 }
 
   ngOnInit(): void {
+    // this.topicService.all$().pipe(take(1)).subscribe(datas => this.retrievedTopics = datas)
+    this.topics$ = this.topicService.all$()
   }
 
-  onSubmit(/*form: NgForm*/){
-    const article = this.articleForm?.value as IArticle;
+  onSubmit(): void{
+    const newArticle = this.articleForm?.value
+    this.articleService.create$(newArticle).subscribe(_ => {
+      this.router.navigate(['articles/list'])
+    }) // unsub
   }
 
 }

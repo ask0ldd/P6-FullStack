@@ -27,7 +27,7 @@ form{
     max-width: 800px;
     align-items: center;
 
-    input{
+    input, select{
         height: 48px;
         width: 360px;
         padding:0 1rem;
@@ -35,6 +35,10 @@ form{
         border-radius: 6px;
         font-size: 18px;
         color:#000000;
+    }
+
+    select{
+        padding:0 0.75rem;
     }
 
     button{
@@ -56,5 +60,8 @@ form{
         resize: none;
         border-radius: 6px;
         border: 2px solid #7763C5;
+        font-size: 18px;
+        padding:0.5rem 1rem;
+        font-family: "Inter", sans-serif;
     }
 }
