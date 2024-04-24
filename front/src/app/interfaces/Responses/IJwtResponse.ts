@@ -1,4 +1,4 @@
-export interface IJwtResponse{
+export interface IJwtResponse {
     token: string
     type: string
     id: number
