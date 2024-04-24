@@ -37,8 +37,8 @@ public class MddApiApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		User user1 = User.builder().id(1L)
-				.admin(true).lastName("LN")
-				.firstName("FN").email("ced@ced.com")
+				.admin(true)/*.lastName("LN")
+				.firstName("FN")*/.email("ced@ced.com")
 				.userName("userName1")
 				.password("password").build();
 		userService.create(user1);
