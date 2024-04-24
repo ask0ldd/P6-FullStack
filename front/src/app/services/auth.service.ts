@@ -16,10 +16,10 @@ export class AuthService {
   }
 
   login$(loginRequest : ILoginRequest) : Observable<IJwtResponse>{
-    return this.httpClient.post<IJwtResponse>('/login', loginRequest)
+    return this.httpClient.post<IJwtResponse>(`${this.pathService}/login`, loginRequest)
   }
 
   register$(registerRequest : IRegisterRequest) : Observable<IJwtResponse>{
-    return this.httpClient.post<IJwtResponse>('/register', registerRequest)
+    return this.httpClient.post<IJwtResponse>(`${this.pathService}/register`, registerRequest)
   }
 }
