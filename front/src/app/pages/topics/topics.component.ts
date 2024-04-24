@@ -20,7 +20,7 @@ export class TopicsComponent implements OnInit, OnDestroy {
     this.refreshTopics()
   }
 
-  refreshTopics(){
+  refreshTopics(): void{
     this.subscriptions.forEach(sub => sub.unsubscribe())
     const sub = this.topicService.all$().subscribe(datas => this.retrievedTopics = datas)
     this.subscriptions.push(sub)
