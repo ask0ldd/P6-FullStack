@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService) {
-}
+  }
 
   ngOnInit(): void {
   }

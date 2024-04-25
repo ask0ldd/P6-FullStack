@@ -17,7 +17,7 @@ export class TopicService {
   }
 
   allTopicsAUserIsSubscribedTo$(userId: number): Observable<ITopic[]>{
-    return this.http.get<ITopic[]>(`api/topics/${userId}`)
+    return this.http.get<ITopic[]>(`api/topics/byuser/${userId}`)
   }
 
   subscribe$(topicId: number, userId: number): Observable<void>{

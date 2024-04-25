@@ -5,21 +5,21 @@ import { TopicCardComponent } from '../components/topic-card/topic-card.componen
 import { HttpClientModule } from '@angular/common/http';
 import { TruncatePipe } from '../pipes/truncate.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [HeaderComponent, TopicCardComponent, TruncatePipe],
   imports: [
     CommonModule,
-    HttpClientModule,
-    FormsModule
+    RouterModule,
   ],
   exports:[
     HeaderComponent, 
     TopicCardComponent, 
     TruncatePipe,
-    FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    RouterModule,
   ],
 })
 export class SharedModule { }

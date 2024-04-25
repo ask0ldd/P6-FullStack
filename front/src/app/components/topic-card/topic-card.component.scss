@@ -1,5 +1,6 @@
 :host{
     flex:1 1 40%;
+    max-width: calc(50% - 0.5rem);
 }
 
 article{
@@ -10,6 +11,7 @@ article{
     padding: 1rem 1.25rem;
     display: flex;
     flex-direction: column;
+    height:100%;
 
     h3{
         font-size: 16px;
@@ -19,7 +21,7 @@ article{
     p{
         font-size: 14px;
         margin-bottom: 1rem;
-        height:68px;
+        min-height:84px;
     }
 
     button{
@@ -32,6 +34,7 @@ article{
         align-self: center;
         border-radius: 6px;
         cursor: pointer;
+        margin-top: auto;
     }
 
     button:hover{
