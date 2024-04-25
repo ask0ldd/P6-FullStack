@@ -1,26 +1,101 @@
 main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding:1.5rem;
+    padding:1.5rem 0;
     font-family: "Inter", sans-serif;
     min-height: 100vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 60px auto auto 1fr 30px;
+    grid-template-rows: auto auto auto auto 1fr;
+    row-gap: 1rem;
+    /*padding-right: 60px;*/
+
+    @media (max-width: 750px) {
+        grid-template-columns: 1.5rem auto auto 1fr 1.5rem;
+        /*padding-right: 1.5rem;*/
+    }
+
+    @media (max-width: 600px) {
+        grid-template-rows: auto auto auto auto auto 1fr;
+        padding-bottom: 0;
+     }
 }
 
 h1{
-    text-align: center;
-    margin-bottom: 2rem;
     font-size: 24px;
     font-weight: bold;
+    grid-column: 2 / span 3;
+    grid-row: 1 / 2;
+
+    @media (max-width: 750px) {
+        grid-column: 3 / span 2;
+    }
 }
 
 .backButton{
     width: 41px;
-    align-self: flex-start;
     cursor: pointer;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    transform: translateY(6px);
+
+    @media (max-width: 750px) {
+        grid-column: 2 / 3;
+    }
 }
 
-section.articleContainer{
+.date{
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+.writer{
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    padding-left: 3rem;
+}
+
+.topic{
+    grid-column: 4 / 5;
+    grid-row: 2 / 3;
+    padding-left: 3rem;
+
+    @media (max-width: 600px) {
+        grid-column: 2 / 3;
+        grid-row: 3 / 4;
+        padding-left: 0;
+    }
+}
+
+.articleContent{
+    grid-column: 2 / span 3;
+    grid-row: 3 / 4;
+
+    @media (max-width: 600px) {
+        grid-row: 4 / 5;
+    }
+}
+
+hr{
+    margin: 1rem 0;
+    grid-column: 2 / span 3;
+    grid-row: 4 / 5;
+
+    @media (max-width: 600px) {
+        grid-row: 5 / 6;
+    }
+}
+
+.commentsSection{
+    grid-column: 2 / span 3;
+    grid-row: 5 / 6;
+
+    @media (max-width: 600px) {
+        grid-column: 1 / span 5;
+        grid-row: 6 / 7;
+    }
+}
+
+/*section.articleContainer{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -29,24 +104,32 @@ section.articleContainer{
     hr{
         margin: 2rem 0;
     }
-}
+}*/
 
-section.commentsHistoryContainer{
+.commentsHistoryContainer{
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 1280px;
     justify-content: left;
     align-items: left;
     row-gap: 1.5rem;
+    padding-right: 120px;
+
+    @media (max-width: 700px) {
+        padding-right: 0px;
+     }
+
+    @media (max-width: 600px) {
+        padding: 0px 1.5rem;
+     }
 }
 
-.dateAuteurTopicContainer{
+/*.dateAuteurTopicContainer{
     display: flex;
     flex-direction: row;
     column-gap: 2rem;
     margin-bottom: 2rem;
-}
+}*/
 
 .commentContainer{
     display: flex;
@@ -55,19 +138,38 @@ section.commentsHistoryContainer{
     font-weight: 400;
     font-size: 20px;
 
+    @media (max-width: 600px) {
+       flex-direction: column-reverse;
+       width: 100%;
+       /*font-size: 16px;*/
+    }
+
     span{
-        flex:1 1 20%;
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin-left: 60px;
+
+        @media (max-width: 750px) {
+            margin-left: 0;
+            text-align: right;
+            margin-top: 0.5rem;
+         }
     }
 
     .comment{
-        flex:1 1 80%;
+        flex:1 1 100%;
         background-color: #F5F5F5;
         border-radius: 8px;
         border:1px solid #e0e0e0;
         padding: 0.5rem 0.75rem;
-        height:100px;
+        min-height:100px;
         font-family: "Inter", sans-serif;
         resize: none;
+        overflow: hidden;
+
+        @media (max-width: 600px) {
+            width: 100%;
+        }
     }
 }
 
@@ -75,12 +177,21 @@ section.commentsHistoryContainer{
     margin-top: 2rem;
     display: flex;
     flex-direction: row;
-    column-gap: 2rem;
     font-weight: 400;
     font-size: 20px;
     align-items: center;
     width: 100%;
-    max-width: 1280px;
+    padding-left: 60px;
+    overflow: hidden;
+
+    @media (max-width: 600px) {
+        border : 1px solid black;
+        border-radius: 16px;
+    }
+
+    @media (max-width: 750px) {
+        padding-left: 0;
+    }
 
     textarea{
         flex:1 1 100%;
@@ -91,6 +202,18 @@ section.commentsHistoryContainer{
         font-family: "Inter", sans-serif;
         font-size: 20px;
         padding: 0.75rem 1rem;
+
+        @media (max-width: 600px) {
+            border : none;
+        }
+    }
+
+    .sendiconContainer{
+        width:120px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
     }
 
     img{
