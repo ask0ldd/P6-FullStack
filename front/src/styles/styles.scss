@@ -14,23 +14,51 @@ html, body {
   font-family: "Inter", sans-serif;
 }
 
-body { 
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-    margin: 0; 
-    font-family: "Inter", sans-serif;
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  margin: 0; 
+  font-family: "Inter", sans-serif;
 }
 
 main {
+  max-width: 1440px;
   background-color: white; 
   margin: 0 auto;
   min-height: 100vh;
 }
 
+header{
+  background-color: white; 
+  margin: 0 auto;
+}
+
 h1{
   font-size: 24px;
   font-weight: 500;
+}
+
+input,
+button,
+textarea,
+select {
+  font-family: "Inter", sans-serif;
+}
+
+button{
+  font-weight: 600;
+  font-size: 16px;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
 }
