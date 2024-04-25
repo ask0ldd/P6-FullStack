@@ -1,3 +1,10 @@
+:host{
+    display: block;
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+}
+
 header{
     height:90px;
     width: 100%;
@@ -7,6 +14,10 @@ header{
     border-bottom: 1px solid black;
     justify-content: space-between;
 
+    @media (max-width: 760px) {
+        padding:0 1rem;
+    }
+
     .logo{
         height:60px;
     }
@@ -14,20 +25,31 @@ header{
     nav{
         display: flex;
         flex-direction: row;
+        height:100%;
+
+        @media (max-width: 420px) {
+            display: none;
+        }
     }
 
     nav ul{
         display: flex;
         flex-direction: row;
         column-gap: 2rem;
+        height:100%;
+        align-items: center;
     }
 
-    .active-link {
+    a{
+        color:#000;
+    }
+
+    a.active-link {
         font-weight: bold;
-        color: red; /* or any other desired color */
+        color: #7763C5; /* or any other desired color */
     }
 
-    .active{
-        color: red;
+    a.active{
+        color: #7763C5;
     }
 }
