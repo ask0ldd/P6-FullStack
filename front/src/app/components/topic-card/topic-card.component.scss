@@ -1,6 +1,11 @@
 :host{
     flex:1 1 40%;
     max-width: calc(50% - 0.5rem);
+
+    @media (max-width: 600px) {
+        flex:1 0 100%;
+        max-width: 100%;
+    }
 }
 
 article{
