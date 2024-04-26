@@ -2,6 +2,7 @@ section{
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 1rem;
 
     h1{
         margin: 1.5rem 0;
@@ -14,16 +15,29 @@ section{
         font-size: 24px;
         font-weight: bold;
     }
+
+    hr{
+        width: 90%; 
+        margin: 0 auto;
+
+        @media (max-width: 600px) {
+            flex-direction: column;
+            width: 100%;
+         }
+    }
 }
 
 form{
     display: flex;
     flex-direction: column;
     row-gap: 1.5rem;
+    width: 100%;
+    align-items: center;
 
     input{
         height: 48px;
-        width: 360px;
+        width: 100%;
+        max-width: 360px;
         padding:0 1rem;
         border: 2px solid #7763C5;
         border-radius: 6px;
@@ -49,16 +63,22 @@ form{
     font-size: 14px;
     color:#A40F0F;
     font-weight: bold;
-    margin: 1rem 0;
+    margin: 1rem 0 1.5rem 0;
 }
 
 .themesContainer{
     display: flex;
     flex-direction: row;
-    padding:0rem 1.5rem 1.5rem 1.5rem;
+    padding: 0;
+    padding-bottom:1.5rem;
     column-gap:1rem;
     row-gap: 1rem;
     flex-wrap: wrap;
     width: 100%;
     max-width: 1280px;
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        flex-wrap: nowrap;
+     }
 }
