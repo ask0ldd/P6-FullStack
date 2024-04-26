@@ -39,18 +39,18 @@ export class DetailsComponent implements OnInit, OnDestroy {
     const commentText = this.commentTextarea.nativeElement.value
     const articleId = this.route.snapshot.paramMap.get('id')
     if(articleId == null || commentText == null) return
-    this.newCommentSub = this.commentService.create$({articleId : articleId, comment : commentText}).subscribe(_ => this.refreshComments()) // unsub
+    this.newCommentSub = this.commentService.create$({articleId : articleId, comment : commentText}).subscribe(_ => this.refreshComments())
     this.commentTextarea.nativeElement.value = ""
   }
 
   refreshComments(): void{
     this.articleSub.unsubscribe()
-    this.articleSub = this.article$.subscribe(article => this.comments = article.comments) // unsub
+    this.articleSub = this.article$.subscribe(article => this.comments = article.comments)
     this.newCommentSub.unsubscribe() // can unsub since comments have been refreshed
   }
 
-  historyBack(): void{
+  /*historyBack(): void{
     window.history.back()
-  }
+  }*/
 
 }
