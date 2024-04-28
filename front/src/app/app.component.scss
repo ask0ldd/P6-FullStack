@@ -1,0 +1,41 @@
+mat-sidenav-container{
+    height:100vh;
+
+    mat-sidenav{
+        padding: 70px 1rem 5px 1rem;
+        width: 50%;
+        height:100vh;
+        display:flex;
+        align-items: flex-end;
+        border: 0;
+        border: 1px solid black;
+
+        .sidenav-content {
+            position: sticky;
+            display: flex;
+            justify-content: flex-end;
+            flex-direction: column;
+            font-size: 20px;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            ul{
+                display: flex;
+                flex-direction: column;
+                row-gap: 0.5rem;
+            }
+
+            li{
+                cursor: pointer;
+                text-align: right;
+            }
+            
+            img{
+                margin: auto 0 0 auto;
+                height:48px;
+                width: 48px;
+            }
+        }
+    }
+}

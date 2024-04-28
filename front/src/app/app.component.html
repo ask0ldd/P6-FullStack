@@ -1,1 +1,14 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="over" position="end">
+        <div class="sidenav-content">
+            <ul>
+                <li routerLink="/articles/list" (click)="closeMenu()">Articles</li>
+                <li routerLink="/themes" (click)="closeMenu()">Thèmes</li>
+            </ul>
+            <img routerLink="/profile" src="assets/profilepic.png" (click)="closeMenu()"/>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
