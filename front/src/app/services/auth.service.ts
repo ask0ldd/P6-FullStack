@@ -27,4 +27,8 @@ export class AuthService {
   updateCredentials$(updateCredentialsRequest : IUpdateCredentialsRequest) : Observable<IJwtResponse>{
     return this.httpClient.put<IJwtResponse>(`${this.pathService}/updatecredentials`, updateCredentialsRequest)
   }
+
+  getJwt() : string{
+    return "faketoken"
+  }
 }
