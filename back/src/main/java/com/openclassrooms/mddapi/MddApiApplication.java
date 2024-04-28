@@ -1,9 +1,7 @@
 package com.openclassrooms.mddapi;
 
-import com.openclassrooms.mddapi.models.Article;
-import com.openclassrooms.mddapi.models.Comment;
-import com.openclassrooms.mddapi.models.Topic;
-import com.openclassrooms.mddapi.models.User;
+import com.openclassrooms.mddapi.models.*;
+import com.openclassrooms.mddapi.repositories.RoleRepository;
 import com.openclassrooms.mddapi.services.ArticleService;
 import com.openclassrooms.mddapi.services.CommentService;
 import com.openclassrooms.mddapi.services.TopicService;
@@ -13,7 +11,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @SpringBootApplication
 public class MddApiApplication implements CommandLineRunner {
@@ -22,12 +22,14 @@ public class MddApiApplication implements CommandLineRunner {
 	private final ArticleService articleService;
 	private final TopicService topicService;
 	private final CommentService commentService;
+	private final RoleRepository roleRepository;
 
-	public MddApiApplication(UserService userService, ArticleService articleService, TopicService topicService, CommentService commentService) {
+	public MddApiApplication(UserService userService, ArticleService articleService, TopicService topicService, CommentService commentService, RoleRepository roleRepository) {
 		this.userService = userService;
 		this.articleService = articleService;
 		this.topicService = topicService;
 		this.commentService = commentService;
+		this.roleRepository = roleRepository;
 	}
 
 	public static void main(String[] args) {
@@ -36,9 +38,15 @@ public class MddApiApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+
+		Role userRole = roleRepository.findByAuthority("USER")
+				.orElseThrow(() -> new RuntimeException("User role not found"));
+		Set<Role> authorities = new HashSet<>();
+		authorities.add(userRole);
+
 		User user1 = User.builder().id(1L)
-				.admin(true)/*.lastName("LN")
-				.firstName("FN")*/.email("ced@ced.com")
+				.email("ced@ced.com")
+				.authorities(authorities)
 				.userName("userName1")
 				.password("password").build();
 		userService.create(user1);
