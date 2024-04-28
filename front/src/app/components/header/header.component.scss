@@ -26,10 +26,8 @@ header{
         display: flex;
         flex-direction: row;
         height:100%;
+        align-items: center;
 
-        @media (max-width: 420px) {
-            display: none;
-        }
     }
 
     nav ul{
@@ -38,6 +36,10 @@ header{
         column-gap: 2rem;
         height:100%;
         align-items: center;
+
+        @media (max-width: 500px) {
+            display:none;
+        }
     }
 
     a{
@@ -51,5 +53,15 @@ header{
 
     a.active{
         color: #7763C5;
+    }
+
+    .burger{
+        height:16px;
+        cursor: pointer;
+        display: none;
+
+        @media (max-width: 500px) {
+            display:block;
+        }
     }
 }
