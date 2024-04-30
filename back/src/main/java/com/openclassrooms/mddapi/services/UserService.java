@@ -21,7 +21,11 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Target user cannot be found."));
     }
 
-    public User create(User user){
+    public User getByEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("Target user cannot be found."));
+    }
+
+    public User save(User user){
         return userRepository.save(user);
     }
 
