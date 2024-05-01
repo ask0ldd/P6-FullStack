@@ -28,7 +28,9 @@ export class AuthService {
     return this.httpClient.put<IJwtResponse>(`${this.pathService}/updatecredentials`, updateCredentialsRequest)
   }
 
-  getJwt() : string{
-    return "faketoken"
+  getLoggedUserInfos() : {jwt : string, username : string}{
+    const jwt = localStorage.getItem("jwt")
+    const username = localStorage.getItem("username")
+    return {jwt : jwt || "", username : username || ""}
   }
 }
