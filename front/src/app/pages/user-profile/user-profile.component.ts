@@ -44,10 +44,10 @@ export class UserProfileComponent implements OnInit {
   }
 
   onCredentialsSubmit() : void {
-
+    // !!!!
   }
 
-  unsubscribe(event: any) : void{
+  unsubscribeFromTopic(event: any) : void{
     this.topicService.unsubscribe$(event.topicId, this.userId).pipe(take(1)).subscribe(_ => this.refreshTopics())
   }
 
@@ -55,6 +55,10 @@ export class UserProfileComponent implements OnInit {
     this.subscriptions.forEach(sub => sub.unsubscribe())
     const sub = this.topicService.allTopicsAUserIsSubscribedTo$(this.userId).subscribe(datas => this.retrievedTopics = datas)
     this.subscriptions.push(sub)
+  }
+
+  getUsercredentials() : void{
+    // !!!
   }
 
 }
