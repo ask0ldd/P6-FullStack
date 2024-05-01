@@ -14,10 +14,11 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private authService : AuthService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (this.authService.getJwt() != "") {
+    const jwt = this.authService.getLoggedUserInfos().jwt
+    if (jwt != "") {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${this.authService.getJwt()}`,
+          Authorization: `Bearer ${jwt}`,
         },
       });
     }
