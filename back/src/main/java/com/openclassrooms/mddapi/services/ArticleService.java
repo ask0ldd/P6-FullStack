@@ -3,20 +3,19 @@ package com.openclassrooms.mddapi.services;
 import com.openclassrooms.mddapi.models.Article;
 import com.openclassrooms.mddapi.repositories.ArticleRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
+import com.openclassrooms.mddapi.services.interfaces.IArticleService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ArticleService {
+public class ArticleService implements IArticleService {
 
     private final ArticleRepository articleRepository;
-    private final UserRepository userRepository;
 
-    public ArticleService(ArticleRepository articleRepository, UserRepository userRepository) {
+    public ArticleService(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
-        this.userRepository = userRepository;
     }
 
     public Article getById(Long id){
@@ -25,9 +24,9 @@ public class ArticleService {
 
     public List<Article> getAll() {return articleRepository.findAll();}
 
-    public List<Article> getAllByDateAsc() {return articleRepository.findAll(Sort.by("date"));}
+    public List<Article> getAllByDateAsc() {return articleRepository.findAll(Sort.by("updatedAt"));}
 
-    public List<Article> getAllByDateDesc() {return articleRepository.findAll(Sort.by("date").descending());}
+    public List<Article> getAllByDateDesc() {return articleRepository.findAll(Sort.by("updatedAt").descending());}
 
     public Article create(Article article){
         return articleRepository.save(article);
