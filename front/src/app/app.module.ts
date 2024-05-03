@@ -9,6 +9,8 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { SharedModule } from './shared/shared.module';
 import { ArticlesModule } from './pages/articles/articles.module';
 import { RouterOutlet } from '@angular/router';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './interceptor/jwt.interceptor';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, TopicsComponent, UserProfileComponent],
@@ -19,7 +21,10 @@ import { RouterOutlet } from '@angular/router';
     SharedModule,
     AppRoutingModule,
   ],
-  providers: [],
+  // providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
