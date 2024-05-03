@@ -3,13 +3,14 @@ package com.openclassrooms.mddapi.services;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repositories.UserRepository;
+import com.openclassrooms.mddapi.services.interfaces.IUserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService, IUserService {
 
     private final UserRepository userRepository;
 
