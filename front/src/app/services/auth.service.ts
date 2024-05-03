@@ -28,8 +28,9 @@ export class AuthService {
     return this.httpClient.put<IJwtResponse>(`${this.pathService}/updatecredentials`, updateCredentialsRequest)
   }
 
+  // !!! create local storage service
   getLoggedUserInfos() : {jwt : string, username : string}{
-    const jwt = localStorage.getItem("jwt")
+    const jwt = localStorage.getItem("token")
     const username = localStorage.getItem("username")
     return {jwt : jwt || "", username : username || ""}
   }
