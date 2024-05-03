@@ -10,9 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
@@ -47,9 +45,9 @@ public class MddApiApplication implements CommandLineRunner {
 		User user1 = User.builder().id(1L)
 				.email("ced@ced.com")
 				.authorities(authorities)
-				.userName("userName1")
+				.username("userName1")
 				.password("password").build();
-		userService.create(user1);
+		userService.save(user1);
 
 		Topic topic1 = Topic.builder().id(1L)
 				.name("Javascript").description("JavaScript is a high-level, interpreted programming language that is primarily used for web development, creating dynamic and interactive web pages. It is one of the core technologies of the World Wide Web, alongside HTML and CSS. JavaScript is also widely used in server-side programming, game development, and mobile app development.")

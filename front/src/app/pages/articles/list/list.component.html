@@ -8,7 +8,7 @@
         <div class="articlesGroup">
             <article *ngFor="let article of articles" [routerLink]="['/articles/details', article.id]">
                 <h3>{{article.title}}</h3>
-                <div class="dateAuteurContainer"><span>{{article.createdAt | date:'dd/MM/yyyy'}}</span><span>{{article.user.userName}}</span></div>
+                <div class="dateAuteurContainer"><span>{{article.createdAt | date:'dd/MM/yyyy'}}</span><span>{{article.user.username}}</span></div>
                 <p>Content: {{article.content | truncate:300}}</p>
             </article>
         </div>
