@@ -6,13 +6,14 @@ import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repositories.TopicRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
+import com.openclassrooms.mddapi.services.interfaces.ITopicService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class TopicService {
+public class TopicService implements ITopicService {
     private final TopicRepository topicRepository;
     private final UserRepository userRepository;
 
