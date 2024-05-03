@@ -5,6 +5,7 @@ import com.openclassrooms.mddapi.models.Role;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repositories.RoleRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
+import com.openclassrooms.mddapi.services.interfaces.IAuthService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,7 +19,7 @@ import java.util.Set;
 
 @Service
 @Transactional
-public class AuthService {
+public class AuthService implements IAuthService {
 
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
@@ -41,12 +42,11 @@ public class AuthService {
 
     public String login(String emailOrUsername, String password){
         try{
-            String email = parseUserEmail(emailOrUsername);
+            String email = parseEmail(emailOrUsername);
             Authentication auth = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(email, password));
             return tokenService.generateJwt(auth);
         } catch(AuthenticationException e){
-            // !!!
             return null;
         }
     }
@@ -62,18 +62,18 @@ public class AuthService {
             // produces a JWT based on the Authentication produced for the authenticated user
             return tokenService.generateJwt(auth);
         } catch (AuthenticationException e) {
-            // !!!
             return null;
         }
     }
 
-    private String parseUserEmail(String emailOrUsername) {
+    // !!! changer d'abord recherche par email puis par username, pas d'identification avec @
+    private String parseEmail(String emailOrUsername) {
         // if @ into field, then emailOrUsername is an email
         if (emailOrUsername.contains("@")) {
             return emailOrUsername;
         }
         // if no @, retrieve the user email from the DB
-        return userRepository.findByUserName(emailOrUsername)
+        return userRepository.findByUsername(emailOrUsername)
                 .map(User::getEmail)
                 .orElseThrow(() -> new UserNotFoundException("User not found."));
     }
@@ -87,7 +87,7 @@ public class AuthService {
         Set<Role> authorities = new HashSet<>();
         authorities.add(userRole);
 
-        User user = User.builder().userName(username).email(email).password(encodedPassword).authorities(authorities).build();
+        User user = User.builder().username(username).email(email).password(encodedPassword).authorities(authorities).build();
         userRepository.save(user);
     }
 }
