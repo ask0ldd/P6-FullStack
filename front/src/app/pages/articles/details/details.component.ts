@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject, Subscription, of, takeUntil } from 'rxjs';
 import { IArticle } from 'src/app/interfaces/IArticle';
-import { IComment } from 'src/app/interfaces/IComment';
+import { IComment, ILimitedComment } from 'src/app/interfaces/IComment';
 import { ArticleService } from 'src/app/services/article.service';
 import { CommentService } from 'src/app/services/comment.service';
 
@@ -18,7 +18,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   
   article$ : Observable<IArticle> = of()
   urlId! : string | null
-  comments! : Array<IComment>
+  comments! : Array<ILimitedComment>
   articleSub! : Subscription
   newCommentSub! : Subscription
 
