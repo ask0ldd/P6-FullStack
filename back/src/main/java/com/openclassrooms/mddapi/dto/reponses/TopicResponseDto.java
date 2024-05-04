@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.dto.reponses;
 
+import com.openclassrooms.mddapi.dto.partials.LimitedUserDto;
 import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ public class TopicResponseDto {
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    // private List<User> users;
+    private List<LimitedUserDto> users;
 
     public TopicResponseDto(Topic topic) {
         this.id = topic.getId();
@@ -27,7 +28,7 @@ public class TopicResponseDto {
         this.description = topic.getDescription();
         this.createdAt = topic.getCreatedAt();
         this.updatedAt = topic.getUpdatedAt();
-        // this.users = topic.getUsers();
+        this.users = topic.getUsers().stream().map(LimitedUserDto::new).toList();
     }
 
 }
