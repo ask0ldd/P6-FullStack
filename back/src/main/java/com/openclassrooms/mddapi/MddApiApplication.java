@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
@@ -51,12 +52,13 @@ public class MddApiApplication implements CommandLineRunner {
 
 		Topic topic1 = Topic.builder().id(1L)
 				.name("Javascript").description("JavaScript is a high-level, interpreted programming language that is primarily used for web development, creating dynamic and interactive web pages. It is one of the core technologies of the World Wide Web, alongside HTML and CSS. JavaScript is also widely used in server-side programming, game development, and mobile app development.")
-				// .users(List.of(user1))
+				.users(List.of(user1))
 				.build();
 		topicService.create(topic1);
 
 		Topic topic2 = Topic.builder().id(2L)
 				.name("Angular").description("Angular is a popular open-source web application framework developed and maintained by Google. It is primarily used for building single-page applications (SPAs) and provides a comprehensive set of tools and features for building complex, scalable, and maintainable web applications. Angular utilizes TypeScript, a superset of JavaScript, and follows a component-based architecture, making it easier to manage and organize large-scale projects.")
+				.users(List.of(user1))
 				.build();
 		topicService.create(topic2);
 
