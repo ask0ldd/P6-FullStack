@@ -1,14 +1,14 @@
-import { IComment } from "./IComment";
+import { IComment, ILimitedComment } from "./IComment";
 import { ITopic } from "./ITopic";
-import { IUser } from "./IUser";
+import { ILimitedUser, IUser } from "./IUser";
 
 export interface IArticle {
-    id: number
-    title: string
-    content: string
-    comments: IComment[]
-    topic: ITopic
-    user: IUser
-    createdAt: Date
-    updatedAt: Date
-  }
+  id: number
+  title: string
+  content: string
+  comments: ILimitedComment[]
+  topic: ITopic
+  user: ILimitedUser
+  createdAt: Date
+  updatedAt: Date
+}
