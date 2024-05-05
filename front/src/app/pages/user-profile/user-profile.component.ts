@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable, Subscription, of, take } from 'rxjs';
 import { ITopic } from 'src/app/interfaces/ITopic';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,7 +14,7 @@ import { TopicService } from 'src/app/services/topic.service';
 export class UserProfileComponent implements OnInit {
 
   userId : number = 1 // !!! should be retrieved through token
-  retrievedTopics : ITopic[] = []
+  retrievedTopics! : ITopic[]
   subscriptions : Subscription[] = []
 
   public updateCredentialsForm : FormGroup = this.fb.group({
@@ -36,7 +37,9 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private topicService : TopicService) {
+    private topicService : TopicService,
+    private router : Router,
+  ) {
   }
 
   ngOnInit(): void {
@@ -59,6 +62,11 @@ export class UserProfileComponent implements OnInit {
 
   getUsercredentials() : void{
     // !!!
+  }
+
+  logout() : void{
+    this.authService.flushStorage()
+    this.router.navigateByUrl('login')
   }
 
 }
