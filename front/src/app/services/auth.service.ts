@@ -28,10 +28,21 @@ export class AuthService {
     return this.httpClient.put<IJwtResponse>(`${this.pathService}/updatecredentials`, updateCredentialsRequest)
   }
 
+  isAuthenticated() : boolean{
+    if(localStorage.getItem("token")) return true
+    return false
+  }
+
   // !!! create local storage service
   getLoggedUserInfos() : {jwt : string, username : string}{
     const jwt = localStorage.getItem("token")
     const username = localStorage.getItem("username")
     return {jwt : jwt || "", username : username || ""}
+  }
+
+  // !!! create local storage service
+  flushStorage(){
+    localStorage.removeItem("token")
+    localStorage.removeItem("username")
   }
 }
