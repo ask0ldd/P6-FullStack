@@ -1,4 +1,4 @@
-header{
+/*header{
     height:90px;
     width: 100%;
     display: flex;
@@ -8,6 +8,22 @@ header{
 
     .logo{
         height:60px;
+    }
+
+}*/
+
+app-header{
+    @media (max-width: 600px) {
+        display: none;
+    }
+}
+
+.logo{
+    width: 80%;
+    padding: 2.5rem 0 2rem 0;
+
+    @media (min-width: 601px) {
+        display: none;
     }
 }
 
@@ -29,6 +45,10 @@ h1{
     width: 41px;
     align-self: flex-start;
     cursor: pointer;
+    
+    @media (min-width: 601px) {
+        transform: translateY(1rem);
+    }
 }
 
 form{

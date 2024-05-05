@@ -2,7 +2,7 @@
 <main *ngIf="(article$ | async) as article">
     <img class="backButton" [routerLink]="['/articles/list']" src="/assets/backarrow.png" alt="backButton">
     <h1>{{article.title}}</h1>
-    <div class="date">{{article.topic.createdAt | date:'dd/MM/yyyy'}}</div>
+    <div class="date">{{article.createdAt | date:'dd/MM/yyyy'}}</div>
     <div class="writer">{{article.user.username}}</div>
     <div class="topic">{{article.topic.name}}</div>
     <p class="articleContent" style="font-size: 20px;">Content: {{article.content}}</p>

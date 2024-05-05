@@ -7,14 +7,14 @@
             <input type="text" placeholder="email@email.fr" formControlName="email"/>
             <button type="submit">Sauvegarder</button>
         </form>
-        <p role="button" class="logoutButton">se déconnecter</p>
+        <p role="button" class="logoutButton" (click)="logout()">se déconnecter</p>
         <hr/>
     </section>
-    <section *ngIf="retrievedTopics as topics" class="subscriptionsContainer">
+    <section class="subscriptionsContainer">
         <h2>Abonnements</h2>
-        <div class="themesContainer">
-            <app-topic-card *ngFor="let topic of topics" [title]="topic.name" [subscribed]="true" [description]="topic.description" (askParentForUnsubscription)="unsubscribeFromTopic($event)" [topicId]="topic.id"></app-topic-card>
+        <div *ngIf="retrievedTopics.length > 0" class="themesContainer">
+            <app-topic-card *ngFor="let topic of retrievedTopics" [title]="topic.name" [subscribed]="true" [description]="topic.description" (askParentForUnsubscription)="unsubscribeFromTopic($event)" [topicId]="topic.id"></app-topic-card>
         </div>
-        <div *ngIf="topics.length === 0">Aucun abonnement souscrit pour le moment.</div>
+        <div *ngIf="retrievedTopics.length === 0 || !retrievedTopics">Aucun abonnement souscrit pour le moment.</div>
     </section>
 </main>
