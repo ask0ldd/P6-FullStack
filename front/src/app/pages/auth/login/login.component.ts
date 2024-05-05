@@ -40,9 +40,14 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void{
     const loginregisterRequest = this.loginForm.value as ILoginRequest;
-    this.authService.login$(loginregisterRequest).subscribe((jwtResponse : IJwtResponse )=> {
-      localStorage.setItem('token', jwtResponse.token);
-      localStorage.setItem('username', jwtResponse.username)
+    this.authService.login$(loginregisterRequest).subscribe({
+      next : (jwtResponse : IJwtResponse )=> {
+        console.log(jwtResponse)
+        localStorage.setItem('token', jwtResponse.token);
+        localStorage.setItem('username', jwtResponse.username)
+        this.router.navigateByUrl('/articles/list')
+      },
+      error : (error : any) => console.log(error?.error)
     })
   }
 

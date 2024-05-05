@@ -57,9 +57,12 @@ export class FormComponent implements OnInit {
 
   onSubmit(): void{
     const newArticle = this.articleForm?.value
-    this.articleService.create$(newArticle).subscribe(_ => {
-      this.router.navigate(['articles/list'])
-    }) // unsub
+    this.articleService.create$(newArticle).subscribe({
+      next : _ => {
+        this.router.navigate(['articles/list'])
+      },
+      error : error => console.log(error?.error)
+    }) // !!!! unsub
   }
 
 }

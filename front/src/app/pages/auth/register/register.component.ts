@@ -12,6 +12,8 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent implements OnInit {
 
+  errorMessage!: string
+
   public registerForm : FormGroup = this.fb.group({
     username : [
       '',
@@ -40,15 +42,19 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService) {
-}
+  }
 
   ngOnInit(): void {
   }
 
   onSubmit(): void{
     const registerRequest = this.registerForm.value as IRegisterRequest;
-    this.authService.register$(registerRequest).subscribe((jwtResponse : IJwtResponse )=> {
-      localStorage.setItem('token', jwtResponse.token);
+    this.authService.register$(registerRequest).subscribe({
+      next : (jwtResponse : IJwtResponse ) => {
+        console.log(jwtResponse)
+        localStorage.setItem('token', jwtResponse.token);
+      },
+      error : (error : any) => { this.errorMessage = error?.error?.message}
     })
   }
 
