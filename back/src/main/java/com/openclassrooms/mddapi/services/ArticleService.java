@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.services;
 
+import com.openclassrooms.mddapi.exceptions.BadRequestException;
+import com.openclassrooms.mddapi.exceptions.ResourceNotFoundException;
 import com.openclassrooms.mddapi.models.Article;
 import com.openclassrooms.mddapi.repositories.ArticleRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
@@ -18,15 +20,41 @@ public class ArticleService implements IArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public Article getById(Long id){
-        return articleRepository.findById(id).orElse(null);
+    public Article getById(Long id) throws ResourceNotFoundException {
+        return articleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Can't find the article with id: " + id));
     }
 
-    public List<Article> getAll() {return articleRepository.findAll();}
+    public List<Article> getAll() {
+        List<Article> articles = articleRepository.findAll();
+        if (articles.isEmpty()) {
+            throw new ResourceNotFoundException("Can't find any article");
+        }
+        return articles;
+    }
 
-    public List<Article> getAllByDateAsc() {return articleRepository.findAll(Sort.by("updatedAt"));}
+    public List<Article> getAllForUser(String username) {
+        List<Article> articles = articleRepository.findAll();
+        if (articles.isEmpty()) {
+            throw new ResourceNotFoundException("Can't find any article");
+        }
+        return articles;
+    }
 
-    public List<Article> getAllByDateDesc() {return articleRepository.findAll(Sort.by("updatedAt").descending());}
+    public List<Article> getAllByDateAsc() {
+        List<Article> articles = articleRepository.findAll(Sort.by("updatedAt"));
+        if (articles.isEmpty()) {
+            throw new ResourceNotFoundException("Can't find any article");
+        }
+        return articles;
+    }
+
+    public List<Article> getAllByDateDesc() {
+        List<Article> articles = articleRepository.findAll(Sort.by("updatedAt").descending());
+        if (articles.isEmpty()) {
+            throw new ResourceNotFoundException("Can't find any article");
+        }
+        return articles;
+    }
 
     public Article create(Article article){
         return articleRepository.save(article);
