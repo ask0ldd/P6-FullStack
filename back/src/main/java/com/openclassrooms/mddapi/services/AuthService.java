@@ -7,6 +7,7 @@ import com.openclassrooms.mddapi.repositories.RoleRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import com.openclassrooms.mddapi.services.interfaces.IAuthService;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -41,14 +42,10 @@ public class AuthService implements IAuthService {
     }
 
     public String login(String emailOrUsername, String password){
-        try{
-            String email = parseEmail(emailOrUsername);
-            Authentication auth = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(email, password));
-            return tokenService.generateJwt(auth);
-        } catch(AuthenticationException e){
-            return null;
-        }
+        String email = parseEmail(emailOrUsername);
+        Authentication auth = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        return tokenService.generateJwt(auth);
     }
 
     // !!! should check constraints and should check username has no @ in it
@@ -75,7 +72,7 @@ public class AuthService implements IAuthService {
         // if no @, retrieve the user email from the DB
         return userRepository.findByUsername(emailOrUsername)
                 .map(User::getEmail)
-                .orElseThrow(() -> new UserNotFoundException("User not found."));
+                .orElseThrow(() -> new BadCredentialsException("Bad credentials."));
     }
 
     private void createNewUser(String email, String username, String password) {

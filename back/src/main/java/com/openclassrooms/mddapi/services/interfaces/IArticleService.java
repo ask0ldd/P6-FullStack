@@ -25,6 +25,13 @@ public interface IArticleService {
     public List<Article> getAll();
 
     /**
+     * Retrieves all articles linked to a user with username.
+     *
+     * @return a list of all articles related to the user
+     */
+    public List<Article> getAllForUser(String username);
+
+    /**
      * Retrieves all articles sorted in ascending order by their publication date.
      *
      * @return a list of all articles sorted by date in ascending order
