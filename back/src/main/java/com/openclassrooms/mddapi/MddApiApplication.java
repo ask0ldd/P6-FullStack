@@ -46,7 +46,7 @@ public class MddApiApplication implements CommandLineRunner {
 		User user1 = User.builder().id(1L)
 				.email("ced@ced.com")
 				.authorities(authorities)
-				.username("userName1")
+				.name("userName1")
 				.password("password").build();
 		userService.save(user1);
 
