@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ILoginRequest } from '../interfaces/Requests/ILoginRequest';
 import { IRegisterRequest } from '../interfaces/Requests/IRegisterRequest';
 import { IUpdateCredentialsRequest } from '../interfaces/Requests/IUpdateCredentialsRequest';
+import { ICredentialsResponse } from '../interfaces/Responses/ICredentialsResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,13 @@ export class AuthService {
     return this.httpClient.post<IJwtResponse>(`${this.pathService}/register`, registerRequest)
   }
 
-  updateCredentials$(updateCredentialsRequest : IUpdateCredentialsRequest) : Observable<IJwtResponse>{
-    return this.httpClient.put<IJwtResponse>(`${this.pathService}/updatecredentials`, updateCredentialsRequest)
+  updateCredentials$(updateCredentialsRequest : IUpdateCredentialsRequest) : Observable<any>{
+    return this.httpClient.put<any>(`${this.pathService}/newcredentials`, updateCredentialsRequest)
+  }
+
+  
+  getCredentials$() : Observable<ICredentialsResponse>{
+    return this.httpClient.get<ICredentialsResponse>(`${this.pathService}/credentials`)
   }
 
   isAuthenticated() : boolean{

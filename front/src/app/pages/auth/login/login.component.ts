@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import { ILoginRequest } from 'src/app/interfaces/Requests/ILoginRequest';
 import { IJwtResponse } from 'src/app/interfaces/Responses/IJwtResponse';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,14 +18,15 @@ export class LoginComponent implements OnInit {
       '',
       [
         Validators.required,
-        Validators.minLength(3)
+        Validators.minLength(6)
       ]
     ],
     password: [
       '',
       [
         Validators.required,
-        Validators.minLength(8)
+        Validators.minLength(8),
+        Validators.pattern("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–\\[{}\\]:;',?/*~$^+=<>]).{8,}$")
       ]
     ]
   });
@@ -40,9 +42,10 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void{
     const loginregisterRequest = this.loginForm.value as ILoginRequest;
-    this.authService.login$(loginregisterRequest).subscribe({
+    this.authService.login$(loginregisterRequest).pipe(take(1)).subscribe({
       next : (jwtResponse : IJwtResponse )=> {
         console.log(jwtResponse)
+        this.authService.flushStorage()
         localStorage.setItem('token', jwtResponse.token);
         localStorage.setItem('username', jwtResponse.username)
         this.router.navigateByUrl('/articles/list')
