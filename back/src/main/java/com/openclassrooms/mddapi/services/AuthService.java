@@ -1,11 +1,15 @@
 package com.openclassrooms.mddapi.services;
 
+import com.openclassrooms.mddapi.exceptions.BadRequestException;
+import com.openclassrooms.mddapi.exceptions.RoleNotFoundException;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
 import com.openclassrooms.mddapi.models.Role;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repositories.RoleRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import com.openclassrooms.mddapi.services.interfaces.IAuthService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,8 +18,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -48,43 +54,48 @@ public class AuthService implements IAuthService {
         return tokenService.generateJwt(auth);
     }
 
-    // !!! should check constraints and should check username has no @ in it
+
+    // !!! should check constraints
     public String register(String email, String username, String password) {
-        try {
-            createNewUser(email, username, password);
-            // try to authenticate the user using email and password
-            // Authentication : Set by an AuthenticationManager to indicate the authorities that the principal has been granted
-            Authentication auth = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(email, password));
-            // produces a JWT based on the Authentication produced for the authenticated user
-            return tokenService.generateJwt(auth);
-        } catch (AuthenticationException e) {
-            return null;
-        }
+        createNewUser(email, username, password);
+        // try to authenticate the user using email and password
+        // Authentication : Set by an AuthenticationManager to indicate the authorities that the principal has been granted
+        Authentication auth = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        // produces a JWT based on the Authentication produced for the authenticated user
+        return tokenService.generateJwt(auth);
     }
 
-    // !!! changer d'abord recherche par email puis par username, pas d'identification avec @
+
     private String parseEmail(String emailOrUsername) {
-        // if @ into field, then emailOrUsername is an email
-        if (emailOrUsername.contains("@")) {
-            return emailOrUsername;
+        Optional<User> user = userRepository.findByEmail(emailOrUsername);
+        if(user.isPresent()) {
+            return user.get().getEmail();
         }
-        // if no @, retrieve the user email from the DB
-        return userRepository.findByUsername(emailOrUsername)
+
+        return userRepository.findByName(emailOrUsername)
                 .map(User::getEmail)
                 .orElseThrow(() -> new BadCredentialsException("Bad credentials."));
     }
 
+
     private void createNewUser(String email, String username, String password) {
-        // the password  has to be encoded before any insertion into the DB
-        String encodedPassword = passwordEncoder.encode(password);
+        try {
+            // the password  has to be encoded before any insertion into the DB
+            String encodedPassword = passwordEncoder.encode(password);
 
-        // Assigning a role by default to the new user : USER
-        Role userRole = roleRepository.findByAuthority("USER").orElseThrow(() -> new RuntimeException("User role not found"));
-        Set<Role> authorities = new HashSet<>();
-        authorities.add(userRole);
+            // Assigning a role by default to the new user : USER
+            Role userRole = roleRepository.findByAuthority("USER").orElseThrow(() -> new RoleNotFoundException("User role not found"));
+            Set<Role> authorities = new HashSet<>();
+            authorities.add(userRole);
 
-        User user = User.builder().username(username).email(email).password(encodedPassword).authorities(authorities).build();
-        userRepository.save(user);
+            User user = User.builder().name(username).email(email).password(encodedPassword).authorities(authorities).build();
+            userRepository.save(user);
+        }catch(RoleNotFoundException e){
+            throw e;
+        }catch(Exception e){
+            System.out.println("\u001B[31m" + e + "\u001B[0m");
+            throw new BadRequestException();
+        }
     }
 }
