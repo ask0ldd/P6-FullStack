@@ -82,10 +82,11 @@ hr{
     grid-column: 2 / span 3;
     grid-row: 4 / 5;
     width: 95%;
-    margin: 0 auto;
+    margin: 2rem auto 0 auto;
 
     @media (max-width: 600px) {
         grid-row: 5 / 6;
+        margin: 0 auto 0 auto;
     }
 }
 

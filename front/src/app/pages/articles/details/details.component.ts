@@ -24,6 +24,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   constructor(private articleService : ArticleService, private commentService : CommentService, private route: ActivatedRoute) { 
   }
+  
   ngOnDestroy(): void {
     this.articleSub?.unsubscribe()
     this.newCommentSub?.unsubscribe()
