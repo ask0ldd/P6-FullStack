@@ -7,12 +7,12 @@ import lombok.Data;
 
 @Data
 public class UpdateCredentialsPayloadDto {
-    @NotBlank
-    @Size(min = 6, max = 20)
+    @NotBlank(message = "Username can't be blank.")
+    @Size(min = 6, max = 20, message = "Username length must be between 6 & 20.")
     private String username;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
+    @NotBlank(message = "Email can't be blank.")
+    @Size(max = 50, message = "Email length can't exceed 50.")
+    @Email(message = "Not a valid email format.")
     private String email;
 }
