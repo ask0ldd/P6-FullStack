@@ -19,7 +19,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<DefaultResponseDto> handleAuthenticationExceptions(AuthenticationException ex) {
-        System.out.println("auth excep");
         return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("Authentication failed."), HttpStatus.UNAUTHORIZED);
     }
 
@@ -35,7 +34,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<DefaultResponseDto> handleBadCredentialsExceptions(BadCredentialsException ex) {
-        System.out.println("bad excep");
+        System.out.println("bad credentials.");
         return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("Bad credentials."), HttpStatus.UNAUTHORIZED);
     }
 
@@ -47,6 +46,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<DefaultResponseDto> handleUserNotFoundExceptions(UserNotFoundException ex) {
         return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("User not found."), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<DefaultResponseDto> handleRoleNotFoundExceptions(RoleNotFoundException ex) {
+        return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("Role not found."), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private String formatErrorMessage(String rawErrorMessage){
