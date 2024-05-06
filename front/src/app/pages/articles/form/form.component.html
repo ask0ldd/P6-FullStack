@@ -3,7 +3,6 @@
     <img class="backButton" routerLink="/articles/list" src="/assets/backarrow.png" alt="backButton">
     <h1>Créer un nouvel article</h1>
     <form (ngSubmit)="onSubmit()" [formGroup]="articleForm">
-        <!--<input type="text" placeholder="Sélectionner un thème" formControlName="theme"/>-->
         <select formControlName="topicId">
             <option value="" disabled selected>Selectionnez un Thème</option>
             <option *ngFor="let topic of topics" [value]="topic.id">{{ topic.name }}</option>

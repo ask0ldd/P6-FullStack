@@ -39,6 +39,10 @@ form{
 
     select{
         padding:0 0.75rem;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        cursor: pointer;
     }
 
     button{

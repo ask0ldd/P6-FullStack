@@ -51,13 +51,12 @@ export class FormComponent implements OnInit {
 }
 
   ngOnInit(): void {
-    // this.topicService.all$().pipe(take(1)).subscribe(datas => this.retrievedTopics = datas)
     this.topics$ = this.topicService.all$()
   }
 
   onSubmit(): void{
     const newArticle = this.articleForm?.value
-    this.articleService.create$(newArticle).subscribe({
+    this.articleService.create$(newArticle).pipe(take(1)).subscribe({
       next : _ => {
         this.router.navigate(['articles/list'])
       },
