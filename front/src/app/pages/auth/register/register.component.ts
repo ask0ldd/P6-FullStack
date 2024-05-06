@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import { IRegisterRequest } from 'src/app/interfaces/Requests/IRegisterRequest';
 import { IJwtResponse } from 'src/app/interfaces/Responses/IJwtResponse';
 import { AuthService } from 'src/app/services/auth.service';
@@ -19,7 +20,7 @@ export class RegisterComponent implements OnInit {
       '',
       [
         Validators.required,
-        Validators.minLength(3)
+        Validators.minLength(6)
       ]
     ],
     email: [
@@ -33,7 +34,8 @@ export class RegisterComponent implements OnInit {
       '',
       [
         Validators.required,
-        Validators.minLength(8)
+        Validators.minLength(8),
+        Validators.pattern("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–\\[{}\\]:;',?/*~$^+=<>]).{8,}$")
       ]
     ]
   });
@@ -49,10 +51,13 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void{
     const registerRequest = this.registerForm.value as IRegisterRequest;
-    this.authService.register$(registerRequest).subscribe({
+    this.authService.register$(registerRequest).pipe(take(1)).subscribe({
       next : (jwtResponse : IJwtResponse ) => {
         console.log(jwtResponse)
+        this.authService.flushStorage()
         localStorage.setItem('token', jwtResponse.token);
+        localStorage.setItem('username', jwtResponse.username)
+        this.router.navigateByUrl('/articles/list')
       },
       error : (error : any) => { this.errorMessage = error?.error?.message}
     })
