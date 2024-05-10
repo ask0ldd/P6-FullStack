@@ -11,7 +11,6 @@ import com.openclassrooms.mddapi.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -31,17 +30,16 @@ public class AuthController {
     }
 
     @GetMapping("auth/credentials")
-    public ResponseEntity<?> getCredentials(Principal principal){
+    public ResponseEntity<UserEmailUsernameDto> getCredentials(Principal principal){
         User loggedUser = userService.getByEmail(principal.getName());
         return ResponseEntity.ok().body(new UserEmailUsernameDto(loggedUser));
     }
 
     @PostMapping("auth/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginPayloadDto loginRequest) {
+    public ResponseEntity<JwtResponseDto> login(@Valid @RequestBody LoginPayloadDto loginRequest) {
         String emailOrUsername = loginRequest.getEmailOrUsername();
         String password = loginRequest.getPassword();
         String jwtToken = authService.login(emailOrUsername, password);
-        if(Objects.equals(jwtToken, "")) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         String email = "email";
         JwtResponseDto jwtResponse = JwtResponseDto.builder()
                 .email(email)
@@ -52,29 +50,22 @@ public class AuthController {
     }
 
     @PostMapping("auth/register")
-    public ResponseEntity<?> login(@Valid @RequestBody RegisterPayloadDto registerRequest) {
+    public ResponseEntity<JwtResponseDto> login(@Valid @RequestBody RegisterPayloadDto registerRequest) {
         String email = registerRequest.getEmail();
         String password = registerRequest.getPassword();
         String username = registerRequest.getUsername();
         String jwtToken = authService.register(email, username, password);
-        if(Objects.equals(jwtToken, "")) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         JwtResponseDto jwtResponse = JwtResponseDto.builder().email(email).token(jwtToken).username(username).build();
         return ResponseEntity.ok().body(jwtResponse);
     }
 
     @PutMapping("auth/newcredentials")
-    public ResponseEntity<?> updateCredentials(@Valid @RequestBody UpdateCredentialsPayloadDto updateCredentialsRequest,
+    public ResponseEntity<Void> updateCredentials(@Valid @RequestBody UpdateCredentialsPayloadDto updateCredentialsRequest,
                                                Principal principal) {
-        // !!! move to service
+        String currentEmail = principal.getName();
         String newEmail = updateCredentialsRequest.getEmail();
         String newUsername = updateCredentialsRequest.getUsername();
-        String loggedUserEmail = principal.getName();
-        User user = userService.getByEmail(loggedUserEmail);
-
-        user.setEmail(newEmail);
-        user.setName(newUsername);
-        System.out.println(user);
-        userService.save(user);
+        authService.updateCredentials(currentEmail, newEmail, newUsername);
         return ResponseEntity.ok().build();
     }
 

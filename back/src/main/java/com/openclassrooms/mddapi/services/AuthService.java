@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.exceptions.BadRequestException;
 import com.openclassrooms.mddapi.exceptions.RoleNotFoundException;
+import com.openclassrooms.mddapi.exceptions.TokenGenerationFailureException;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
 import com.openclassrooms.mddapi.models.Role;
 import com.openclassrooms.mddapi.models.User;
@@ -20,7 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import java.security.Principal;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -51,7 +54,9 @@ public class AuthService implements IAuthService {
         String email = parseEmail(emailOrUsername);
         Authentication auth = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(email, password));
-        return tokenService.generateJwt(auth);
+        String token = tokenService.generateJwt(auth);
+        if(Objects.equals(token, "")) throw new TokenGenerationFailureException("Token generation failed.");
+        return token;
     }
 
 
@@ -63,9 +68,17 @@ public class AuthService implements IAuthService {
         Authentication auth = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(email, password));
         // produces a JWT based on the Authentication produced for the authenticated user
-        return tokenService.generateJwt(auth);
+        String token = tokenService.generateJwt(auth);
+        if(Objects.equals(token, "")) throw new TokenGenerationFailureException("Token generation failed.");
+        return token;
     }
 
+    public void updateCredentials(String currentEmail, String newEmail, String newUsername){
+        User user = userRepository.findByEmail(currentEmail).orElseThrow(() -> new UserNotFoundException("User not found."));
+        user.setEmail(newEmail);
+        user.setName(newUsername);
+        userRepository.save(user);
+    }
 
     private String parseEmail(String emailOrUsername) {
         Optional<User> user = userRepository.findByEmail(emailOrUsername);
