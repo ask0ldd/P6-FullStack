@@ -90,38 +90,31 @@ public class ArticleController {
 
     // should become article for subscriber/{id}
     @GetMapping("articles")
-    public ResponseEntity<?> findAllForUser(Principal principal) {
-        try {
-            List<Article> articles = articleService.getAllForUser(principal.getName());
+    public ResponseEntity<List<ArticleResponseDto>> findAllForUser(Principal principal) {
+        List<Article> articles = articleService.getAllForUser(principal.getName());
 
-            if (articles.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
-            List<ArticleResponseDto> responsesDtoList = articles.stream()
-                    .map(ArticleResponseDto::new)
-                    .toList();
-
-            return ResponseEntity.ok().body(responsesDtoList);
-        } catch (Exception e) {
-            System.out.println("\u001B[31m" + e + "\u001B[0m");
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<ArticleResponseDto> responsesDtoList = articles.stream()
+                .map(ArticleResponseDto::new)
+                .toList();
+        return ResponseEntity.ok().body(responsesDtoList);
     }
 
     @PostMapping("article")
     public ResponseEntity<?> postArticle(@Valid @RequestBody NewArticlePayloadDto articleRequest, Principal principal){
         try {
-            // retrieve the user from the principal so the new article will be linked to him
-            String writerEmail = principal.getName();
-            User newArticleWriter = userService.getByEmail(writerEmail);
+            String emailAuthor = principal.getName();
+            String parentTopicId = articleRequest.getTopicId();
+            String articleTitle = articleRequest.getTitle();
+            String articleContent = articleRequest.getContent();
 
-            Topic newArticleTopic = topicService.getById(Long.parseLong(articleRequest.getTopicId()));
+            User writer = userService.getByEmail(emailAuthor);
+
+            Topic relatedTopic = topicService.getById(Long.parseLong(parentTopicId));
             Article newArticle = Article.builder()
-                    .user(newArticleWriter)
-                    .topic(newArticleTopic)
-                    .title(articleRequest.getTitle())
-                    .content(articleRequest.getContent())
+                    .user(writer)
+                    .topic(relatedTopic)
+                    .title(articleTitle)
+                    .content(articleContent)
             .build();
             articleService.create(newArticle);
             return ResponseEntity.ok().build();
@@ -132,21 +125,10 @@ public class ArticleController {
     }
 
     @PostMapping("article/{id}/comment")
-    public ResponseEntity<?> postComment(@Valid @RequestBody NewCommentPayloadDto commentRequest, Principal principal) {
-        try {
-            // retrieve the user from the principal so the new comment will be linked to him
-            String writerEmail = principal.getName();
-            System.out.println(writerEmail);
-            User commentWriter = userService.getByEmail(writerEmail);
-            // !!!! check if not found
-
-            Article article = articleService.getById(Long.parseLong(commentRequest.getArticleId()));
-            Comment newComment = Comment.builder().content(commentRequest.getComment()).user(commentWriter).article(article).build();
-            commentService.create(newComment);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            System.out.println("\u001B[31m" + e + "\u001B[0m");
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Void> postComment(@Valid @RequestBody NewCommentPayloadDto commentRequest, Principal principal) {
+        Long parentArticleId = Long.parseLong(commentRequest.getArticleId());
+        String commentBody = commentRequest.getComment();
+        commentService.create(principal, parentArticleId, commentBody);
+        return ResponseEntity.ok().build();
     }
 }
