@@ -1,7 +1,6 @@
 package com.openclassrooms.mddapi.services;
 
-import com.openclassrooms.mddapi.exceptions.BadRequestException;
-import com.openclassrooms.mddapi.exceptions.NotFoundException;
+import com.openclassrooms.mddapi.exceptions.*;
 import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repositories.TopicRepository;
@@ -23,7 +22,11 @@ public class TopicService implements ITopicService {
     }
 
     public List<Topic> getAll(){
-        return topicRepository.findAll();
+        List<Topic> topics = topicRepository.findAll();
+        if (topics.isEmpty()) {
+            throw new TopicNotFoundException("No topic can be found.");
+        }
+        return topics;
     }
 
     public Topic getById(Long id){
@@ -31,7 +34,11 @@ public class TopicService implements ITopicService {
     }
 
     public List<Topic> getUserSubscriptions(){
-        return topicRepository.findAll();
+        List<Topic> topicsSubscribedTo = topicRepository.findAll();
+        if (topicsSubscribedTo.isEmpty()) {
+            throw new ResourceNotFoundException("The user is subscribed to no topic.");
+        }
+        return topicsSubscribedTo;
     }
 
     public Topic create(Topic topic){
@@ -39,36 +46,29 @@ public class TopicService implements ITopicService {
     }
 
     public List<Topic> getAllTopicsUserIsSubscribedTo(Long userId){
-        User user = this.userRepository.findById(userId).orElse(null);
-        if (user == null) {
-            throw new NotFoundException();
-        }
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Can't find user with id : " + userId));
         return topicRepository.findAllByUsersContaining(user);
     }
 
     public void subscribe(Long topicId, Long userId){
-        Topic topic = this.topicRepository.findById(topicId).orElse(null);
-        User user = this.userRepository.findById(userId).orElse(null);
-        if (topic == null || user == null) {
-            throw new NotFoundException();
+        Topic topic = this.topicRepository.findById(topicId).orElseThrow(() -> new TopicNotFoundException("Can't find topic with id : " + topicId));
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Can't find subscriber with id : " + userId));
+
+        // check if the user is not already subscribed
+        boolean alreadySubscribed = topic.getUsers().stream().anyMatch(o -> o.getId().equals(userId));
+        if(alreadySubscribed) {
+            throw new BadRequestException();
         }
-        /*
-            boolean alreadyParticipate = session.getUsers().stream().anyMatch(o -> o.getId().equals(userId));
-            if(alreadyParticipate) {
-                throw new BadRequestException();
-            }
-        */
+
         topic.getUsers().add(user);
         this.topicRepository.save(topic);
 
     }
 
     public void unsubscribe(Long topicId, Long userId) {
-        Topic topic = this.topicRepository.findById(topicId).orElse(null);
-        if (topic == null) {
-            throw new NotFoundException();
-        }
+        Topic topic = this.topicRepository.findById(topicId).orElseThrow(() -> new TopicNotFoundException("Can't find topic with id : " + topicId));
 
+        // check if the user is subscribed, if not, can't be unsub
         boolean alreadySubscribed = topic.getUsers().stream().anyMatch(o -> o.getId().equals(userId));
         if(!alreadySubscribed) {
             throw new BadRequestException();

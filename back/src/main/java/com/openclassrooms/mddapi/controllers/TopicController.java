@@ -22,65 +22,36 @@ public class TopicController {
     }
 
     @GetMapping("/topics")
-    public ResponseEntity<?> findAll() {
-        try {
-            List<Topic> topics = topicService.getAll();
-
-            if (topics.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
-
-            List<TopicResponseDto> responsesDtoList = topics.stream()
-                    .map(TopicResponseDto::new)
-                    .toList();
-
-            return ResponseEntity.ok().body(responsesDtoList);
-        } catch (Exception e) {
-            System.out.println("\u001B[31m" + e + "\u001B[0m");
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<List<TopicResponseDto>> findAll() {
+        List<Topic> topics = topicService.getAll();
+        List<TopicResponseDto> responsesDtoList = topics.stream()
+                .map(TopicResponseDto::new)
+                .toList();
+        return ResponseEntity.ok().body(responsesDtoList);
     }
 
     @GetMapping("/topics/byuser/{userId}")
-    public ResponseEntity<?> findAllTopicsUserIsSubscribedTo(@PathVariable("userId") String userId) {
-        try {
-            /// !!! should check if user exists
-            List<Topic> topics = topicService.getAllTopicsUserIsSubscribedTo(Long.parseLong(userId));
-
-            if (topics.isEmpty()) {
-                return ResponseEntity.ok().body(new ArrayList<TopicResponseDto>());
-            }
-
-            List<TopicResponseDto> responsesDtoList = topics.stream()
-                    .map(TopicResponseDto::new)
-                    .toList();
-
-            return ResponseEntity.ok().body(responsesDtoList);
-        } catch (Exception e) {
-            System.out.println("\u001B[31m" + e + "\u001B[0m");
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<List<TopicResponseDto>> findAllTopicsUserIsSubscribedTo(@PathVariable("userId") String userId) {
+        List<Topic> topics = topicService.getAllTopicsUserIsSubscribedTo(Long.parseLong(userId));
+        if (topics.isEmpty()) {
+            return ResponseEntity.ok().body(new ArrayList<TopicResponseDto>());
         }
+
+        List<TopicResponseDto> responsesDtoList = topics.stream()
+                .map(TopicResponseDto::new)
+                .toList();
+        return ResponseEntity.ok().body(responsesDtoList);
     }
 
     @PostMapping("/topic/{topicId}/subscribe/{userId}")
-    public ResponseEntity<?> subscribe(@PathVariable("topicId") String topicId, @PathVariable("userId") String userId) {
-        try {
-            topicService.subscribe(Long.parseLong(topicId), Long.parseLong(userId));
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            System.out.println("\u001B[31m" + e + "\u001B[0m");
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Void> subscribe(@PathVariable("topicId") String topicId, @PathVariable("userId") String userId) {
+        topicService.subscribe(Long.parseLong(topicId), Long.parseLong(userId));
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/topic/{topicId}/unsubscribe/{userId}")
-    public ResponseEntity<?> unsubscribe(@PathVariable("topicId") String topicId, @PathVariable("userId") String userId) {
-        try {
-            topicService.unsubscribe(Long.parseLong(topicId), Long.parseLong(userId)); // throw NumberFormatException
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            System.out.println("\u001B[31m" + e + "\u001B[0m");
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Void> unsubscribe(@PathVariable("topicId") String topicId, @PathVariable("userId") String userId) {
+        topicService.unsubscribe(Long.parseLong(topicId), Long.parseLong(userId)); // throw NumberFormatException
+        return ResponseEntity.ok().build();
     }
 }
