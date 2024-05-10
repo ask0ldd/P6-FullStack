@@ -47,7 +47,7 @@ public class MddApiApplication implements CommandLineRunner {
 				.email("ced@ced.com")
 				.authorities(authorities)
 				.name("userName1")
-				.password("password").build();
+				.password("passworD_*123").build();
 		userService.save(user1);
 
 		Topic topic1 = Topic.builder().id(1L)
@@ -113,7 +113,6 @@ public class MddApiApplication implements CommandLineRunner {
 				.article(article1)
 				.build();
 		commentService.create(comment2);
-
 	}
 
 	String genericText = "JavaScript is a high-level, dynamic, and interpreted programming language. It is primarily used for web development, creating interactive web pages, and building server-side applications. JavaScript was originally developed by Brendan Eich at Netscape in the 1990s and has since become one of the most widely used programming languages in the world. It is a versatile language that can be used for a variety of tasks, from simple scripting to complex application development. JavaScript is an essential tool for modern web development and continues to evolve and expand its capabilities.";
