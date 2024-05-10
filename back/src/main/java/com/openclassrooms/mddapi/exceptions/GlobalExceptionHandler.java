@@ -50,13 +50,35 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RoleNotFoundException.class)
     public ResponseEntity<DefaultResponseDto> handleRoleNotFoundExceptions(RoleNotFoundException ex) {
-        return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("Role not found."), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("Role not found."), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TopicNotFoundException.class)
+    public ResponseEntity<DefaultResponseDto> handleTopicNotFoundExceptions(TopicNotFoundException ex) {
+        return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("Topic not found."), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ArticleNotFoundException.class)
+    public ResponseEntity<DefaultResponseDto> handleTopicNotFoundExceptions(ArticleNotFoundException ex) {
+        return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("Article not found."), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<DefaultResponseDto> handleIllegalArgumentExceptions(IllegalArgumentException ex){
+        return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("Illegal argument."), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TokenGenerationFailureException.class)
+    public ResponseEntity<DefaultResponseDto> handleIllegalArgumentExceptions(TokenGenerationFailureException ex){
+        return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("Can't generate a JWT for this user."), HttpStatus.UNAUTHORIZED);
     }
 
     private String formatErrorMessage(String rawErrorMessage){
         return rawErrorMessage.substring(rawErrorMessage.lastIndexOf("[")+1).replace("]]", "").stripTrailing();
     }
 }
+
+// !!! deal with Long.parseLong(userId)); // throw NumberFormatException from topic controller (bottom)
 
 /*
 A DisabledException must be thrown if an account is disabled and the AuthenticationManager can test for this state.
