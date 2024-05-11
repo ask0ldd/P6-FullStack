@@ -9,12 +9,10 @@ import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.services.AuthService;
 import com.openclassrooms.mddapi.services.UserService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.Objects;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

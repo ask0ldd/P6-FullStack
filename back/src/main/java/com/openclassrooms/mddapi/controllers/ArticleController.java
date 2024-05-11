@@ -5,7 +5,6 @@ import com.openclassrooms.mddapi.dto.payloads.NewCommentPayloadDto;
 import com.openclassrooms.mddapi.dto.reponses.ArticleResponseDto;
 import com.openclassrooms.mddapi.exceptions.ResourceNotFoundException;
 import com.openclassrooms.mddapi.models.Article;
-import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.services.ArticleService;
@@ -100,28 +99,15 @@ public class ArticleController {
     }
 
     @PostMapping("article")
-    public ResponseEntity<?> postArticle(@Valid @RequestBody NewArticlePayloadDto articleRequest, Principal principal){
-        try {
-            String emailAuthor = principal.getName();
-            String parentTopicId = articleRequest.getTopicId();
-            String articleTitle = articleRequest.getTitle();
-            String articleContent = articleRequest.getContent();
+    public ResponseEntity<Void> postArticle(@Valid @RequestBody NewArticlePayloadDto articleRequest, Principal principal){
+        String emailAuthor = principal.getName();
+        String parentTopicId = articleRequest.getTopicId();
+        String articleTitle = articleRequest.getTitle();
+        String articleContent = articleRequest.getContent();
 
-            User writer = userService.getByEmail(emailAuthor);
+        articleService.create(emailAuthor, Long.parseLong(parentTopicId), articleTitle, articleContent);
 
-            Topic relatedTopic = topicService.getById(Long.parseLong(parentTopicId));
-            Article newArticle = Article.builder()
-                    .user(writer)
-                    .topic(relatedTopic)
-                    .title(articleTitle)
-                    .content(articleContent)
-            .build();
-            articleService.create(newArticle);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            System.out.println("\u001B[31m" + e + "\u001B[0m");
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("article/{id}/comment")

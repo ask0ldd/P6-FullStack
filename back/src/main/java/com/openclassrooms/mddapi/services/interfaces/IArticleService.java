@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.services.interfaces;
 
+import com.openclassrooms.mddapi.exceptions.TopicNotFoundException;
+import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
 import com.openclassrooms.mddapi.models.Article;
 import com.openclassrooms.mddapi.repositories.ArticleRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
@@ -53,4 +55,16 @@ public interface IArticleService {
      */
     public Article create(Article article);
 
+    /**
+     * Creates a new Article entity and persists it in the database.
+     *
+     * @param emailAuthor   The email address of the User who is the author of the Article.
+     * @param parentTopicId The ID of the Topic under which the Article should be created.
+     * @param articleTitle  The title of the Article.
+     * @param articleContent The content of the Article.
+     * @return The newly created and persisted Article entity.
+     * @throws UserNotFoundException    If the User with the provided email address is not found.
+     * @throws TopicNotFoundException   If the Topic with the provided ID is not found.
+     */
+    public Article create(String emailAuthor, Long parentTopicId, String articleTitle, String articleContent);
 }

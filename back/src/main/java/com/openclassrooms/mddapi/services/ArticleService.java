@@ -1,10 +1,11 @@
 package com.openclassrooms.mddapi.services;
 
-import com.openclassrooms.mddapi.exceptions.ArticleNotFoundException;
-import com.openclassrooms.mddapi.exceptions.BadRequestException;
-import com.openclassrooms.mddapi.exceptions.ResourceNotFoundException;
+import com.openclassrooms.mddapi.exceptions.*;
 import com.openclassrooms.mddapi.models.Article;
+import com.openclassrooms.mddapi.models.Topic;
+import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repositories.ArticleRepository;
+import com.openclassrooms.mddapi.repositories.TopicRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import com.openclassrooms.mddapi.services.interfaces.IArticleService;
 import org.springframework.data.domain.Sort;
@@ -16,9 +17,13 @@ import java.util.List;
 public class ArticleService implements IArticleService {
 
     private final ArticleRepository articleRepository;
+    private final UserRepository userRepository;
+    private final TopicRepository topicRepository;
 
-    public ArticleService(ArticleRepository articleRepository) {
+    public ArticleService(ArticleRepository articleRepository, UserRepository userRepository, TopicRepository topicRepository) {
         this.articleRepository = articleRepository;
+        this.userRepository = userRepository;
+        this.topicRepository = topicRepository;
     }
 
     public Article getById(Long id) throws ResourceNotFoundException {
@@ -60,5 +65,17 @@ public class ArticleService implements IArticleService {
 
     public Article create(Article article){
         return articleRepository.save(article);
+    }
+
+    public Article create(String emailAuthor, Long parentTopicId, String articleTitle, String articleContent){
+        User author = userRepository.findByEmail(emailAuthor).orElseThrow(() -> new UserNotFoundException("Article's author not found."));
+        Topic parentTopic = topicRepository.findById(parentTopicId).orElseThrow(() -> new TopicNotFoundException("Topic not found."));
+        Article newArticle = Article.builder()
+                .user(author)
+                .topic(parentTopic)
+                .title(articleTitle)
+                .content(articleContent)
+                .build();
+        return articleRepository.save(newArticle);
     }
 }
