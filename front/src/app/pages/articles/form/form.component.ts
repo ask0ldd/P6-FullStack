@@ -16,6 +16,7 @@ export class FormComponent implements OnInit {
 
   // retrievedTopics : ITopic[] = []
   topics$ : Observable<ITopic[]> = of([])
+  errorMessage = ""
 
   public articleForm : FormGroup = this.fb.group({
     topicId: [
@@ -55,13 +56,17 @@ export class FormComponent implements OnInit {
   }
 
   onSubmit(): void{
+    // !!!! if(this.articleForm.valid)
     const newArticle = this.articleForm?.value
     this.articleService.create$(newArticle).pipe(take(1)).subscribe({
       next : _ => {
         this.router.navigate(['articles/list'])
       },
-      error : error => console.log(error?.error)
-    }) // !!!! unsub
+      error : error => {
+        console.log(error?.error)
+        this.errorMessage = error?.error?.message
+      }
+    })
   }
 
 }
