@@ -10,7 +10,7 @@ public class NewCommentPayloadDto {
     @NotBlank
     private String articleId;
 
-    @NotBlank
+    @NotBlank(message = "The comment body shouldn't be blank")
     @Size(min = 3, max = 400)
     private String comment;
 }
