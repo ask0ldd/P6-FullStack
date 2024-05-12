@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.services.interfaces.ITokenService;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -28,6 +29,8 @@ public class TokenService implements ITokenService {
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
+
+        // ((UserDetails) authentication.getDetails()).
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
