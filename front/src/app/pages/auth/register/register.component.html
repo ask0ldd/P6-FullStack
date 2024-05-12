@@ -10,7 +10,7 @@
         <input type="text" formControlName="email"/>
         <label>Mot de passe</label>
         <input type="password" formControlName="password"/>
-        <p class="errorMessage" *ngIf="errorMessage">{{errorMessage}}</p>
+        <p class="errorMessage" *ngIf="errorMessage != ''">{{errorMessage}}</p>
         <button type="submit">S’inscrire</button>
     </form>
 </main>

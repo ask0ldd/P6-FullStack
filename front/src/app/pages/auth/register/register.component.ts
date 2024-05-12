@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent implements OnInit {
 
-  errorMessage!: string
+  errorMessage = ""
 
   public registerForm : FormGroup = this.fb.group({
     username : [
