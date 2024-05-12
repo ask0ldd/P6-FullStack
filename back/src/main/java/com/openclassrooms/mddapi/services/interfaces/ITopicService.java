@@ -40,29 +40,29 @@ public interface ITopicService {
     /**
      * Retrieves all topics a user is subscribed to.
      *
-     * @param userId the ID of the user
+     * @param email the email of the user
      * @return a list of topics the user is subscribed to
      * @throws NotFoundException if the user is not found
      */
-    List<Topic> getAllTopicsUserIsSubscribedTo(Long userId);
+    List<Topic> getAllTopicsUserIsSubscribedTo(String email);
 
     /**
      * Subscribes a user to a topic.
      *
      * @param topicId the ID of the topic
-     * @param userId the ID of the user
+     * @param email the email of the user
      * @throws NotFoundException if the topic or user is not found
      * @throws BadRequestException if the user is already subscribed to the topic
      */
-    void subscribe(Long topicId, Long userId);
+    void subscribe(Long topicId, String email);
 
     /**
      * Unsubscribes a user from a topic.
      *
      * @param topicId the ID of the topic
-     * @param userId the ID of the user
+     * @param email the email of the user
      * @throws NotFoundException if the topic is not found
      * @throws BadRequestException if the user is not subscribed to the topic
      */
-    void unsubscribe(Long topicId, Long userId);
+    void unsubscribe(Long topicId, String email);
 }

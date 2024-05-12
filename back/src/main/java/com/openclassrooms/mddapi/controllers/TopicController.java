@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -30,9 +31,9 @@ public class TopicController {
         return ResponseEntity.ok().body(responsesDtoList);
     }
 
-    @GetMapping("/topics/byuser/{userId}")
-    public ResponseEntity<List<TopicResponseDto>> findAllTopicsUserIsSubscribedTo(@PathVariable("userId") String userId) {
-        List<Topic> topics = topicService.getAllTopicsUserIsSubscribedTo(Long.parseLong(userId));
+    @GetMapping("/topics/byuser") // !!! should be retrieved with principal
+    public ResponseEntity<List<TopicResponseDto>> findAllTopicsUserIsSubscribedTo(Principal principal) {
+        List<Topic> topics = topicService.getAllTopicsUserIsSubscribedTo(principal.getName());
         if (topics.isEmpty()) {
             return ResponseEntity.ok().body(new ArrayList<TopicResponseDto>());
         }
@@ -43,15 +44,15 @@ public class TopicController {
         return ResponseEntity.ok().body(responsesDtoList);
     }
 
-    @PostMapping("/topic/{topicId}/subscribe/{userId}")
-    public ResponseEntity<Void> subscribe(@PathVariable("topicId") String topicId, @PathVariable("userId") String userId) {
-        topicService.subscribe(Long.parseLong(topicId), Long.parseLong(userId));
+    @PostMapping("/topic/{topicId}/subscribe")
+    public ResponseEntity<Void> subscribe(@PathVariable("topicId") String topicId, Principal principal) {
+        topicService.subscribe(Long.parseLong(topicId), principal.getName());
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/topic/{topicId}/unsubscribe/{userId}")
-    public ResponseEntity<Void> unsubscribe(@PathVariable("topicId") String topicId, @PathVariable("userId") String userId) {
-        topicService.unsubscribe(Long.parseLong(topicId), Long.parseLong(userId)); // throw NumberFormatException
+    @DeleteMapping("/topic/{topicId}/unsubscribe")
+    public ResponseEntity<Void> unsubscribe(@PathVariable("topicId") String topicId, Principal principal) {
+        topicService.unsubscribe(Long.parseLong(topicId), principal.getName()); // throw NumberFormatException
         return ResponseEntity.ok().build();
     }
 }

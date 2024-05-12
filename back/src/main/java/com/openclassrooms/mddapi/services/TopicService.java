@@ -45,17 +45,17 @@ public class TopicService implements ITopicService {
         return topicRepository.save(topic);
     }
 
-    public List<Topic> getAllTopicsUserIsSubscribedTo(Long userId){
-        User user = this.userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Can't find user with id : " + userId));
+    public List<Topic> getAllTopicsUserIsSubscribedTo(String userEmail){
+        User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find user with email : " + userEmail));
         return topicRepository.findAllByUsersContaining(user);
     }
 
-    public void subscribe(Long topicId, Long userId){
+    public void subscribe(Long topicId, String userEmail){
         Topic topic = this.topicRepository.findById(topicId).orElseThrow(() -> new TopicNotFoundException("Can't find topic with id : " + topicId));
-        User user = this.userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Can't find subscriber with id : " + userId));
+        User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find subscriber."));
 
         // check if the user is not already subscribed
-        boolean alreadySubscribed = topic.getUsers().stream().anyMatch(o -> o.getId().equals(userId));
+        boolean alreadySubscribed = topic.getUsers().stream().anyMatch(o -> o.getId().equals(user.getId()));
         if(alreadySubscribed) {
             throw new BadRequestException();
         }
@@ -65,16 +65,17 @@ public class TopicService implements ITopicService {
 
     }
 
-    public void unsubscribe(Long topicId, Long userId) {
+    public void unsubscribe(Long topicId, String userEmail) {
         Topic topic = this.topicRepository.findById(topicId).orElseThrow(() -> new TopicNotFoundException("Can't find topic with id : " + topicId));
+        User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find subscriber."));
 
         // check if the user is subscribed, if not, can't be unsub
-        boolean alreadySubscribed = topic.getUsers().stream().anyMatch(o -> o.getId().equals(userId));
+        boolean alreadySubscribed = topic.getUsers().stream().anyMatch(o -> o.getId().equals(user.getId()));
         if(!alreadySubscribed) {
             throw new BadRequestException();
         }
 
-        topic.setUsers(topic.getUsers().stream().filter(user -> !user.getId().equals(userId)).collect(Collectors.toList()));
+        topic.setUsers(topic.getUsers().stream().filter(topicUser -> !topicUser.getId().equals(user.getId())).collect(Collectors.toList()));
 
         this.topicRepository.save(topic);
     }
