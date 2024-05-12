@@ -15,7 +15,6 @@ import { TopicService } from 'src/app/services/topic.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  userId : number = 1 // !!! should be retrieved through token
   retrievedTopics : ITopic[] = []
   subscriptions : Subscription[] = []
 
@@ -62,12 +61,12 @@ export class UserProfileComponent implements OnInit {
   }
 
   unsubscribeFromTopic(event: any) : void {
-    this.topicService.unsubscribe$(event.topicId, this.userId).pipe(take(1)).subscribe(_ => this.refreshTopics())
+    this.topicService.unsubscribe$(event.topicId).pipe(take(1)).subscribe(_ => this.refreshTopics())
   }
 
   refreshTopics(): void {
+    const sub = this.topicService.allTopicsAUserIsSubscribedTo$().pipe(take(1)).subscribe(datas => this.retrievedTopics = datas)
     this.subscriptions.forEach(sub => sub.unsubscribe())
-    const sub = this.topicService.allTopicsAUserIsSubscribedTo$(this.userId).subscribe(datas => this.retrievedTopics = datas)
     this.subscriptions.push(sub)
   }
 
