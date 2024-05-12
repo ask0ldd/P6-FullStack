@@ -10,7 +10,6 @@ import { TopicService } from 'src/app/services/topic.service';
 })
 export class TopicsComponent implements OnInit, OnDestroy {
 
-  userId : number = 1 // !!! should be retrieved from token
   retrievedTopics : ITopic[] = []
   subscriptions : Subscription[] = []
 
@@ -21,21 +20,23 @@ export class TopicsComponent implements OnInit, OnDestroy {
   }
 
   refreshTopics(): void{
+    const sub = this.topicService.all$().pipe(take(1)).subscribe(datas => this.retrievedTopics = datas)
     this.subscriptions.forEach(sub => sub.unsubscribe())
-    const sub = this.topicService.all$().subscribe(datas => this.retrievedTopics = datas)
     this.subscriptions.push(sub)
   }
 
   isUserSubscribed(topic : ITopic) : boolean {
-    return topic.users.some(user => user.id == this.userId)
+    // retrieve from token
+    const userId = 2
+    return topic.users.some(user => user.id == userId)
   }
 
   subscribe(event: any) : void{
-    this.topicService.subscribe$(event.topicId, this.userId).pipe(take(1)).subscribe(_ => this.refreshTopics())
+    this.topicService.subscribe$(event.topicId).pipe(take(1)).subscribe(_ => this.refreshTopics())
   }
 
   unsubscribe(event: any) : void{
-    this.topicService.unsubscribe$(event.topicId, this.userId).pipe(take(1)).subscribe(_ => this.refreshTopics())
+    this.topicService.unsubscribe$(event.topicId).pipe(take(1)).subscribe(_ => this.refreshTopics())
   }
 
   ngOnDestroy(): void {

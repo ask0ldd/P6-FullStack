@@ -16,15 +16,15 @@ export class TopicService {
     return this.http.get<ITopic[]>('api/topics')
   }
 
-  allTopicsAUserIsSubscribedTo$(userId: number): Observable<ITopic[]>{
-    return this.http.get<ITopic[]>(`api/topics/byuser/${userId}`)
+  allTopicsAUserIsSubscribedTo$(): Observable<ITopic[]>{
+    return this.http.get<ITopic[]>(`api/topics/byuser`)
   }
 
-  subscribe$(topicId: number, userId: number): Observable<void>{
-    return this.http.post<void>(`api/topic/${topicId}/subscribe/${userId}`, null)
+  subscribe$(topicId: number): Observable<void>{
+    return this.http.post<void>(`api/topic/${topicId}/subscribe`, null)
   } 
 
-  unsubscribe$(topicId: number, userId: number): Observable<void>{
-    return this.http.delete<void>(`api/topic/${topicId}/unsubscribe/${userId}`)
+  unsubscribe$(topicId: number): Observable<void>{
+    return this.http.delete<void>(`api/topic/${topicId}/unsubscribe`)
   } 
 }
