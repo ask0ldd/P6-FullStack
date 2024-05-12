@@ -82,4 +82,12 @@ form{
         background-color: #7763C5cc;
         box-shadow: 0 4px 8px #7763C555;
     }
+
+    .errorMessage{
+        text-align: center;
+        margin-bottom: 1rem;
+        font-size: 14px;
+        color:#A40F0F;
+        font-weight: bold;
+    }
 }

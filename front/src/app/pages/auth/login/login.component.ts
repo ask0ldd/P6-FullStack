@@ -13,6 +13,8 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
+  errorMessage = ""
+
   public loginForm : FormGroup = this.fb.group({
     emailOrUsername: [
       '',
@@ -50,7 +52,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('username', jwtResponse.username)
         this.router.navigateByUrl('/articles/list')
       },
-      error : (error : any) => console.log(error?.error)
+      error : (error : any) => this.errorMessage = error?.error?.message
     })
   }
 
