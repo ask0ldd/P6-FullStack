@@ -87,10 +87,11 @@ public class ArticleController {
         }
     }
 
-    // should become article for subscriber/{id}
+    // !!! should become article for subscriber/{id}
     @GetMapping("articles")
     public ResponseEntity<List<ArticleResponseDto>> findAllForUser(Principal principal) {
-        List<Article> articles = articleService.getAllForUser(principal.getName());
+        // List<Article> articles = articleService.getAllForUser(principal.getName());
+        List<Article> articles = articleService.getAll();
 
         List<ArticleResponseDto> responsesDtoList = articles.stream()
                 .map(ArticleResponseDto::new)

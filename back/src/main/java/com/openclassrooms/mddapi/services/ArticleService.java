@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleService implements IArticleService {
@@ -38,12 +39,18 @@ public class ArticleService implements IArticleService {
         return articles;
     }
 
-    public List<Article> getAllForUser(String username) {
-        // !!! should be filtered
+    public List<Article> getAllForUser(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User can't be found."));
+        List<Topic> topics = topicRepository.findAllByUsersContaining(user);
+        System.out.println(topics);
+        if(topics.isEmpty()) throw new TopicNotFoundException("User subscribed to no topic.");
+        /*List<Long> allTopicsIds = topics.stream()
+                .map(Topic::getId)
+                .toList();*/
+        // List<Article> articles = articleRepository.findByTopicIn(topics);
         List<Article> articles = articleRepository.findAll();
-        if (articles.isEmpty()) {
-            throw new ArticleNotFoundException("Can't find any article");
-        }
+        System.out.println(articles);
+        if (articles.isEmpty()) throw new ArticleNotFoundException("Can't find any article");
         return articles;
     }
 
