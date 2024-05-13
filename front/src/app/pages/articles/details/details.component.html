@@ -15,6 +15,9 @@
                 <div class="comment">{{comment.content}}</div>
             </article>
         </section>
+        <section *ngIf="!comments?.length" class="commentsHistoryContainer">
+            <h3 style="font-size: 20px; font-weight: 400; margin: 0.5rem 0;">Commentaires</h3>
+        </section>
         <section class="newCommentContainer">
             <textarea placeholder="Écrivez ici votre commentaire" #commentTextarea></textarea>
             <div class="sendiconContainer"><img src="/assets/sendicon.png" (click)="onSendNewComment()" alt="send icon"></div>

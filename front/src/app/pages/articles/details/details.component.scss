@@ -78,11 +78,14 @@ h1{
 }
 
 hr{
-    margin: 1rem 0;
     grid-column: 2 / span 3;
     grid-row: 4 / 5;
-    width: 95%;
-    margin: 2rem auto 0 auto;
+    width: 98%;
+    margin: 2rem auto 0rem auto;
+
+    @media (max-width: 700px) {
+        width: 100%;
+    }
 
     @media (max-width: 600px) {
         grid-row: 5 / 6;
@@ -125,7 +128,7 @@ hr{
      }
 
     @media (max-width: 600px) {
-        padding: 0px 1.5rem;
+        padding: 0px 1rem;
      }
 }
 
@@ -186,7 +189,7 @@ hr{
 
         @media (max-width: 600px) {
             width: 100%;
-            padding: 0;
+            padding: 0 0 0 1rem;
             border: none;
             background: none;
             min-height:auto;
@@ -208,6 +211,7 @@ hr{
     @media (max-width: 600px) {
         border : 1px solid black;
         border-radius: 16px;
+        margin-top: 1.5rem;
     }
 
     @media (max-width: 750px) {

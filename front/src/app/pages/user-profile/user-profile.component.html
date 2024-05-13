@@ -3,11 +3,11 @@
     <section>
         <h1>Profil Utilisateur</h1>
         <form (ngSubmit)="onCredentialsSubmit()" [formGroup]="updateCredentialsForm">
-            <input type="text" formControlName="username"/>
-            <input type="text" formControlName="email"/>
+            <input type="text" placeholder="username" formControlName="username"/>
+            <input type="text" placeholder="email" formControlName="email"/>
             <button type="submit">Sauvegarder</button>
         </form>
-        <p role="button" class="logoutButton" (click)="logout()">se déconnecter</p>
+        <p role="button" class="logoutButton" (click)="logout()">Se déconnecter</p>
         <hr/>
     </section>
     <section class="subscriptionsContainer">

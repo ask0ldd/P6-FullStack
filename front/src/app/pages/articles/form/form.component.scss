@@ -26,6 +26,7 @@ form{
     row-gap: 1.5rem;
     max-width: 800px;
     align-items: center;
+    width: 100%;
 
     input, select{
         height: 48px;
@@ -35,6 +36,10 @@ form{
         border-radius: 6px;
         font-size: 18px;
         color:#000000;
+
+        @media (max-width: 450px) {
+            width: 100%;
+        }
     }
 
     select{
