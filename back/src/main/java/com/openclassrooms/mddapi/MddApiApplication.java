@@ -88,14 +88,14 @@ public class MddApiApplication implements CommandLineRunner {
 
 		Article article3 = Article.builder().id(3L)
 				.title("ArticleTitle3").content(genericText)
-				.user(user1).topic(topic1)
+				.user(user1).topic(topic2)
 				// .comments()
 				.build();
 		articleService.create(article3);
 
 		Article article4 = Article.builder().id(4L)
 				.title("ArticleTitle4").content(genericText)
-				.user(user1).topic(topic1)
+				.user(user1).topic(topic2)
 				// .comments()
 				.build();
 		articleService.create(article4);

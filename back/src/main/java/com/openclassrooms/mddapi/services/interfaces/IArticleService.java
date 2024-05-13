@@ -1,11 +1,10 @@
 package com.openclassrooms.mddapi.services.interfaces;
 
+import com.openclassrooms.mddapi.exceptions.ArticleNotFoundException;
+import com.openclassrooms.mddapi.exceptions.BadRequestException;
 import com.openclassrooms.mddapi.exceptions.TopicNotFoundException;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
 import com.openclassrooms.mddapi.models.Article;
-import com.openclassrooms.mddapi.repositories.ArticleRepository;
-import com.openclassrooms.mddapi.repositories.UserRepository;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -20,32 +19,28 @@ public interface IArticleService {
     public Article getById(Long id);
 
     /**
-     * Retrieves all articles in the system.
+     * Retrieves all articles for a given user based on the topics they are subscribed to.
      *
-     * @return a list of all articles
+     * @param userEmail The email address of the user for whom to retrieve articles.
+     * @return A list of articles associated with the topics the user is subscribed to.
+     * @throws UserNotFoundException If the user with the provided email address is not found.
+     * @throws TopicNotFoundException If the user is not subscribed to any topic.
+     * @throws ArticleNotFoundException If no articles are found for the user's subscribed topics.
      */
-    public List<Article> getAll();
+    public List<Article> getAllForUser(String userEmail);
 
     /**
-     * Retrieves all articles linked to a user with username.
+     * Retrieves a list of articles for a given user, ordered by date in ascending or descending order.
      *
-     * @return a list of all articles related to the user
+     * @param direction The order direction, either "asc" for ascending or "desc" for descending.
+     * @param userEmail The email address of the user for whom to retrieve articles.
+     * @return A list of articles ordered by date according to the specified direction.
+     * @throws UserNotFoundException If the user with the provided email is not found.
+     * @throws TopicNotFoundException If the user is not subscribed to any topic.
+     * @throws BadRequestException If an invalid direction is provided.
+     * @throws ArticleNotFoundException If no articles are found for the user's subscribed topics.
      */
-    public List<Article> getAllForUser(String username);
-
-    /**
-     * Retrieves all articles sorted in ascending order by their publication date.
-     *
-     * @return a list of all articles sorted by date in ascending order
-     */
-    public List<Article> getAllByDateAsc();
-
-    /**
-     * Retrieves all articles sorted in descending order by their publication date.
-     *
-     * @return a list of all articles sorted by date in descending order
-     */
-    public List<Article> getAllByDateDesc();
+    public List<Article> getAllForUserOrderedByDate(String direction, String userEmail);
 
     /**
      * Creates a new article in the system.

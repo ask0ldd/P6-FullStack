@@ -8,11 +8,10 @@ import com.openclassrooms.mddapi.repositories.ArticleRepository;
 import com.openclassrooms.mddapi.repositories.TopicRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import com.openclassrooms.mddapi.services.interfaces.IArticleService;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @Service
 public class ArticleService implements IArticleService {
@@ -31,42 +30,26 @@ public class ArticleService implements IArticleService {
         return articleRepository.findById(id).orElseThrow(() -> new ArticleNotFoundException("Can't find the article with id: " + id));
     }
 
-    public List<Article> getAll() {
-        List<Article> articles = articleRepository.findAll();
-        if (articles.isEmpty()) {
-            throw new ArticleNotFoundException("Can't find any article");
-        }
-        return articles;
-    }
-
-    public List<Article> getAllForUser(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User can't be found."));
+    public List<Article> getAllForUser(String userEmail) {
+        User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find user with email : " + userEmail));
         List<Topic> topics = topicRepository.findAllByUsersContaining(user);
-        System.out.println(topics);
         if(topics.isEmpty()) throw new TopicNotFoundException("User subscribed to no topic.");
-        /*List<Long> allTopicsIds = topics.stream()
-                .map(Topic::getId)
-                .toList();*/
-        // List<Article> articles = articleRepository.findByTopicIn(topics);
-        List<Article> articles = articleRepository.findAll();
-        System.out.println(articles);
+        List<Article> articles = articleRepository.findByTopicIn(topics);
         if (articles.isEmpty()) throw new ArticleNotFoundException("Can't find any article");
         return articles;
     }
 
-    public List<Article> getAllByDateAsc() {
-        List<Article> articles = articleRepository.findAll(Sort.by("updatedAt"));
-        if (articles.isEmpty()) {
-            throw new ArticleNotFoundException("Can't find any article");
-        }
-        return articles;
-    }
-
-    public List<Article> getAllByDateDesc() {
-        List<Article> articles = articleRepository.findAll(Sort.by("updatedAt").descending());
-        if (articles.isEmpty()) {
-            throw new ArticleNotFoundException("Can't find any article");
-        }
+    public List<Article> getAllForUserOrderedByDate(String direction, String userEmail) {
+        User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find user with email : " + userEmail));
+        // find all the topics the user is subscribed to
+        List<Topic> topics = topicRepository.findAllByUsersContaining(user);
+        if(topics.isEmpty()) throw new TopicNotFoundException("User subscribed to no topic.");
+        List<Article> articles = null;
+        // find all the articles linked to the previous topics in a requested order
+        if(Objects.equals(direction, "asc")) articles = articleRepository.findByTopicInOrderByUpdatedAtAsc(topics);
+        if(Objects.equals(direction, "desc")) articles = articleRepository.findByTopicInOrderByUpdatedAtDesc(topics);
+        if(articles == null) throw new BadRequestException();
+        if(articles.isEmpty()) throw new ArticleNotFoundException("Can't find any article");
         return articles;
     }
 

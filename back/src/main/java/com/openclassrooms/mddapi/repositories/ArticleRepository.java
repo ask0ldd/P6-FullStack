@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findByTopicIn(List<Topic> topics);
+    List<Article> findByTopicInOrderByUpdatedAtAsc(List<Topic> topics);
+    List<Article> findByTopicInOrderByUpdatedAtDesc(List<Topic> topics);
 }
