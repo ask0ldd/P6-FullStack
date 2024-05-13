@@ -22,6 +22,10 @@ export class ArticleService {
     return this.http.get<IArticle[]>('api/articles')
   }
 
+  allByOrder$(order : string): Observable<IArticle[]>{
+    return this.http.get<IArticle[]>('api/articles/' + order)
+  }
+
   create$(newArticle : INewArticleRequest) : Observable<any>{
     return this.http.post<any>('api/article', newArticle)
   }
