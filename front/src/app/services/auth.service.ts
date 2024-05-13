@@ -6,6 +6,7 @@ import { ILoginRequest } from '../interfaces/Requests/ILoginRequest';
 import { IRegisterRequest } from '../interfaces/Requests/IRegisterRequest';
 import { IUpdateCredentialsRequest } from '../interfaces/Requests/IUpdateCredentialsRequest';
 import { ICredentialsResponse } from '../interfaces/Responses/ICredentialsResponse';
+import { jwtDecode } from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -46,9 +47,29 @@ export class AuthService {
     return {jwt : jwt || "", username : username || ""}
   }
 
+  getIdClaimFromAccessToken(): any {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = this.getDecodedAccessToken(token);
+      if (decodedToken) {
+        return decodedToken.id;
+      }
+    }
+    return null;
+  }
+
   // !!! create local storage service
   flushStorage(){
     localStorage.removeItem("token")
     localStorage.removeItem("username")
   }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwtDecode(token);
+    } catch(Error) {
+      return null;
+    }
+  }
+
 }

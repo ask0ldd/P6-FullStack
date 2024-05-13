@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription, first, of, take } from 'rxjs';
 import { ITopic } from 'src/app/interfaces/ITopic';
+import { AuthService } from 'src/app/services/auth.service';
 import { TopicService } from 'src/app/services/topic.service';
 
 @Component({
@@ -12,10 +13,14 @@ export class TopicsComponent implements OnInit, OnDestroy {
 
   retrievedTopics : ITopic[] = []
   subscriptions : Subscription[] = []
+  userId! : number
 
-  constructor(private topicService : TopicService) { }
+  constructor(private topicService : TopicService, private authService : AuthService) { }
 
   ngOnInit(): void {
+    // retrieve the user id from the claims into the jwt
+    this.userId = this.authService.getIdClaimFromAccessToken();
+    // display the topics
     this.refreshTopics()
   }
 
@@ -26,9 +31,7 @@ export class TopicsComponent implements OnInit, OnDestroy {
   }
 
   isUserSubscribed(topic : ITopic) : boolean {
-    // retrieve from token
-    const userId = 2
-    return topic.users.some(user => user.id == userId)
+    return topic.users.some(user => user.id == this.userId)
   }
 
   subscribe(event: any) : void{
