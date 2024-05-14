@@ -31,9 +31,8 @@ public class ArticleController {
     /**
      * Retrieves an article by its unique identifier.
      *
-     * @param id the unique identifier of the article to retrieve
-     * @return a ResponseEntity<ArticleResponseDto> containing the requested article,
-     * all errors are dealt with into the GlobalExceptionHandler and the related service
+     * @param id the unique identifier of the article
+     * @return A ResponseEntity containing the ArticleResponseDto representing the retrieved article
      */
     @GetMapping("article/{id}")
     public ResponseEntity<ArticleResponseDto> findById(@PathVariable("id") String id) {
@@ -42,15 +41,14 @@ public class ArticleController {
     }
 
     /**
-     * Retrieves a list of articles ordered by date, either in ascending or descending order.
+     * Retrieves a list of articles ordered by date, based on the specified order and the currently authenticated user.
      *
-     * @param order The order in which the articles should be retrieved, either "asc" for ascending or "desc" for descending.
-     * @return A ResponseEntity containing a list of ArticleResponseDto objects representing the articles,
-     * or a 404 Not Found response if no article is found,
-     * or a 400 Bad Request response if the provided order variable isn't "asc" or "desc" in value
+     * @param order    the order to sort the articles by, either "asc" for ascending or "desc" for descending
+     * @param principal the currently authenticated user
+     * @return A ResponseEntity containing a list of ArticleResponseDto objects representing the sorted articles
      */
     @GetMapping("articles/{order}") // https://www.baeldung.com/exception-handling-for-rest-with-spring : solution 3
-    public ResponseEntity<?/*List<ArticleResponseDto>*/> findAllOrderedByDate(@PathVariable("order") String order, Principal principal) {
+    public ResponseEntity<List<ArticleResponseDto>> findAllOrderedByDate(@PathVariable("order") String order, Principal principal) {
         List<Article> articles = articleService.getAllForUserOrderedByDate(order, principal.getName());
         List<ArticleResponseDto> responsesDtoList = articles.stream()
                 .map(ArticleResponseDto::new)
@@ -58,6 +56,12 @@ public class ArticleController {
         return ResponseEntity.ok().body(responsesDtoList);
     }
 
+    /**
+     * Retrieves all articles for the authenticated user.
+     *
+     * @param principal the authenticated user's principal object, which contains the username
+     * @return A ResponseEntity containing a list of ArticleResponseDto objects representing the user's articles
+     */
     @GetMapping("articles")
     public ResponseEntity<List<ArticleResponseDto>> findAllForUser(Principal principal) {
         List<Article> articles = articleService.getAllForUser(principal.getName());
@@ -68,6 +72,13 @@ public class ArticleController {
         return ResponseEntity.ok().body(responsesDtoList);
     }
 
+    /**
+     * Handles the creation of a new article.
+     *
+     * @param articleRequest the request payload containing the article details
+     * @param principal the authenticated user principal
+     * @return A ResponseEntity with an empty body and a 200 status code.
+     */
     @PostMapping("article")
     public ResponseEntity<Void> postArticle(@Valid @RequestBody NewArticlePayloadDto articleRequest, Principal principal){
         String emailAuthor = principal.getName();
@@ -80,6 +91,13 @@ public class ArticleController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Handles the POST request for creating a new comment on an article.
+     *
+     * @param commentRequest The request payload containing the comment data.
+     * @param principal      The authenticated principal (user) making the request.
+     * @return A ResponseEntity with an HTTP status code indicating the result of the operation.
+     **/
     @PostMapping("article/{id}/comment")
     public ResponseEntity<Void> postComment(@Valid @RequestBody NewCommentPayloadDto commentRequest, Principal principal) {
         Long parentArticleId = Long.parseLong(commentRequest.getArticleId());
