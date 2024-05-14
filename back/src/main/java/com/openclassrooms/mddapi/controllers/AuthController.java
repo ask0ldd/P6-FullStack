@@ -27,12 +27,24 @@ public class AuthController {
         this.userService = userService;
     }
 
+    /**
+     * Retrieves the credentials (email and username) of the currently logged-in user.
+     *
+     * @param principal the {@link Principal} object representing the authenticated user
+     * @return a ResponseEntity containing a UserEmailUsernameDto object with the user's email and username
+     */
     @GetMapping("auth/credentials")
     public ResponseEntity<UserEmailUsernameDto> getCredentials(Principal principal){
         User loggedUser = userService.getByEmail(principal.getName());
         return ResponseEntity.ok().body(new UserEmailUsernameDto(loggedUser));
     }
 
+    /**
+     * Authenticates a user and generates a JWT token upon successful login.
+     *
+     * @param loginRequest the login request containing the email or username and password
+     * @return a ResponseEntity containing a JwtResponseDto with the generated JWT token, email, and username
+     */
     @PostMapping("auth/login")
     public ResponseEntity<JwtResponseDto> login(@Valid @RequestBody LoginPayloadDto loginRequest) {
         String emailOrUsername = loginRequest.getEmailOrUsername();
@@ -47,6 +59,12 @@ public class AuthController {
         return ResponseEntity.ok().body(jwtResponse);
     }
 
+    /**
+     * Registers a new user and generates a JWT token.
+     *
+     * @param registerRequest the registration request payload containing email, password, and username
+     * @return a ResponseEntity containing a JwtResponseDto with the user's email, generated JWT token, and username
+     */
     @PostMapping("auth/register")
     public ResponseEntity<JwtResponseDto> login(@Valid @RequestBody RegisterPayloadDto registerRequest) {
         String email = registerRequest.getEmail();
@@ -57,6 +75,14 @@ public class AuthController {
         return ResponseEntity.ok().body(jwtResponse);
     }
 
+    /**
+     * Updates the user's credentials (email and username) in the system.
+     *
+     * @param updateCredentialsRequest the request payload containing the new email and username
+     * @param principal the authenticated user's principal, used to retrieve the current email
+     * @return A ResponseEntity with an empty body and a status code of 200.
+     * if the update was successful
+     */
     @PutMapping("auth/newcredentials")
     public ResponseEntity<Void> updateCredentials(@Valid @RequestBody UpdateCredentialsPayloadDto updateCredentialsRequest,
                                                Principal principal) {
