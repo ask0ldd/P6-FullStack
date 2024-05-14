@@ -50,6 +50,9 @@ public class AuthService implements IAuthService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String login(String emailOrUsername, String password){
         String email = parseEmail(emailOrUsername);
         Authentication auth = authenticationManager
@@ -59,9 +62,10 @@ public class AuthService implements IAuthService {
         return token;
     }
 
-
-    // !!! should check constraints
-    public String register(String email, String username, String password) {
+    /**
+     * {@inheritDoc}
+     */
+    public String register(String email, String username, String password) { // !!! should check constraints
         createNewUser(email, username, password);
         // try to authenticate the user using email and password
         // Authentication : Set by an AuthenticationManager to indicate the authorities that the principal has been granted
@@ -73,6 +77,9 @@ public class AuthService implements IAuthService {
         return token;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void updateCredentials(String currentEmail, String newEmail, String newUsername){
         User user = userRepository.findByEmail(currentEmail).orElseThrow(() -> new UserNotFoundException("User not found."));
         user.setEmail(newEmail);
@@ -80,6 +87,13 @@ public class AuthService implements IAuthService {
         userRepository.save(user);
     }
 
+    /**
+     * Parses the email from the provided email or username.
+     *
+     * @param emailOrUsername the email or username to parse
+     * @return the parsed email
+     * @throws BadCredentialsException if the email or username is not found
+     */
     private String parseEmail(String emailOrUsername) {
         Optional<User> user = userRepository.findByEmail(emailOrUsername);
         if(user.isPresent()) {
@@ -91,7 +105,15 @@ public class AuthService implements IAuthService {
                 .orElseThrow(() -> new BadCredentialsException("Bad credentials."));
     }
 
-
+    /**
+     * Creates a new user with the provided email, username, and password.
+     *
+     * @param email     the email of the new user
+     * @param username  the username of the new user
+     * @param password  the password of the new user
+     * @throws RoleNotFoundException if the user role is not found
+     * @throws BadRequestException   if an exception occurs during user creation
+     */
     private void createNewUser(String email, String username, String password) {
         try {
             // the password  has to be encoded before any insertion into the DB
