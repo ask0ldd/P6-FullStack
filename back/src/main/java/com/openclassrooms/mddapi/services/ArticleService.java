@@ -26,10 +26,16 @@ public class ArticleService implements IArticleService {
         this.topicRepository = topicRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Article getById(Long id) throws ResourceNotFoundException {
         return articleRepository.findById(id).orElseThrow(() -> new ArticleNotFoundException("Can't find the article with id: " + id));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public List<Article> getAllForUser(String userEmail) {
         User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find user with email : " + userEmail));
         List<Topic> topics = topicRepository.findAllByUsersContaining(user);
@@ -39,6 +45,9 @@ public class ArticleService implements IArticleService {
         return articles;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public List<Article> getAllForUserOrderedByDate(String direction, String userEmail) {
         User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find user with email : " + userEmail));
         // find all the topics the user is subscribed to
@@ -53,10 +62,16 @@ public class ArticleService implements IArticleService {
         return articles;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Article create(Article article){
         return articleRepository.save(article);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Article create(String emailAuthor, Long parentTopicId, String articleTitle, String articleContent){
         User author = userRepository.findByEmail(emailAuthor).orElseThrow(() -> new UserNotFoundException("Article's author not found."));
         Topic parentTopic = topicRepository.findById(parentTopicId).orElseThrow(() -> new TopicNotFoundException("Topic not found."));

@@ -1,9 +1,6 @@
 package com.openclassrooms.mddapi.services.interfaces;
 
-import com.openclassrooms.mddapi.exceptions.ArticleNotFoundException;
-import com.openclassrooms.mddapi.exceptions.BadRequestException;
-import com.openclassrooms.mddapi.exceptions.TopicNotFoundException;
-import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
+import com.openclassrooms.mddapi.exceptions.*;
 import com.openclassrooms.mddapi.models.Article;
 
 import java.util.List;
@@ -11,55 +8,56 @@ import java.util.List;
 public interface IArticleService {
 
     /**
-     * Retrieves an article by its unique identifier.
+     * Retrieves an Article by its unique identifier.
      *
-     * @param id the unique identifier of the article
-     * @return the article with the specified ID, or null if not found
+     * @param id the unique identifier of the Article
+     * @return the Article with the specified id
+     * @throws ResourceNotFoundException if no Article is found with the given id
      */
     public Article getById(Long id);
 
     /**
-     * Retrieves all articles for a given user based on the topics they are subscribed to.
+     * Retrieves all Articles for the specified user.
      *
-     * @param userEmail The email address of the user for whom to retrieve articles.
-     * @return A list of articles associated with the topics the user is subscribed to.
-     * @throws UserNotFoundException If the user with the provided email address is not found.
-     * @throws TopicNotFoundException If the user is not subscribed to any topic.
-     * @throws ArticleNotFoundException If no articles are found for the user's subscribed topics.
+     * @param userEmail the email address of the user
+     * @return a list of Articles for the specified user
+     * @throws UserNotFoundException if no User is found with the given email
+     * @throws TopicNotFoundException if the user is not subscribed to any Topics
+     * @throws ArticleNotFoundException if no Articles are found for the user's subscribed Topics
      */
     public List<Article> getAllForUser(String userEmail);
 
     /**
-     * Retrieves a list of articles for a given user, ordered by date in ascending or descending order.
+     * Retrieves all Articles for the specified user, ordered by the specified direction.
      *
-     * @param direction The order direction, either "asc" for ascending or "desc" for descending.
-     * @param userEmail The email address of the user for whom to retrieve articles.
-     * @return A list of articles ordered by date according to the specified direction.
-     * @throws UserNotFoundException If the user with the provided email is not found.
-     * @throws TopicNotFoundException If the user is not subscribed to any topic.
-     * @throws BadRequestException If an invalid direction is provided.
-     * @throws ArticleNotFoundException If no articles are found for the user's subscribed topics.
+     * @param direction the order direction, either "asc" for ascending or "desc" for descending
+     * @param userEmail the email address of the user
+     * @return a list of Articles for the specified user, ordered by the specified direction
+     * @throws UserNotFoundException if no User is found with the given email
+     * @throws TopicNotFoundException if the user is not subscribed to any Topics
+     * @throws BadRequestException if an invalid order direction is specified
+     * @throws ArticleNotFoundException if no Articles are found for the user's subscribed Topics
      */
     public List<Article> getAllForUserOrderedByDate(String direction, String userEmail);
 
     /**
-     * Creates a new article in the system.
+     * Creates a new Article.
      *
-     * @param article the article to be created
-     * @return the created article, with its unique identifier set
+     * @param article the Article to be created
+     * @return the created Article
      */
     public Article create(Article article);
 
     /**
-     * Creates a new Article entity and persists it in the database.
+     * Creates a new Article with the specified details.
      *
-     * @param emailAuthor   The email address of the User who is the author of the Article.
-     * @param parentTopicId The ID of the Topic under which the Article should be created.
-     * @param articleTitle  The title of the Article.
-     * @param articleContent The content of the Article.
-     * @return The newly created and persisted Article entity.
-     * @throws UserNotFoundException    If the User with the provided email address is not found.
-     * @throws TopicNotFoundException   If the Topic with the provided ID is not found.
+     * @param emailAuthor the email address of the Article's author
+     * @param parentTopicId the unique identifier of the parent Topic
+     * @param articleTitle the title of the Article
+     * @param articleContent the content of the Article
+     * @return the created Article
+     * @throws UserNotFoundException if no User is found with the given email
+     * @throws TopicNotFoundException if no Topic is found with the given id
      */
     public Article create(String emailAuthor, Long parentTopicId, String articleTitle, String articleContent);
 }
