@@ -18,18 +18,30 @@ public class UserService implements UserDetailsService, IUserService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public User getById(Long id){
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Target user cannot be found."));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public User getByEmail(String email){
         return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("Target user cannot be found."));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public User save(User user){
         return userRepository.save(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not valid."));
