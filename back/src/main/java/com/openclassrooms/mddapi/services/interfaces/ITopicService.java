@@ -1,8 +1,9 @@
 package com.openclassrooms.mddapi.services.interfaces;
 
-import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.exceptions.BadRequestException;
-import com.openclassrooms.mddapi.exceptions.NotFoundException;
+import com.openclassrooms.mddapi.exceptions.TopicNotFoundException;
+import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
+import com.openclassrooms.mddapi.models.Topic;
 
 import java.util.List;
 
@@ -23,13 +24,6 @@ public interface ITopicService {
     Topic getById(Long id);
 
     /**
-     * Retrieves all topics the current user is subscribed to.
-     *
-     * @return a list of topics the current user is subscribed to
-     */
-    List<Topic> getUserSubscriptions();
-
-    /**
      * Creates a new topic.
      *
      * @param topic the topic to create
@@ -42,7 +36,7 @@ public interface ITopicService {
      *
      * @param email the email of the user
      * @return a list of topics the user is subscribed to
-     * @throws NotFoundException if the user is not found
+     * @throws UserNotFoundException if the user is not found
      */
     List<Topic> getAllTopicsUserIsSubscribedTo(String email);
 
@@ -50,19 +44,21 @@ public interface ITopicService {
      * Subscribes a user to a topic.
      *
      * @param topicId the ID of the topic
-     * @param email the email of the user
-     * @throws NotFoundException if the topic or user is not found
+     * @param userEmail the email of the user
+     * @throws TopicNotFoundException if the topic is not found
+     * @throws UserNotFoundException if the topic is not found
      * @throws BadRequestException if the user is already subscribed to the topic
      */
-    void subscribe(Long topicId, String email);
+    void subscribe(Long topicId, String userEmail);
 
     /**
      * Unsubscribes a user from a topic.
      *
      * @param topicId the ID of the topic
-     * @param email the email of the user
-     * @throws NotFoundException if the topic is not found
+     * @param userEmail the email of the user
+     * @throws TopicNotFoundException if the topic is not found
+     * @throws UserNotFoundException if the topic is not found
      * @throws BadRequestException if the user is not subscribed to the topic
      */
-    void unsubscribe(Long topicId, String email);
+    void unsubscribe(Long topicId, String userEmail);
 }

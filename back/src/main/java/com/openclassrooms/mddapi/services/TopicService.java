@@ -21,6 +21,9 @@ public class TopicService implements ITopicService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public List<Topic> getAll(){
         List<Topic> topics = topicRepository.findAll();
         if (topics.isEmpty()) {
@@ -29,27 +32,39 @@ public class TopicService implements ITopicService {
         return topics;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Topic getById(Long id){
         return topicRepository.findById(id).orElse(null);
     }
 
-    public List<Topic> getUserSubscriptions(){
+    /*public List<Topic> getUserSubscriptions(){
         List<Topic> topicsSubscribedTo = topicRepository.findAll();
         if (topicsSubscribedTo.isEmpty()) {
             throw new ResourceNotFoundException("The user is subscribed to no topic.");
         }
         return topicsSubscribedTo;
-    }
+    }*/
 
+    /**
+     * {@inheritDoc}
+     */
     public Topic create(Topic topic){
         return topicRepository.save(topic);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public List<Topic> getAllTopicsUserIsSubscribedTo(String userEmail){
         User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find user with email : " + userEmail));
         return topicRepository.findAllByUsersContaining(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void subscribe(Long topicId, String userEmail){
         Topic topic = this.topicRepository.findById(topicId).orElseThrow(() -> new TopicNotFoundException("Can't find topic with id : " + topicId));
         User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find subscriber."));
@@ -62,9 +77,11 @@ public class TopicService implements ITopicService {
 
         topic.getUsers().add(user);
         this.topicRepository.save(topic);
-
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void unsubscribe(Long topicId, String userEmail) {
         Topic topic = this.topicRepository.findById(topicId).orElseThrow(() -> new TopicNotFoundException("Can't find topic with id : " + topicId));
         User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find subscriber."));
