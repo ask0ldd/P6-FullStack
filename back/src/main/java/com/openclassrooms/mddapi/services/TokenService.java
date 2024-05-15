@@ -26,6 +26,9 @@ public class TokenService implements ITokenService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String generateJwt(Authentication authentication) {
 
         Instant now = Instant.now();
