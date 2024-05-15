@@ -29,6 +29,12 @@ public class SecurityConfiguration {
         this.jwtAuthenticationConverter = jwtAuthenticationConverter;
     }
 
+    /**
+     * Creates and configures an {@link AuthenticationManager} bean for authentication purposes.
+     *
+     * @param userDetailsService the {@link UserDetailsService} implementation to be used for retrieving user details
+     * @return the configured {@link AuthenticationManager} instance
+     */
     @Bean
     AuthenticationManager authenticationManager(UserDetailsService userDetailsService) {
         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
@@ -37,6 +43,13 @@ public class SecurityConfiguration {
         return new ProviderManager(daoProvider);
     }
 
+    /**
+     * Configures the security filter chain for the application.
+     *
+     * @param http The HttpSecurity object used to configure the security filter chain.
+     * @return The configured SecurityFilterChain object.
+     * @throws Exception If an error occurs during the configuration process.
+     */
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // csrf disabled cause stateless
@@ -70,7 +83,11 @@ public class SecurityConfiguration {
             "/api/auth/register",
     };
 
-    // this will encode the user's password
+    /**
+     * Creates and returns a bean instance of BCryptPasswordEncoder, which is a
+     * secure password encoder implementation based on the BCrypt algorithm.
+     * @return a {@link BCryptPasswordEncoder} instance
+     */
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
