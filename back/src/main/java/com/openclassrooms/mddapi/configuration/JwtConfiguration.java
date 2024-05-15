@@ -33,11 +33,21 @@ public class JwtConfiguration {
         this.privateKey = (RSAPrivateKey) rsaKeys.getPrivate();
     }
 
+    /**
+     * Creates and returns a JwtDecoder bean that can be used to decode and
+     * validate JSON Web Tokens (JWTs) using the provided public key.
+     * @return a {@link JwtDecoder} instance configured with the provided public key
+     */
     @Bean
     JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(publicKey).build();
     }
 
+    /**
+     * Creates a {@link JwtEncoder} bean using the provided public and private keys.
+     * The encoder is based on the Nimbus JOSE + JWT implementation and uses an RSA key pair.
+     * @return a configured {@link JwtEncoder} instance
+     */
     // configuring the encoder used to sign the JWT
     @Bean
     JwtEncoder jwtEncoder() {
@@ -46,6 +56,11 @@ public class JwtConfiguration {
         return new NimbusJwtEncoder(jwks);
     }
 
+    /**
+     * Creates a {@link JwtAuthenticationConverter} bean with a custom {@link JwtGrantedAuthoritiesConverter}.
+     * The converter maps the "roles" claim to granted authorities with the "ROLE_" prefix.
+     * @return the configured {@link JwtAuthenticationConverter} instance
+     */
     // Adding a prefix to the roles claim contained into the JWT.
     // Ex : JWT Role : "USER" -> "ROLE_USER".
     @Bean
