@@ -51,7 +51,7 @@ public class Article {
     @JsonBackReference
     private Topic topic;
 
-    @ManyToOne // needed : author
+    @ManyToOne // = author
     @JoinColumn(name = "user_id", nullable = false)
     @JsonManagedReference
     private User user;
