@@ -26,19 +26,23 @@ public class CommentService implements ICommentService {
         this.articleRepository = articleRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public List<Comment> getAll(){
         return commentRepository.findAll();
     }
 
-    /*public List<Comment> getAllByArticle(Article article){
-        return commentRepository.findByArticle(article);
-    }*/
-
+    /**
+     * {@inheritDoc}
+     */
     public Comment create(Comment comment){
-
         return commentRepository.save(comment);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Comment create(Principal principal, Long articleId, String commentBody){
         String authorEmail = principal.getName();
         User commentAuthor = userRepository.findByEmail(authorEmail).orElseThrow(() -> new UserNotFoundException("User not found."));
@@ -47,12 +51,4 @@ public class CommentService implements ICommentService {
         return commentRepository.save(newComment);
     }
 
-    /*
-    public Comment create(Comment comment, Long ArticleId){
-        Comment comment = commentRepository.save(comment);
-        Article.getById;
-        Article.setComment(comment);
-        return comment;
-    }
-     */
 }
