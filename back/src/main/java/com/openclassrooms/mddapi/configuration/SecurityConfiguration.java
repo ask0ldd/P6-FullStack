@@ -84,7 +84,7 @@ public class SecurityConfiguration {
     };
 
     /**
-     * Creates and returns a bean instance of BCryptPasswordEncoder, which is a
+     * Creates and returns a bean instance of {@link BCryptPasswordEncoder}, which is a
      * secure password encoder implementation based on the BCrypt algorithm.
      * @return a {@link BCryptPasswordEncoder} instance
      */

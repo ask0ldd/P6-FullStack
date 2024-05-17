@@ -34,7 +34,7 @@ public class JwtConfiguration {
     }
 
     /**
-     * Creates and returns a JwtDecoder bean that can be used to decode and
+     * Creates and returns a {@link JwtDecoder} bean that can be used to decode and
      * validate JSON Web Tokens (JWTs) using the provided public key.
      * @return a {@link JwtDecoder} instance configured with the provided public key
      */
