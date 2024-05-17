@@ -16,7 +16,7 @@
         width: 100%;
         align-items: center;
 
-        @media (max-width: 300px) {
+        @media (max-width: 600px) {
             flex-direction: column;
             row-gap: 1.5rem;
         }
