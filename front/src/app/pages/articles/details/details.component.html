@@ -1,17 +1,17 @@
 <app-header></app-header>
 <main *ngIf="(article$ | async) as article">
     <img class="backButton" [routerLink]="['/articles/list']" src="/assets/backarrow.png" alt="backButton">
-    <h1>{{article.title}}</h1>
+    <h1>{{article.title | titlecase}}</h1>
     <div class="date">{{article.createdAt | date:'dd/MM/yyyy'}}</div>
-    <div class="writer">{{article.user.username}}</div>
-    <div class="topic">{{article.topic.name}}</div>
+    <div class="writer">{{article.user.username | titlecase}}</div>
+    <div class="topic">{{article.topic.name | titlecase}}</div>
     <p class="articleContent" style="font-size: 20px;">Content: {{article.content}}</p>
     <hr/>
     <div class="commentsSection">
         <section *ngIf="comments?.length" class="commentsHistoryContainer">
             <h3 style="font-size: 20px; font-weight: 400; margin: 0.5rem 0;">Commentaires</h3>
             <article *ngFor="let comment of comments" class="commentContainer">
-                <span>{{comment.user.username}}</span>
+                <span>{{comment.user.username | titlecase}}</span>
                 <div class="comment">{{comment.content}}</div>
             </article>
         </section>
