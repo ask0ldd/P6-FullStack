@@ -7,17 +7,43 @@ main{
     min-height: 100vh;
 }
 
-h1{
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 24px;
-    font-weight: bold;
-}
+.backHeaderContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    row-gap: 32px;
 
-.backButton{
-    width: 41px;
-    align-self: flex-start;
-    cursor: pointer;
+    h1{
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 24px;
+        font-weight: bold;
+        min-width: 360px;
+        text-align: left;
+
+        @media (max-width: 530px) and (min-width: 451px) {
+            margin-left: 32px;
+        }
+    }
+    
+    .backButton{
+        width: 41px;
+        align-self: flex-start;
+        cursor: pointer;
+        transform: translateY(4px);
+    }
+    
+    .backSymContainer{
+        width: 41px;
+        @media (max-width: 450px) {
+            display: none;
+        }
+    }
+
+    @media (max-width: 450px) {
+        flex-direction: column;
+    }
 }
 
 form{

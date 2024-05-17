@@ -1,7 +1,10 @@
 <app-header></app-header>
 <main *ngIf="(topics$ | async) as topics">
-    <img class="backButton" routerLink="/articles/list" src="/assets/backarrow.png" alt="backButton">
-    <h1>Créer un nouvel article</h1>
+    <div class="backHeaderContainer">
+        <img class="backButton" routerLink="/articles/list" src="/assets/backarrow.png" alt="backButton">
+        <h1>Créer un nouvel article</h1>
+        <div class="backSymContainer"></div>
+    </div>
     <form (ngSubmit)="onSubmit()" [formGroup]="articleForm">
         <select formControlName="topicId">
             <option value="" disabled selected>Selectionnez un Thème</option>
