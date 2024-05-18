@@ -41,7 +41,6 @@ public class ArticleService implements IArticleService {
         List<Topic> topics = topicRepository.findAllByUsersContaining(user);
         if(topics.isEmpty()) throw new TopicNotFoundException("User subscribed to no topic.");
         List<Article> articles = articleRepository.findByTopicIn(topics);
-        if (articles.isEmpty()) throw new ArticleNotFoundException("Can't find any article");
         return articles;
     }
 
@@ -52,13 +51,11 @@ public class ArticleService implements IArticleService {
         User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find user with email : " + userEmail));
         // find all the topics the user is subscribed to
         List<Topic> topics = topicRepository.findAllByUsersContaining(user);
-        if(topics.isEmpty()) throw new TopicNotFoundException("User subscribed to no topic.");
+        if(topics.isEmpty()) return List.of(new Article[]{});
         List<Article> articles = null;
         // find all the articles linked to the previous topics in a requested order
         if(Objects.equals(direction, "asc")) articles = articleRepository.findByTopicInOrderByUpdatedAtAsc(topics);
         if(Objects.equals(direction, "desc")) articles = articleRepository.findByTopicInOrderByUpdatedAtDesc(topics);
-        if(articles == null) throw new BadRequestException();
-        if(articles.isEmpty()) throw new ArticleNotFoundException("Can't find any article");
         return articles;
     }
 
