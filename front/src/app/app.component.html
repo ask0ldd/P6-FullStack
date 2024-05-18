@@ -9,6 +9,7 @@
         </div>
     </mat-sidenav>
     <mat-sidenav-content>
+        <app-header [showNav]="showNav" *ngIf="showHeader"></app-header>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
