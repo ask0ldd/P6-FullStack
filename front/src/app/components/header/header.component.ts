@@ -11,9 +11,8 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class HeaderComponent {
 
-  isActivePageProfile = false
-
-  @Input() showNav!: boolean;
+  @Input() isProfileActive = false
+  @Input() showNav: boolean = true;
 
   constructor(private appComponent: AppComponent) { 
   }

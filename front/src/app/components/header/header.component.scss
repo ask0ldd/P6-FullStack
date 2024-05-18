@@ -1,3 +1,5 @@
+$mainpurple-color : #7763C5;
+
 :host{
     display: block;
     max-width: 1440px;
@@ -48,11 +50,11 @@ header{
 
     a.active-link {
         font-weight: bold;
-        color: #7763C5; /* or any other desired color */
+        color: $mainpurple-color;
     }
 
     a.active{
-        color: #7763C5;
+        color: $mainpurple-color;
     }
 
     .burger{
