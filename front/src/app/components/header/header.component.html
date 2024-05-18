@@ -1,7 +1,7 @@
 <header>
     <a href=""><img class="logo" src="assets/logo.png" alt="logo"/></a>
-    <nav *ngIf="isMenuDisplayed">
-        <ul>
+    <nav>
+        <ul *ngIf="showNav">
             <li>
                 <a [routerLink]="['/articles/list']" routerLinkActive="active-link">Articles</a>
             </li>
