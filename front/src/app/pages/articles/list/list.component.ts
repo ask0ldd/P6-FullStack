@@ -12,7 +12,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
   orderAsc = false
 
-  articles!: IArticle[]
+  articles: IArticle[] = []
   subscription! : Subscription
 
   constructor(private articleService : ArticleService) { }

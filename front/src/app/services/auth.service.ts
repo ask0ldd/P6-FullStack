@@ -40,13 +40,6 @@ export class AuthService {
     return false
   }
 
-  // !!! create local storage service
-  getLoggedUserInfos() : {jwt : string, username : string}{
-    const jwt = localStorage.getItem("token")
-    const username = localStorage.getItem("username")
-    return {jwt : jwt || "", username : username || ""}
-  }
-
   getIdClaimFromAccessToken(): any {
     const token = localStorage.getItem('token');
     if (token) {
@@ -56,6 +49,13 @@ export class AuthService {
       }
     }
     return null;
+  }
+
+  // !!! create local storage service
+  getLoggedUserInfos() : {jwt : string, username : string}{
+    const jwt = localStorage.getItem("token")
+    const username = localStorage.getItem("username")
+    return {jwt : jwt || "", username : username || ""}
   }
 
   // !!! create local storage service

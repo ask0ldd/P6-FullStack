@@ -1,4 +1,3 @@
-<app-header></app-header>
 <main *ngIf="(article$ | async) as article">
     <img class="backButton" [routerLink]="['/articles/list']" src="/assets/backarrow.png" alt="backButton">
     <h1>{{article.title | titlecase}}</h1>
