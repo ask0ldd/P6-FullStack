@@ -1,19 +1,18 @@
-<app-header></app-header>
-<main *ngIf="articles">
+<main>
     <section class="articlesContainer">
         <div class="buttonSelectContainer">
             <button routerLink="/articles/new">Créer un Article</button>
             <span class="sort" (click)="switchOrder()">Trier Par <img [src]="orderAsc ? 'assets/sortarrow.png' : 'assets/sortarrowreverse.png'"/></span>
         </div>
-        <div class="articlesGroup">
+        <div class="articlesGroup" *ngIf="articles && articles.length > 0">
             <article *ngFor="let article of articles" [routerLink]="['/articles/details', article.id]">
                 <h3>{{article.title | titlecase}}</h3>
                 <div class="dateAuteurContainer"><span>{{article.updatedAt | date:'dd/MM/yyyy'}}</span><span>{{article.user.username | titlecase}}</span></div>
                 <p>Content: {{article.content | truncate:300}}</p>
             </article>
         </div>
+        <p style="text-align: center; padding-top: 4rem;" *ngIf="articles.length == 0">
+            No article can be retrieved.
+        </p>
     </section>
-</main>
-<main style="text-align: center; padding-top: 4rem;" *ngIf="!articles">
-    No article can be retrieved.
 </main>
