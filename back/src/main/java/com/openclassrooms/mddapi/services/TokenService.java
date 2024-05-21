@@ -28,11 +28,13 @@ public class TokenService implements ITokenService {
 
     /**
      * {@inheritDoc}
+     * Generates a JSON Web Token (JWT) based on the provided authentication information.
      */
     public String generateJwt(Authentication authentication) {
 
         Instant now = Instant.now();
 
+        // retrieves the roles of the authentified user
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
@@ -46,7 +48,7 @@ public class TokenService implements ITokenService {
                 .expiresAt(now.plus(1, ChronoUnit.DAYS))
                 .subject(authentication.getName())
                 .claim("roles", scope)
-                // add the id as a claim to the jwt for front-end filtering purposes
+                // add the id as a custom claim to the jwt for front-end filtering purposes
                 .claim("id", user.getId())
                 .build();
 

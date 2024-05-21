@@ -52,8 +52,10 @@ public class AuthService implements IAuthService {
 
     /**
      * {@inheritDoc}
+     * Logs in a user using their email or username and password.
      */
     public String login(String emailOrUsername, String password){
+        // get the email out of the parameter
         String email = parseEmail(emailOrUsername);
         Authentication auth = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(email, password));
@@ -64,6 +66,7 @@ public class AuthService implements IAuthService {
 
     /**
      * {@inheritDoc}
+     * Registers a new user with the provided email, username, and password.
      */
     public String register(String email, String username, String password) { // !!! should check constraints
         createNewUser(email, username, password);
@@ -79,6 +82,7 @@ public class AuthService implements IAuthService {
 
     /**
      * {@inheritDoc}
+     * Updates the credentials of a user with the provided email and/or username.
      */
     public void updateCredentials(String currentEmail, String newEmail, String newUsername){
         User user = userRepository.findByEmail(currentEmail).orElseThrow(() -> new UserNotFoundException("User not found."));
@@ -89,17 +93,18 @@ public class AuthService implements IAuthService {
 
     /**
      * Parses the email from the provided email or username.
-     *
      * @param emailOrUsername the email or username to parse
      * @return the parsed email
      * @throws BadCredentialsException if the email or username is not found
      */
     private String parseEmail(String emailOrUsername) {
+        // check if the user can be found using the parameter as an email
         Optional<User> user = userRepository.findByEmail(emailOrUsername);
         if(user.isPresent()) {
             return user.get().getEmail();
         }
 
+        // check if the user can be found using the parameter as a username
         return userRepository.findByName(emailOrUsername)
                 .map(User::getEmail)
                 .orElseThrow(() -> new BadCredentialsException("Bad credentials."));
@@ -107,7 +112,6 @@ public class AuthService implements IAuthService {
 
     /**
      * Creates a new user with the provided email, username, and password.
-     *
      * @param email     the email of the new user
      * @param username  the username of the new user
      * @param password  the password of the new user
@@ -131,6 +135,6 @@ public class AuthService implements IAuthService {
         }catch(Exception e){
             System.out.println("\u001B[31m" + e + "\u001B[0m");
             throw new BadRequestException();
-        }
+        } // converting all the exceptions but the rolenotfound one into a badrequestexception
     }
 }
