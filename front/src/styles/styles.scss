@@ -8,6 +8,9 @@
   list-style: none;
 }
 
+$mainpurple-color: #7763C5;
+$error-color: #A40F0F;
+
 html, body { 
   height: fit-content;
   min-height: 100vh; 
@@ -65,5 +68,5 @@ h6 {
 }
 
 .errorColor{
-  color:#A40F0F;
+  color: $error-color;
 }
