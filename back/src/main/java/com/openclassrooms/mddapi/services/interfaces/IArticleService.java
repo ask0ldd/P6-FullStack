@@ -34,7 +34,6 @@ public interface IArticleService {
      * @param userEmail the email address of the user
      * @return a list of Articles for the specified user, ordered by the specified direction
      * @throws UserNotFoundException if no User is found with the given email
-     * @throws TopicNotFoundException if the user is not subscribed to any Topics
      * @throws BadRequestException if an invalid order direction is specified
      * @throws ArticleNotFoundException if no Articles are found for the user's subscribed Topics
      */

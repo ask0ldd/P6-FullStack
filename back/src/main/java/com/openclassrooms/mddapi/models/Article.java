@@ -11,9 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity(name = "articles")
 @Table(name = "articles")
@@ -35,18 +33,12 @@ public class Article {
     private String content;
 
     // mappedBy = "article" :
-    // In this case, the child entity has a property named "article" that maps to the parent entity.
-    // CascadeType.ALL
-    // means that all lifecycle operations (persist, remove, refresh, merge, and detach)
-    // performed on the parent entity will be cascaded to the associated child entities.
-    // orphanRemoval = true:
-    // This element indicates that when a child entity is removed from the collection in the parent entity,
-    // the child entity should also be removed from the database.
+    // The child entity has a property named "article" that maps to the parent entity.
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToOne // needed details
+    @ManyToOne // needed for details pages
     @JoinColumn(name = "topic_id", nullable = false)
     @JsonBackReference
     private Topic topic;
