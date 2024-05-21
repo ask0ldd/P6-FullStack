@@ -28,6 +28,7 @@ public class CommentService implements ICommentService {
 
     /**
      * {@inheritDoc}
+     * Retrieves all comments.
      */
     public List<Comment> getAll(){
         return commentRepository.findAll();
@@ -35,6 +36,7 @@ public class CommentService implements ICommentService {
 
     /**
      * {@inheritDoc}
+     * Creates a new comment.
      */
     public Comment create(Comment comment){
         return commentRepository.save(comment);
@@ -42,10 +44,14 @@ public class CommentService implements ICommentService {
 
     /**
      * {@inheritDoc}
+     * Creates a new comment for a given article.
      */
     public Comment create(Principal principal, Long articleId, String commentBody){
+        // retrieves the logged user email
         String authorEmail = principal.getName();
+        // retrieves the comment author user the logged user email
         User commentAuthor = userRepository.findByEmail(authorEmail).orElseThrow(() -> new UserNotFoundException("User not found."));
+        // retrieves the article the comment is related to
         Article article = articleRepository.findById(articleId).orElseThrow(() -> new ArticleNotFoundException("Article not found."));
         Comment newComment = Comment.builder().content(commentBody).user(commentAuthor).article(article).build();
         return commentRepository.save(newComment);

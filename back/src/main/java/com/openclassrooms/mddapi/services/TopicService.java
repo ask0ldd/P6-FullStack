@@ -34,21 +34,15 @@ public class TopicService implements ITopicService {
 
     /**
      * {@inheritDoc}
+     * Retrieves a topic by its ID.
      */
     public Topic getById(Long id){
         return topicRepository.findById(id).orElse(null);
     }
 
-    /*public List<Topic> getUserSubscriptions(){
-        List<Topic> topicsSubscribedTo = topicRepository.findAll();
-        if (topicsSubscribedTo.isEmpty()) {
-            throw new ResourceNotFoundException("The user is subscribed to no topic.");
-        }
-        return topicsSubscribedTo;
-    }*/
-
     /**
      * {@inheritDoc}
+     * Creates a new topic.
      */
     public Topic create(Topic topic){
         return topicRepository.save(topic);
@@ -56,6 +50,7 @@ public class TopicService implements ITopicService {
 
     /**
      * {@inheritDoc}
+     * Retrieves all topics a user is subscribed to.
      */
     public List<Topic> getAllTopicsUserIsSubscribedTo(String userEmail){
         User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find user with email : " + userEmail));
@@ -64,9 +59,13 @@ public class TopicService implements ITopicService {
 
     /**
      * {@inheritDoc}
+     * Subscribes a user to a topic.
      */
     public void subscribe(Long topicId, String userEmail){
+        // checks if the topics exists before any subscription and retrieves it
         Topic topic = this.topicRepository.findById(topicId).orElseThrow(() -> new TopicNotFoundException("Can't find topic with id : " + topicId));
+
+        // checks if the user exists and retrieves it
         User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find subscriber."));
 
         // check if the user is not already subscribed
@@ -81,9 +80,12 @@ public class TopicService implements ITopicService {
 
     /**
      * {@inheritDoc}
+     * Unsubscribes a user from a topic.
      */
     public void unsubscribe(Long topicId, String userEmail) {
+        // checks if the topics exists before any unsub and retrieves it
         Topic topic = this.topicRepository.findById(topicId).orElseThrow(() -> new TopicNotFoundException("Can't find topic with id : " + topicId));
+        // checks if the user exists and retrieves it
         User user = this.userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("Can't find subscriber."));
 
         // check if the user is subscribed, if not, can't be unsub

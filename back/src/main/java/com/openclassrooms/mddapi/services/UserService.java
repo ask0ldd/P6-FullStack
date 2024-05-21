@@ -20,6 +20,7 @@ public class UserService implements UserDetailsService, IUserService {
 
     /**
      * {@inheritDoc}
+     * Retrieves a user by their unique identifier.
      */
     public User getById(Long id){
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Target user cannot be found."));
@@ -27,6 +28,7 @@ public class UserService implements UserDetailsService, IUserService {
 
     /**
      * {@inheritDoc}
+     * Retrieves a user by their email address.
      */
     public User getByEmail(String email){
         return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("Target user cannot be found."));
@@ -34,6 +36,7 @@ public class UserService implements UserDetailsService, IUserService {
 
     /**
      * {@inheritDoc}
+     * Saves a new user or updates an existing one.
      */
     public User save(User user){
         return userRepository.save(user);
