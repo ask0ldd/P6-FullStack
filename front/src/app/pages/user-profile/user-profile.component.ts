@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subscription, of, take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { ITopic } from 'src/app/interfaces/ITopic';
 import { IUpdateCredentialsRequest } from 'src/app/interfaces/Requests/IUpdateCredentialsRequest';
 import { ICredentialsResponse } from 'src/app/interfaces/Responses/ICredentialsResponse';
@@ -15,8 +15,9 @@ import { TopicService } from 'src/app/services/topic.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  retrievedTopics : ITopic[] = []
+  retrievedTopics! : ITopic[]
   subscriptions : Subscription[] = []
+  errorMessage : any = null
 
   public updateCredentialsForm : FormGroup = this.fb.group({
     username: [
@@ -41,6 +42,7 @@ export class UserProfileComponent implements OnInit {
     private topicService : TopicService,
     private router : Router,
   ) {
+    
   }
 
   ngOnInit(): void {
@@ -49,15 +51,18 @@ export class UserProfileComponent implements OnInit {
   }
 
   onCredentialsSubmit() : void {
-    const newCredentials = this.updateCredentialsForm.value as IUpdateCredentialsRequest
-    console.log(newCredentials)
-    this.authService.updateCredentials$(newCredentials).pipe(take(1)).subscribe({
-      next : _ => {
-        this.authService.flushStorage()
-        this.router.navigate(['login'])
-      },
-      error : error => console.log(error?.error)
-    })
+    if(this.updateCredentialsForm.valid) {
+      const newCredentials = this.updateCredentialsForm.value as IUpdateCredentialsRequest
+      console.log(newCredentials)
+      this.authService.updateCredentials$(newCredentials).pipe(take(1)).subscribe(_ => 
+        {
+          this.authService.flushStorage()
+          this.router.navigate(['login'])
+        }
+      )
+    } else {
+      this.errorMessage = "Identifiants invalides."
+    }
   }
 
   unsubscribeFromTopic(event: any) : void {
@@ -71,10 +76,12 @@ export class UserProfileComponent implements OnInit {
   }
 
   getUsercredentials() : void {
-    this.authService.getCredentials$().pipe(take(1)).subscribe((datas : ICredentialsResponse) => {
-      this.updateCredentialsForm.get('email')!.setValue(datas.email)
-      this.updateCredentialsForm.get('username')!.setValue(datas.username)
-    })
+    this.authService.getCredentials$().pipe(take(1)).subscribe((datas : ICredentialsResponse) => 
+      {
+        this.updateCredentialsForm.get('email')!.setValue(datas.email)
+        this.updateCredentialsForm.get('username')!.setValue(datas.username)
+      }
+    )
   }
 
   logout() : void {

@@ -4,6 +4,7 @@
         <form (ngSubmit)="onCredentialsSubmit()" [formGroup]="updateCredentialsForm">
             <input type="text" placeholder="username" formControlName="username"/>
             <input type="text" placeholder="email" formControlName="email"/>
+            <p *ngIf="errorMessage">{{errorMessage}}</p>
             <button type="submit">Sauvegarder</button>
         </form>
         <p role="button" class="logoutButton" (click)="logout()">Se déconnecter</p>
@@ -14,6 +15,6 @@
         <div *ngIf="retrievedTopics?.length && retrievedTopics.length > 0" class="themesContainer">
             <app-topic-card *ngFor="let topic of retrievedTopics" [title]="topic.name" [subscribed]="true" [description]="topic.description" (askParentForUnsubscription)="unsubscribeFromTopic($event)" [topicId]="topic.id"></app-topic-card>
         </div>
-        <div *ngIf="retrievedTopics?.length === 0 || !retrievedTopics">Aucun abonnement souscrit pour le moment.</div>
+        <div *ngIf="retrievedTopics?.length === 0">Aucun abonnement souscrit pour le moment.</div>
     </section>
 </main>
