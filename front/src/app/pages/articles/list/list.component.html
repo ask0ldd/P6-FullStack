@@ -2,7 +2,7 @@
     <section class="articlesContainer">
         <div class="buttonSelectContainer">
             <button routerLink="/articles/new">Créer un Article</button>
-            <span class="sort" (click)="switchOrder()">Trier Par <img [src]="orderAsc ? 'assets/sortarrow.png' : 'assets/sortarrowreverse.png'"/></span>
+            <span class="sort" (click)="switchOrder()">Trier Par <img [src]="orderAsc ? 'assets/sortarrowreverse.png' : 'assets/sortarrow.png'"/></span>
         </div>
         <div class="articlesGroup" *ngIf="articles && articles.length > 0">
             <article *ngFor="let article of articles" [routerLink]="['/articles/details', article.id]">

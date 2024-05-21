@@ -25,11 +25,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   constructor(private articleService : ArticleService, private commentService : CommentService, private route: ActivatedRoute) { 
   }
   
-  ngOnDestroy(): void {
-    this.articleSub?.unsubscribe()
-    this.newCommentSub?.unsubscribe()
-  }
-
   ngOnInit(): void {
     this.urlId = this.route.snapshot.paramMap.get('id')
     if(this.urlId != null ) this.article$ = this.articleService.detail$(this.urlId)
@@ -50,8 +45,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.newCommentSub.unsubscribe() // can unsub since comments have been refreshed
   }
 
-  /*historyBack(): void{
-    window.history.back()
-  }*/
+  ngOnDestroy(): void {
+    this.articleSub?.unsubscribe()
+    this.newCommentSub?.unsubscribe()
+  }
 
 }
