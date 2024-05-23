@@ -17,18 +17,18 @@ import java.util.Set;
 @SpringBootApplication
 public class MddApiApplication implements CommandLineRunner {
 
-	private final UserService userService;
+	/*private final UserService userService;
 	private final ArticleService articleService;
 	private final TopicService topicService;
 	private final CommentService commentService;
-	private final RoleRepository roleRepository;
+	private final RoleRepository roleRepository;*/
 
-	public MddApiApplication(UserService userService, ArticleService articleService, TopicService topicService, CommentService commentService, RoleRepository roleRepository) {
-		this.userService = userService;
+	public MddApiApplication(/*UserService userService, ArticleService articleService, TopicService topicService, CommentService commentService, RoleRepository roleRepository*/) {
+		/*this.userService = userService;
 		this.articleService = articleService;
 		this.topicService = topicService;
 		this.commentService = commentService;
-		this.roleRepository = roleRepository;
+		this.roleRepository = roleRepository;*/
 	}
 
 	public static void main(String[] args) {
@@ -115,5 +115,5 @@ public class MddApiApplication implements CommandLineRunner {
 		commentService.create(comment2);*/
 	}
 
-	String genericText = "JavaScript is a high-level, dynamic, and interpreted programming language. It is primarily used for web development, creating interactive web pages, and building server-side applications. JavaScript was originally developed by Brendan Eich at Netscape in the 1990s and has since become one of the most widely used programming languages in the world. It is a versatile language that can be used for a variety of tasks, from simple scripting to complex application development. JavaScript is an essential tool for modern web development and continues to evolve and expand its capabilities.";
+	// String genericText = "JavaScript is a high-level, dynamic, and interpreted programming language. It is primarily used for web development, creating interactive web pages, and building server-side applications. JavaScript was originally developed by Brendan Eich at Netscape in the 1990s and has since become one of the most widely used programming languages in the world. It is a versatile language that can be used for a variety of tasks, from simple scripting to complex application development. JavaScript is an essential tool for modern web development and continues to evolve and expand its capabilities.";
 }
