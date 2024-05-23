@@ -96,11 +96,7 @@ Before all you need to install these softwares, packages and librairies :
 
 ### FrontEnd Installation
 
-1. Clone the front end repo
-
-   ```
-   git clone https://github.com/OpenClassrooms-Student-Center/Developpez-le-back-end-en-utilisant-Java-et-Spring.git
-   ```
+1. Open the front folder into your favorite IDE
 
 2. Install the packages needed for the front end (node & npm should be installed first)
    ```
@@ -115,10 +111,8 @@ Before all you need to install these softwares, packages and librairies :
 
 ### Backend Installation
 
-1. Clone the repo
-   ```
-   git clone https://github.com/ask0ldd/P3-SpringV2.git
-   ```
+1. Open the back folder into your favorite IDE
+
 2. Install MySQL & Workbench and define a root password.
 
 3. Create an env.properties file into the ressources folder of the project and add the following lines, with your root password replacing 'yourownrootpassword' (don't do this on a production server, create a new user with all the needed authorisations instead) :
@@ -131,7 +125,7 @@ Before all you need to install these softwares, packages and librairies :
    The following connection should already be set up :
       Local Instance MySQL80 / user : root / url : localhost:3306.
    ```
-5. Create an "immo" empty schema with Workbench. You don't need to do more since all the mandatory tables will be created by Spring JPA when executing the project.
+5. Create an "mdd" empty schema with Workbench. You don't need to do more since all the mandatory tables will be created by Spring JPA when executing the project.
 
 6. Build the project.
 
@@ -153,22 +147,11 @@ Before all you need to install these softwares, packages and librairies :
 - Register a new user account.
 - Log into your account.
 - View the user informations.
-- Post a new rental listing, including a picture of the property.
-- Update an existing rental listing.
-- Browse all posted rental listings.
-- View all the details regarding a specific rental.
-- Leave a message to a rental owner.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- SWAGGER -->
-
-## Swagger
-
-After launching the server, go to the following url :
-
-    http://127.0.0.1:3001/swagger-ui/index.html
-
-Don't forget to register first then use the returned JWT to authenticate yourself.
+- Update your credentials.
+- Subscribe to a topic.
+- Unsub.
+- Read an article related to a subscribed topic.
+- Create a new article.
+- Post a comment.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
