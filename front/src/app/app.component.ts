@@ -20,6 +20,7 @@ export class AppComponent implements OnDestroy {
   isProfileActive = false
 
   constructor(private router: Router) {
+    // deal with the header conditional display
     this.routerSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.handleNavigation(event.urlAfterRedirects)
@@ -31,7 +32,7 @@ export class AppComponent implements OnDestroy {
     // header not needed on the homepage
     if(url == "/") this.showHeader = false
 
-    // url where the nav part of the header isn't needed
+    // urls where the nav part of the header isn't needed
     const showNavUrls = ['/login', '/register']
     this.showNav = !showNavUrls.some(urlPath => url.includes(urlPath))
     if(showNavUrls.some(urlPath => url.includes(urlPath))){

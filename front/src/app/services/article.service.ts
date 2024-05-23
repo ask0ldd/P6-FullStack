@@ -14,6 +14,7 @@ export class ArticleService {
   constructor(private http: HttpClient) {
   }
 
+  // retrieves an article and its details
   detail$(id: string): Observable<IArticle> {
     return this.http.get<IArticle>(`${this.pathService}/${id}`);
   }
@@ -22,10 +23,12 @@ export class ArticleService {
     return this.http.get<IArticle[]>('api/articles')
   }
 
+  // retrieve all the articles in a specific order
   allByOrder$(order : string): Observable<IArticle[]>{
     return this.http.get<IArticle[]>('api/articles/' + order)
   }
 
+  // post a new article
   create$(newArticle : INewArticleRequest) : Observable<any>{
     return this.http.post<any>('api/article', newArticle)
   }

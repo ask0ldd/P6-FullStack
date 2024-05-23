@@ -50,6 +50,7 @@ export class UserProfileComponent implements OnInit {
     this.getUsercredentials()
   }
 
+  //  dealing with the new credentials for
   onCredentialsSubmit() : void {
     if(this.updateCredentialsForm.valid) {
       const newCredentials = this.updateCredentialsForm.value as IUpdateCredentialsRequest
@@ -75,6 +76,7 @@ export class UserProfileComponent implements OnInit {
     this.subscriptions.push(sub)
   }
 
+  // retrieves the current users credentials
   getUsercredentials() : void {
     this.authService.getCredentials$().pipe(take(1)).subscribe((datas : ICredentialsResponse) => 
       {
