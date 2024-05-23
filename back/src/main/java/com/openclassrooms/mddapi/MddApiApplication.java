@@ -38,7 +38,7 @@ public class MddApiApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Role userRole = roleRepository.findByAuthority("USER")
+		/*Role userRole = roleRepository.findByAuthority("USER")
 				.orElseThrow(() -> new RuntimeException("User role not found"));
 		Set<Role> authorities = new HashSet<>();
 		authorities.add(userRole);
@@ -112,7 +112,7 @@ public class MddApiApplication implements CommandLineRunner {
 				.content("While JavaScript has come a long way since its early days, it can still be a bit quirky and challenging to work with at times.")
 				.article(article1)
 				.build();
-		commentService.create(comment2);
+		commentService.create(comment2);*/
 	}
 
 	String genericText = "JavaScript is a high-level, dynamic, and interpreted programming language. It is primarily used for web development, creating interactive web pages, and building server-side applications. JavaScript was originally developed by Brendan Eich at Netscape in the 1990s and has since become one of the most widely used programming languages in the world. It is a versatile language that can be used for a variety of tasks, from simple scripting to complex application development. JavaScript is an essential tool for modern web development and continues to evolve and expand its capabilities.";
