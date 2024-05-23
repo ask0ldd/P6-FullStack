@@ -1,25 +1,174 @@
-# P6-Full-Stack-reseau-dev
+<a name="readme-top"></a>
 
-## Front
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+<h3 align="center">SCHOOLWORK : LE MONDE DU DEV</h3>
 
-Don't forget to install your node_modules before starting (`npm install`).
+<p align="center">
+School work : A basic social mvp app allowing individuals to share their thoughts on dev related topics.
+</p>
 
-### Development server
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#frontend-installation">Frontend Installation</a></li>
+        <li><a href="#backend-installation">Backend Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usages">Usages</a></li>
+  </ol>
+</details>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+<!-- ABOUT THE PROJECT -->
 
-### Build
+## About The Project
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+A basic social mvp app allowing individuals to share their thoughts on dev related topics.
 
-### Where to start
+### Built With
 
-As you may have seen if you already started the app, a simple home page containing a logo, a title and a button is available. If you take a look at its code (in the `home.component.html`) you will see that an external UI library is already configured in the project.
+- Java 17
+- Spring Boot 3.1.5
+- Spring Security 6.1.5
+- Lombok Annotations
+- MySQL 8.0
+- Spring JPA
+- Jakarta Validation
 
-This library is `@angular/material`, it's one of the most famous in the angular ecosystem. As you can see on their docs (https://material.angular.io/), it contains a lot of highly customizable components that will help you design your interfaces quickly.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Note: I recommend to use material however it's not mandatory, if you prefer you can get ride of it.
+<!-- GETTING STARTED -->
 
-Good luck!
+## Getting Started
+
+To run the app, you will need to clone the current repository first :
+
+```
+git clone https://github.com/ask0ldd/P6-FullStack.git
+```
+
+### Prerequisites
+
+Before all you need to install these softwares, packages and librairies :
+
+- nodejs
+  ```
+  https://nodejs.org/en
+  ```
+- npm (after installing nodejs)
+  ```
+  npm install -g npm
+  ```
+- java development kit 17 (jdk17) and if needed, add a JAVA_HOME environment variable pointing at your java installation folder.
+  ```
+  https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+  ```
+- mysql & mysqlwork bench (full install)
+
+  ```
+  https://dev.mysql.com/downloads/windows/
+  ```
+
+- the angular cli (after installing nodejs)
+  ```
+  npm install -g @angular/cli
+  ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### FrontEnd Installation
+
+1. Clone the front end repo
+
+   ```
+   git clone https://github.com/OpenClassrooms-Student-Center/Developpez-le-back-end-en-utilisant-Java-et-Spring.git
+   ```
+
+2. Install the packages needed for the front end (node & npm should be installed first)
+   ```
+   npm install
+   ```
+3. Start the Front End of the App (npm & the angular cli should be installed first)
+   ```
+   npm run start
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Backend Installation
+
+1. Clone the repo
+   ```
+   git clone https://github.com/ask0ldd/P3-SpringV2.git
+   ```
+2. Install MySQL & Workbench and define a root password.
+
+3. Create an env.properties file into the ressources folder of the project and add the following lines, with your root password replacing 'yourownrootpassword' (don't do this on a production server, create a new user with all the needed authorisations instead) :
+   ```
+   spring.datasource.username=root
+   spring.datasource.password=yourownrootpassword
+   ```
+4. Open MySQL Workbench
+   ```
+   The following connection should already be set up :
+      Local Instance MySQL80 / user : root / url : localhost:3306.
+   ```
+5. Create an "immo" empty schema with Workbench. You don't need to do more since all the mandatory tables will be created by Spring JPA when executing the project.
+
+6. Build the project.
+
+   ```
+   mvnw package
+   ```
+
+7. Run the project with Maven.
+   ```
+   mvnw spring-boot:run
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- USAGE EXAMPLES -->
+
+## Usages
+
+- Register a new user account.
+- Log into your account.
+- View the user informations.
+- Post a new rental listing, including a picture of the property.
+- Update an existing rental listing.
+- Browse all posted rental listings.
+- View all the details regarding a specific rental.
+- Leave a message to a rental owner.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- SWAGGER -->
+
+## Swagger
+
+After launching the server, go to the following url :
+
+    http://127.0.0.1:3001/swagger-ui/index.html
+
+Don't forget to register first then use the returned JWT to authenticate yourself.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
