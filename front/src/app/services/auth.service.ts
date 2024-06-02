@@ -7,6 +7,7 @@ import { IRegisterRequest } from '../interfaces/Requests/IRegisterRequest';
 import { IUpdateCredentialsRequest } from '../interfaces/Requests/IUpdateCredentialsRequest';
 import { ICredentialsResponse } from '../interfaces/Responses/ICredentialsResponse';
 import { jwtDecode } from "jwt-decode";
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class AuthService {
 
   private pathService = 'api/auth';
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private storageService : StorageService) {
   }
 
   login$(loginRequest : ILoginRequest) : Observable<IJwtResponse>{
@@ -36,12 +37,12 @@ export class AuthService {
   }
 
   isAuthenticated() : boolean{
-    if(localStorage.getItem("token")) return true
+    if(this.storageService.getJwt()) return true
     return false
   }
 
   getIdClaimFromAccessToken(): any {
-    const token = localStorage.getItem('token');
+    const token = this.storageService.getJwt();
     if (token) {
       const decodedToken = this.getDecodedAccessToken(token);
       if (decodedToken) {
@@ -51,17 +52,8 @@ export class AuthService {
     return null;
   }
 
-  // !!! create local storage service
   getLoggedUserInfos() : {jwt : string, username : string}{
-    const jwt = localStorage.getItem("token")
-    const username = localStorage.getItem("username")
-    return {jwt : jwt || "", username : username || ""}
-  }
-
-  // !!! create local storage service
-  flushStorage(){
-    localStorage.removeItem("token")
-    localStorage.removeItem("username")
+    return this.storageService.getUserCredentials()
   }
 
   getDecodedAccessToken(token: string): any {
