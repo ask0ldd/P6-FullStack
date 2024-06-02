@@ -38,12 +38,12 @@ public class Article {
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToOne // needed for details pages
+    @ManyToOne // needed for the details pages
     @JoinColumn(name = "topic_id", nullable = false)
     @JsonBackReference
     private Topic topic;
 
-    @ManyToOne // = author
+    @ManyToOne // = article's author
     @JoinColumn(name = "user_id", nullable = false)
     @JsonManagedReference
     private User user;
