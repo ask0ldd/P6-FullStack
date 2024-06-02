@@ -1,5 +1,5 @@
 <header>
-    <a href=""><img class="logo" src="assets/logo.png" alt="logo"/></a>
+    <a href="/articles/list"><img class="logo" src="assets/logo.png" alt="logo"/></a>
     <nav>
         <ul *ngIf="showNav">
             <li>
@@ -14,6 +14,6 @@
                 </a>
             </li>
         </ul>
-        <img (click)="toggleMenu()" src="assets/burger.png" class="burger" alt="open menu icon"/>
+        <img role="button" (click)="toggleMenu()" src="assets/burger.png" class="burger" alt="open menu icon"/>
     </nav>
 </header>
