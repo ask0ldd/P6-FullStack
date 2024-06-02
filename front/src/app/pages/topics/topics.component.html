@@ -1,6 +1,11 @@
 <main *ngIf="retrievedTopics.length > 0">
     <section class="topicsContainer">
-        <app-topic-card *ngFor="let topic of retrievedTopics" (askParentForUnsubscription)="unsubscribe($event)" (askParentForSubscription)="subscribe($event)" [subscribed]="isUserSubscribed(topic)" [title]="topic.name" [description]="topic.description" [topicId]="topic.id"></app-topic-card>
+        <app-topic-card *ngFor="let topic of retrievedTopics" 
+            (askParentForUnsubscription)="unsubscribe($event)"
+            (askParentForSubscription)="subscribe($event)" 
+            [subscribed]="isUserSubscribed(topic)" 
+            [title]="topic.name" [description]="topic.description" [topicId]="topic.id">
+        </app-topic-card>
     </section>
 </main>
 <main style="text-align: center; padding-top: 4rem; height: 8rem;" *ngIf="retrievedTopics.length === 0 || !retrievedTopics">

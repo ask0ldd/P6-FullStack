@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription, first, of, take } from 'rxjs';
+import { Observable, Subject, Subscription, first, of, take, takeUntil } from 'rxjs';
 import { ITopic } from 'src/app/interfaces/ITopic';
 import { AuthService } from 'src/app/services/auth.service';
 import { TopicService } from 'src/app/services/topic.service';
@@ -14,6 +14,7 @@ export class TopicsComponent implements OnInit, OnDestroy {
   retrievedTopics : ITopic[] = []
   subscriptions : Subscription[] = []
   userId! : number
+  unsubAllObs$ = new Subject<void>()
 
   constructor(private topicService : TopicService, private authService : AuthService) { }
 
@@ -25,7 +26,7 @@ export class TopicsComponent implements OnInit, OnDestroy {
   }
 
   refreshTopics(): void{
-    const sub = this.topicService.all$().pipe(take(1)).subscribe(datas => this.retrievedTopics = datas)
+    const sub = this.topicService.all$().pipe(takeUntil(this.unsubAllObs$)).subscribe(datas => this.retrievedTopics = datas)
     this.subscriptions.forEach(sub => sub.unsubscribe())
     this.subscriptions.push(sub)
   }
@@ -35,14 +36,17 @@ export class TopicsComponent implements OnInit, OnDestroy {
   }
 
   subscribe(event: any) : void{
-    this.topicService.subscribe$(event.topicId).pipe(take(1)).subscribe(_ => this.refreshTopics())
+    const sub = this.topicService.subscribe$(event.topicId).pipe(takeUntil(this.unsubAllObs$)).subscribe(_ => this.refreshTopics())
+    this.subscriptions.push(sub)
   }
 
   unsubscribe(event: any) : void{
-    this.topicService.unsubscribe$(event.topicId).pipe(take(1)).subscribe(_ => this.refreshTopics())
+    this.topicService.unsubscribe$(event.topicId).pipe(takeUntil(this.unsubAllObs$)).subscribe(_ => this.refreshTopics())
   }
 
+  // unsub all from all observables with .pipe(takeUntil(this.unsubAllObs$))
   ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe())
+    this.unsubAllObs$.next()
+    this.unsubAllObs$.complete()
   }
 }
