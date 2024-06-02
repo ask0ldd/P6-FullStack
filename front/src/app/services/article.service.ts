@@ -14,7 +14,7 @@ export class ArticleService {
   constructor(private http: HttpClient) {
   }
 
-  // retrieves an article and its details
+  // retrieves an article & its details
   detail$(id: string): Observable<IArticle> {
     return this.http.get<IArticle>(`${this.pathService}/${id}`);
   }

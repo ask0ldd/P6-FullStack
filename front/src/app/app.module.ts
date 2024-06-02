@@ -21,7 +21,6 @@ import { JwtInterceptor } from './interceptor/jwt.interceptor';
     SharedModule,
     AppRoutingModule,
   ],
-  // providers: [],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
