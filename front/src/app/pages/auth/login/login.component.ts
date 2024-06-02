@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { ILoginRequest } from 'src/app/interfaces/Requests/ILoginRequest';
 import { IJwtResponse } from 'src/app/interfaces/Responses/IJwtResponse';
 import { AuthService } from 'src/app/services/auth.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnDestroy {
 
   errorMessage = ""
+  private subscription: Subscription | null = null;
 
   public loginForm : FormGroup = this.fb.group({
     emailOrUsername: [
@@ -36,24 +38,27 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService) {
-  }
-
-  ngOnInit(): void {
-  }
+    private authService: AuthService,
+    private storageService : StorageService
+  ) { }
 
   onSubmit(): void{
     const loginregisterRequest = this.loginForm.value as ILoginRequest;
-    this.authService.login$(loginregisterRequest).pipe(take(1)).subscribe({
+    this.subscription = this.authService.login$(loginregisterRequest).pipe(take(1)).subscribe({
       next : (jwtResponse : IJwtResponse )=> {
-        console.log(jwtResponse)
-        this.authService.flushStorage()
-        localStorage.setItem('token', jwtResponse.token);
-        localStorage.setItem('username', jwtResponse.username)
+        // console.log(jwtResponse)
+        this.storageService.flush()
+        this.storageService.setUserCredentials({username : jwtResponse.username, token : jwtResponse.token})
         this.router.navigateByUrl('/articles/list')
       },
       error : (error : any) => this.errorMessage = error?.error?.message
     })
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe()
+    }
   }
 
 }
