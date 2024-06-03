@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, Subscription, first, of, take, takeUntil } from 'rxjs';
+import { Observable, Subject, Subscription, debounceTime, first, of, take, takeUntil } from 'rxjs';
 import { ITopic } from 'src/app/interfaces/ITopic';
 import { AuthService } from 'src/app/services/auth.service';
 import { TopicService } from 'src/app/services/topic.service';
@@ -26,7 +26,7 @@ export class TopicsComponent implements OnInit, OnDestroy {
   }
 
   refreshTopics(): void{
-    const sub = this.topicService.all$().pipe(takeUntil(this.unsubAllObs$)).subscribe(datas => this.retrievedTopics = datas)
+    const sub = this.topicService.all$().pipe(takeUntil(this.unsubAllObs$)).pipe(debounceTime(300)).subscribe(datas => this.retrievedTopics = datas)
     this.subscriptions.forEach(sub => sub.unsubscribe())
     this.subscriptions.push(sub)
   }
