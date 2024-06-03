@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription, of, take } from 'rxjs';
+import { Observable, Subscription, debounceTime, of, take } from 'rxjs';
 import { IArticle } from 'src/app/interfaces/IArticle';
 import { ArticleService } from 'src/app/services/article.service';
 
@@ -18,16 +18,18 @@ export class ListComponent implements OnInit, OnDestroy {
   constructor(private articleService : ArticleService) { }
 
   ngOnInit(): void {
-    const order = this.orderAsc ? "asc" : "desc"
-    if(this.subscription) this.subscription.unsubscribe()
-    this.subscription = this.articleService.allByOrder$(order).pipe(take(1)).subscribe(datas => this.articles = datas)
+    this.fetchArticles()
   }
 
-  switchOrder(){
-    this.orderAsc = !this.orderAsc
-    const order = this.orderAsc ? "asc" : "desc"
+  fetchArticles(): void {
+    const order = this.orderAsc ? 'asc' : 'desc';
     if(this.subscription) this.subscription.unsubscribe()
-    this.subscription = this.articleService.allByOrder$(order).pipe(take(1)).subscribe(datas => this.articles = datas)
+    this.subscription = this.articleService.allByOrder$(order).pipe(take(1)).pipe(debounceTime(300)).subscribe(datas => this.articles = datas)
+  }
+
+  switchOrder() : void {
+    this.orderAsc = !this.orderAsc
+    this.fetchArticles()
   }
 
   ngOnDestroy(): void {
