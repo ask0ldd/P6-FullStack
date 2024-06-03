@@ -50,17 +50,26 @@ export class RegisterComponent implements OnDestroy {
   ) { }
 
   onSubmit(): void{
-    const registerRequest = this.registerForm.value as IRegisterRequest;
-    this.subscription = this.authService.register$(registerRequest).pipe(take(1)).subscribe({
-      next : (jwtResponse : IJwtResponse ) => {
-        this.storageService.flush()
-        this.storageService.setUserCredentials({username : jwtResponse.username, token : jwtResponse.token})
-        this.router.navigateByUrl('/articles/list')
-      },
-      error : (error : any) => { 
-        this.errorMessage = error.status === 401? "Cet email ne peut être utilisé." : error?.error?.message
-      }
-    })
+    if(this.registerForm.valid){
+      const registerRequest = this.registerForm.value as IRegisterRequest;
+      this.subscription = this.authService.register$(registerRequest).pipe(take(1)).subscribe({
+        next : (jwtResponse : IJwtResponse ) => {
+          this.storageService.flush()
+          this.storageService.setUserCredentials({username : jwtResponse.username, token : jwtResponse.token})
+          this.router.navigateByUrl('/articles/list')
+        },
+        // deals with the error detected by the back end
+        error : (error : any) => { 
+          this.errorMessage = error.status === 401? "Cet email ne peut être utilisé." : error?.error?.message
+        }
+      })
+    } else {
+      // deals with the error detected by the front end
+      this.errorMessage = "Identifiants de connexion invalides."
+      if(this.registerForm.get("password")?.status != "VALID") this.errorMessage = "Le mot de passe doit contenir au moins 8 caractères dont une minuscule, une majuscule, un chiffre et un caractère spécial."
+      if(this.registerForm.get("email")?.status != "VALID") this.errorMessage = "L'email saisi est invalide."
+      if(this.registerForm.get("username")?.status != "VALID") this.errorMessage = "Le nom d'utilisateur doit contenir au mininum 6 caractères."
+    }
   }
 
   ngOnDestroy(): void {
