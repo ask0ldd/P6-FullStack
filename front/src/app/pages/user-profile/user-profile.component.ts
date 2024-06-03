@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject, Subscription, take, takeUntil } from 'rxjs';
+import { Subject, Subscription, debounceTime, take, takeUntil } from 'rxjs';
 import { ITopic } from 'src/app/interfaces/ITopic';
 import { IUpdateCredentialsRequest } from 'src/app/interfaces/Requests/IUpdateCredentialsRequest';
 import { ICredentialsResponse } from 'src/app/interfaces/Responses/ICredentialsResponse';
@@ -58,12 +58,16 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     if(this.updateCredentialsForm.valid) {
       const newCredentials = this.updateCredentialsForm.value as IUpdateCredentialsRequest
       console.log(newCredentials)
-      this.authService.updateCredentials$(newCredentials).pipe(takeUntil(this.unsubAllObs$)).subscribe(_ => 
+      this.authService.updateCredentials$(newCredentials).pipe(takeUntil(this.unsubAllObs$)).subscribe({
+        next : _ => 
         {
           this.storageService.flush()
           this.router.navigate(['login'])
+        },
+        error : () => {
+          this.errorMessage = "Identifiants invalides."
         }
-      )
+    })
     } else {
       this.errorMessage = "Identifiants invalides."
     }
@@ -75,7 +79,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   // refresh the list of topics the user is subscribed to
   refreshTopics(): void {
-    const sub = this.topicService.allTopicsAUserIsSubscribedTo$().pipe(takeUntil(this.unsubAllObs$)).subscribe(datas => this.retrievedTopics = datas)
+    const sub = this.topicService.allTopicsAUserIsSubscribedTo$().pipe(takeUntil(this.unsubAllObs$)).pipe(debounceTime(300)).subscribe(datas => this.retrievedTopics = datas)
     this.subscriptions.forEach(sub => sub.unsubscribe())
     this.subscriptions.push(sub)
   }
