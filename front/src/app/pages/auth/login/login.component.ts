@@ -43,16 +43,21 @@ export class LoginComponent implements OnDestroy {
   ) { }
 
   onSubmit(): void{
-    const loginregisterRequest = this.loginForm.value as ILoginRequest;
-    this.subscription = this.authService.login$(loginregisterRequest).pipe(take(1)).subscribe({
-      next : (jwtResponse : IJwtResponse )=> {
-        // console.log(jwtResponse)
-        this.storageService.flush()
-        this.storageService.setUserCredentials({username : jwtResponse.username, token : jwtResponse.token})
-        this.router.navigateByUrl('/articles/list')
-      },
-      error : (error : any) => this.errorMessage = error?.error?.message
-    })
+    if(this.loginForm.valid){
+      const loginregisterRequest = this.loginForm.value as ILoginRequest;
+      this.subscription = this.authService.login$(loginregisterRequest).pipe(take(1)).subscribe({
+        next : (jwtResponse : IJwtResponse )=> {
+          this.storageService.flush()
+          this.storageService.setUserCredentials({username : jwtResponse.username, token : jwtResponse.token})
+          this.router.navigateByUrl('/articles/list')
+        },
+        // deals with the error detected by the back end
+        error : (error : any) => this.errorMessage = error?.error?.message
+      })
+    } else {
+      // deals with the error detected by the front end
+      this.errorMessage = "Identifiants de connexion invalides."
+    }
   }
 
   ngOnDestroy(): void {
