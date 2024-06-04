@@ -1,6 +1,5 @@
 package com.openclassrooms.mddapi.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -24,7 +23,7 @@ import java.util.Set;
 })
 @Data
 @Accessors(chain = true)
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = { "id" })
 @Builder
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -46,23 +45,6 @@ public class User implements UserDetails {
     @Size(max = 20)
     @Column(name = "username", unique = true)
     private String name;
-
-    /*@OneToMany(mappedBy = "user", orphanRemoval = true)
-    // @JsonManagedReference
-    @JsonBackReference // when user is serialized, { user: ... ,  articles : [] } the article object won't be added anymore
-    private List<Article> articles;*/
-
-    /*@ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_topics_junction", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "topic_id") })
-    private Set<Topic> topics;*/
-
-    /*@ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_topics_junction",
-            joinColumns = @JoinColumn( name = "user_id" ),
-            inverseJoinColumns = @JoinColumn( name = "topic_id" ) )
-    private List<Topic> topics;*/
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles_junction", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {

@@ -55,7 +55,6 @@ public class SecurityConfiguration {
         // csrf disabled cause stateless
         return http.csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
-                // .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .authorizeHttpRequests(authorize -> {
                     authorize
                             // all routes but login, register & swaggers needs to be authenticated
@@ -66,7 +65,6 @@ public class SecurityConfiguration {
                             .requestMatchers(new AntPathRequestMatcher("/api/topics/**")).hasAnyRole("USER", "ADMIN")
                             .requestMatchers(new AntPathRequestMatcher("/api/topics")).hasAnyRole("USER", "ADMIN")
                             .requestMatchers(new AntPathRequestMatcher("/api/auth/newcredentials")).hasAnyRole("USER", "ADMIN")
-                            // .requestMatchers(new AntPathRequestMatcher("/api/auth/newcredentials")).permitAll()
                             .requestMatchers(WHITELIST).permitAll()
                             .anyRequest().authenticated();
                 })

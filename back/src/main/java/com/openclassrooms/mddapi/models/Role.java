@@ -3,7 +3,6 @@ package com.openclassrooms.mddapi.models;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
 @Data
@@ -32,9 +31,11 @@ public class Role implements GrantedAuthority {
         this.authority = authority;
     }
 
-    /*@Override
-    public String getAuthority() {
-        return this.authority;
-    }*/
+    /*
+     * @Override
+     * public String getAuthority() {
+     * return this.authority;
+     * }
+     */
 
 }

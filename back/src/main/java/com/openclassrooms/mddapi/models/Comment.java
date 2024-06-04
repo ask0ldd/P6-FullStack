@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-
 import java.time.LocalDateTime;
 
 @Entity(name = "comments")
@@ -34,7 +32,8 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonManagedReference // when comment is serialized, { comment: ... ,  user : {} } the user object will be added
+    @JsonManagedReference // when comment is serialized, { comment: ... , user : {} } the user object will
+                          // be added
     private User user;
 
     @CreationTimestamp

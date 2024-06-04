@@ -8,7 +8,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Entity(name = "topics")
 @Table(name = "topics")
@@ -33,10 +32,7 @@ public class Topic {
     private List<Article> articles;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_topics_junction",
-            joinColumns = @JoinColumn( name = "topic_id" ),
-            inverseJoinColumns = @JoinColumn( name = "user_id" ) )
+    @JoinTable(name = "users_topics_junction", joinColumns = @JoinColumn(name = "topic_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
 
     @CreationTimestamp
