@@ -7,11 +7,9 @@ main{
     grid-template-columns: 80px auto auto 1fr 30px;
     grid-template-rows: auto auto auto auto 1fr;
     row-gap: 1rem;
-    /*padding-right: 60px;*/
 
     @media (max-width: 750px) {
         grid-template-columns: 1rem auto auto 1fr 1rem;
-        /*padding-right: 1.5rem;*/
     }
 
     @media (max-width: 600px) {
