@@ -2,10 +2,6 @@ package com.openclassrooms.mddapi.services.interfaces;
 
 import com.openclassrooms.mddapi.exceptions.TokenGenerationFailureException;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
-import com.openclassrooms.mddapi.models.User;
-import org.springframework.security.authentication.BadCredentialsException;
-
-import java.util.Optional;
 
 public interface IAuthService {
 
@@ -22,16 +18,17 @@ public interface IAuthService {
     /**
      * Registers a new user with the provided email, username, and password.
      *
-     * @param email     the email of the new user
-     * @param username  the username of the new user
-     * @param password  the password of the new user
+     * @param email    the email of the new user
+     * @param username the username of the new user
+     * @param password the password of the new user
      * @return the generated JWT token
      * @throws TokenGenerationFailureException if the token generation fails
      */
     public String register(String email, String username, String password);
 
     /**
-     * Updates the credentials of a user with the provided current email, new email, and new username.
+     * Updates the credentials of a user with the provided current email, new email,
+     * and new username.
      *
      * @param currentEmail the current email of the user
      * @param newEmail     the new email of the user

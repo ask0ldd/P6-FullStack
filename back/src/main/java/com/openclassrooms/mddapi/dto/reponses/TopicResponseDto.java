@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.dto.reponses;
 
 import com.openclassrooms.mddapi.dto.partials.LimitedUserDto;
 import com.openclassrooms.mddapi.models.Topic;
-import com.openclassrooms.mddapi.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
