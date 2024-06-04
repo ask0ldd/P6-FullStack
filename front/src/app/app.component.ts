@@ -29,6 +29,7 @@ export class AppComponent implements OnDestroy {
   }
 
   handleNavigation(url: string) {
+    this.showHeader = true
     // header not needed on the homepage
     if(url == "/") this.showHeader = false
 
