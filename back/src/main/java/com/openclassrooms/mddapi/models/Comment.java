@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Comment {
     @Id
@@ -25,8 +24,6 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "article_id", nullable = false)
-    // @JsonBackReference
-    // @JsonManagedReference
     @JsonIgnore
     private Article article;
 

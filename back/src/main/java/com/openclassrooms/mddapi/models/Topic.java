@@ -15,7 +15,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
