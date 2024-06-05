@@ -17,6 +17,13 @@ export class RegisterComponent implements OnDestroy {
   errorMessage = ""
   subscription : Subscription | null = null
 
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private storageService : StorageService
+  ) { }
+
   public registerForm : FormGroup = this.fb.group({
     username : [
       '',
@@ -41,13 +48,6 @@ export class RegisterComponent implements OnDestroy {
       ]
     ]
   });
-
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private authService: AuthService,
-    private storageService : StorageService
-  ) { }
 
   onSubmit(): void{
     if(this.registerForm.valid){

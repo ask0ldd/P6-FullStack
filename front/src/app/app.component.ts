@@ -52,6 +52,7 @@ export class AppComponent implements OnDestroy {
     this.sidenav.close()
   }
 
+  // the different versions of the header have different kind of behaviors on resize
   @HostListener('window:resize', ['$event'])
   onResize() {
     const windowWidth = window.innerWidth
