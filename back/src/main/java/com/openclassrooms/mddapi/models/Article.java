@@ -19,7 +19,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Article {
     @Id
@@ -33,7 +32,8 @@ public class Article {
     private String content;
 
     // mappedBy = "article" :
-    // The child entity has a property named "article" that maps to the parent entity.
+    // The child entity has a property named "article" that maps to the parent
+    // entity.
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();

@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,13 +21,10 @@ import java.util.Set;
         @UniqueConstraint(columnNames = "username"),
 })
 @Data
-@Accessors(chain = true)
-@EqualsAndHashCode(of = { "id" })
 @Builder
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-@ToString
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
