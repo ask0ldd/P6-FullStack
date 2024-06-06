@@ -99,7 +99,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('login')
   }
 
-  // unsub all from all observables with .pipe(takeUntil(this.unsubAllObs$))
+  // unsubing from all observables with .pipe(takeUntil(this.unsubAllObs$))
   ngOnDestroy(): void {
     this.unsubAllObs$.next()
     this.unsubAllObs$.complete()
