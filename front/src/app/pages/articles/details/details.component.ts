@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subject, Subscription, of, takeUntil } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { IArticle } from 'src/app/interfaces/IArticle';
-import { IComment, ILimitedComment } from 'src/app/interfaces/IComment';
+import { ILimitedComment } from 'src/app/interfaces/IComment';
 import { ArticleService } from 'src/app/services/article.service';
 import { CommentService } from 'src/app/services/comment.service';
 
