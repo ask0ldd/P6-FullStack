@@ -34,8 +34,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<DefaultResponseDto> handleBadCredentialsExceptions(BadCredentialsException ex) {
-        System.out.println("bad credentials.");
-        return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("Bad credentials."), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("Identifiants inconnus."), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(NumberFormatException.class)
