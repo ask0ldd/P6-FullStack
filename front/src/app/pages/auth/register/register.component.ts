@@ -60,7 +60,7 @@ export class RegisterComponent implements OnDestroy {
         },
         // deals with the error detected by the back end
         error : (error : any) => { 
-          this.errorMessage = error.status === 401? "Cet email ne peut être utilisé." : error?.error?.message
+          this.errorMessage = error.status === 401? "Email ou identifiants déjà utilisés." : error?.error?.message
         }
       })
     } else {

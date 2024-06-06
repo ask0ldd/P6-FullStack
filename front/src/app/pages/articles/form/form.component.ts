@@ -1,8 +1,7 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription, of, take } from 'rxjs';
-import { IArticle } from 'src/app/interfaces/IArticle';
 import { ITopic } from 'src/app/interfaces/ITopic';
 import { ArticleService } from 'src/app/services/article.service';
 import { TopicService } from 'src/app/services/topic.service';
@@ -14,7 +13,6 @@ import { TopicService } from 'src/app/services/topic.service';
 })
 export class FormComponent implements OnInit, OnDestroy {
 
-  // retrievedTopics : ITopic[] = []
   topics$ : Observable<ITopic[]> = of([])
   errorMessage = ""
   subscription! : Subscription
@@ -73,9 +71,9 @@ export class FormComponent implements OnInit, OnDestroy {
     } else {
       // deals with the error detected by the front end
       this.errorMessage = ""
-      if(this.articleForm.get("content")?.status != "VALID") this.errorMessage = "The content value should have a min length of 3."
-      if(this.articleForm.get("title")?.status != "VALID") this.errorMessage = "The title value should have a min length of 3."
-      if(this.articleForm.get("topicId")?.status != "VALID") this.errorMessage = "A topic should be selected."
+      if(this.articleForm.get("content")?.status != "VALID") this.errorMessage = "Le contenu doit avoir une longueur minimum de 3 caractères."
+      if(this.articleForm.get("title")?.status != "VALID") this.errorMessage = "Le titre doit avoir une longueur minimum de 3 caractères."
+      if(this.articleForm.get("topicId")?.status != "VALID") this.errorMessage = "Un sujet doit être sélectionné."
     }
   }
 
