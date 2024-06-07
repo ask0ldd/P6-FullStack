@@ -47,6 +47,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("User not found."), HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(EmailAlreadyUsedException.class)
+    public ResponseEntity<DefaultResponseDto> handleUserNotFoundExceptions(EmailAlreadyUsedException ex) {
+        return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("This Email is already used."), HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(RoleNotFoundException.class)
     public ResponseEntity<DefaultResponseDto> handleRoleNotFoundExceptions(RoleNotFoundException ex) {
         return new ResponseEntity<DefaultResponseDto>(new DefaultResponseDto("Role not found."), HttpStatus.NOT_FOUND);
@@ -76,12 +81,3 @@ public class GlobalExceptionHandler {
         return rawErrorMessage.substring(rawErrorMessage.lastIndexOf("[")+1).replace("]]", "").stripTrailing();
     }
 }
-
-// !!! deal with Long.parseLong(userId)); // throw NumberFormatException from topic controller (bottom)
-
-/*
-A DisabledException must be thrown if an account is disabled and the AuthenticationManager can test for this state.
-A LockedException must be thrown if an account is locked and the AuthenticationManager can test for account locking.
-A BadCredentialsException must be thrown if incorrect credentials are presented. Whilst the above exceptions are optional, an AuthenticationManager must always test credentials.
-
- */
