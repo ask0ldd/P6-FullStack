@@ -57,15 +57,14 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   onCredentialsSubmit() : void {
     if(this.updateCredentialsForm.valid) {
       const newCredentials = this.updateCredentialsForm.value as IUpdateCredentialsRequest
-      console.log(newCredentials)
       this.authService.updateCredentials$(newCredentials).pipe(takeUntil(this.unsubAllObs$)).subscribe({
         next : _ => 
         {
           this.storageService.flush()
           this.router.navigate(['login'])
         },
-        error : () => {
-          this.errorMessage = "Identifiants invalides."
+        error : ({error}) => {
+          this.errorMessage = error?.message === "This Email is already used." ? "Email déjà connu." : "Identifiants invalides."
         }
     })
     } else {
