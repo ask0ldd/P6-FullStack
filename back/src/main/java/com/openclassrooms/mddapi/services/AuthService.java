@@ -1,9 +1,6 @@
 package com.openclassrooms.mddapi.services;
 
-import com.openclassrooms.mddapi.exceptions.BadRequestException;
-import com.openclassrooms.mddapi.exceptions.RoleNotFoundException;
-import com.openclassrooms.mddapi.exceptions.TokenGenerationFailureException;
-import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
+import com.openclassrooms.mddapi.exceptions.*;
 import com.openclassrooms.mddapi.models.Role;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repositories.RoleRepository;
@@ -82,6 +79,11 @@ public class AuthService implements IAuthService {
      * Updates the credentials of a user with the provided email and/or username.
      */
     public void updateCredentials(String currentEmail, String newEmail, String newUsername) {
+        // check if the new email is not already known and used by another user
+        if ((userRepository.existsByEmail(newEmail)) && (!Objects.equals(currentEmail, newEmail))) {
+            throw new EmailAlreadyUsedException("The Email " + newEmail + " is already in use.");
+        }
+
         User user = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new UserNotFoundException("User not found."));
         user.setEmail(newEmail);
