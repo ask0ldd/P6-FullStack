@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.services.interfaces;
 
+import com.openclassrooms.mddapi.exceptions.EmailAlreadyUsedException;
 import com.openclassrooms.mddapi.exceptions.TokenGenerationFailureException;
 import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
 
@@ -34,6 +35,7 @@ public interface IAuthService {
      * @param newEmail     the new email of the user
      * @param newUsername  the new username of the user
      * @throws UserNotFoundException if the user is not found
+     * @throws EmailAlreadyUsedException if the user is using the email of another user
      */
     public void updateCredentials(String currentEmail, String newEmail, String newUsername);
 }
