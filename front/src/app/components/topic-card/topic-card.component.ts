@@ -12,6 +12,7 @@ export class TopicCardComponent implements OnInit {
   @Input() title : string = ""
   @Input() description : string = ""
   @Input() topicId : number = 0
+  @Input() profileCard : boolean = false
   userId : number = 1
 
   @Output() askParentForSubscription = new EventEmitter<any>();

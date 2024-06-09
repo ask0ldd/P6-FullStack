@@ -21,12 +21,37 @@ article{
     h3{
         font-size: 16px;
         margin-bottom: 1rem;
+        
+        @media (max-width: 600px) {
+            margin-bottom: 0.75rem;
+        }
     }
 
     p{
         font-size: 14px;
         margin-bottom: 1rem;
-        min-height:84px;
+        min-height:60px;
+        max-height: 64px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Specify the number of lines to display */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis ellipsis;
+        overflow: hidden;
+
+        @media (max-width: 600px) {
+            -webkit-line-clamp: 4;
+            min-height:80px;
+            max-height: 84px;
+        }
+    }
+
+    p.profileP{
+        @media (max-width: 600px) {
+            min-height:60px;
+            max-height: 64px;
+            -webkit-line-clamp: 3;
+        }
     }
 
     button{

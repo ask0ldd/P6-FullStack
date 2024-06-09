@@ -1,6 +1,6 @@
 <article>
     <h3>{{title | titlecase}}</h3>
-    <p>Description: {{description | truncate:300}}</p>
+    <p [ngClass]="{'profileP': profileCard}">Description: {{description | truncate:300}}</p>
     <button *ngIf="!subscribed" (click)="handleSubscribeClick()">S'abonner</button>
     <button class="unsubscribe" *ngIf="subscribed" (click)="handleUnsubscribeClick()">Se désabonner</button>
 </article>
