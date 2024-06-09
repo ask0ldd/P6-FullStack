@@ -15,7 +15,7 @@
         <div *ngIf="retrievedTopics?.length && retrievedTopics.length > 0" class="themesContainer">
             <app-topic-card *ngFor="let topic of retrievedTopics" 
                 [title]="topic.name" [subscribed]="true" [description]="topic.description" 
-                (askParentForUnsubscription)="unsubscribeFromTopic($event)" [topicId]="topic.id">
+                (askParentForUnsubscription)="unsubscribeFromTopic($event)" [topicId]="topic.id" [profileCard]="true">
             </app-topic-card>
         </div>
         <div *ngIf="retrievedTopics?.length === 0">Aucun abonnement souscrit pour le moment.</div>
