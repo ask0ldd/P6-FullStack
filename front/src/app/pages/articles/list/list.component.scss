@@ -67,12 +67,29 @@
 
     h3{
         font-size: 16px;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.70rem;
     }
 
     p{
         font-size: 14px;
-        margin-top: 0.5rem;
+        margin-top: 0.75rem;
+        height: 100px;
+        display: -webkit-box;
+        -webkit-line-clamp: 5; /* Specify the number of lines to display */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis ellipsis;
+        overflow: hidden;
+
+        @media (max-width: 760px) {
+            -webkit-line-clamp: 4;
+            height: 84px;
+        }
+
+        @media (min-width: 1200px) {
+            -webkit-line-clamp: 6;
+            height: fit-content;
+        }
     }
 
     button{
