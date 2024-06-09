@@ -55,7 +55,6 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void{
-    console.log(this.articleForm)
     if(this.articleForm.valid) {
       this.errorMessage = ""
       const newArticle = this.articleForm?.value

@@ -139,7 +139,6 @@ public class AuthService implements IAuthService {
         } catch (Exception e) {
             System.out.println("\u001B[31m" + e + "\u001B[0m");
             throw new BadRequestException();
-        } // converting all the exceptions but the rolenotfound one into a
-          // badrequestexception
+        } // converting all the exceptions beside the roleNotFound one into badRequestExceptions
     }
 }
