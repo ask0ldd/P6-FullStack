@@ -73,7 +73,7 @@ export class FormComponent implements OnInit, OnDestroy {
       this.errorMessage = ""
       if(this.articleForm.get("content")?.status != "VALID") this.errorMessage = "Le contenu doit avoir une longueur minimum de 3 caractères."
       if(this.articleForm.get("title")?.status != "VALID") this.errorMessage = "Le titre doit avoir une longueur minimum de 3 caractères."
-      if(this.articleForm.get("topicId")?.status != "VALID") this.errorMessage = "Un sujet doit être sélectionné."
+      if(this.articleForm.get("topicId")?.status != "VALID") this.errorMessage = "Un thème doit être sélectionné."
     }
   }
 
