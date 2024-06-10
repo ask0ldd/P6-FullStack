@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable, Subscription, of, take } from 'rxjs';
 import { IArticle } from 'src/app/interfaces/IArticle';
 import { ILimitedComment } from 'src/app/interfaces/IComment';
 import { ArticleService } from 'src/app/services/article.service';
@@ -27,8 +27,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
   
   ngOnInit(): void {
     this.urlId = this.route.snapshot.paramMap.get('id')
-    if(this.urlId != null ) this.article$ = this.articleService.detail$(this.urlId)
-    this.articleSub = this.article$.subscribe(article => this.comments = article.comments)
+    if(this.urlId != null ) {
+      this.article$ = this.articleService.detail$(this.urlId)
+      this.articleSub = this.article$.pipe(take(1)).subscribe(article => this.comments = article.comments)
+    }
   }
 
   onSendNewComment(){
@@ -46,8 +48,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.articleSub?.unsubscribe()
-    this.newCommentSub?.unsubscribe()
+    if(this.articleSub) this.articleSub?.unsubscribe()
+    if(this.newCommentSub) this.newCommentSub?.unsubscribe()
   }
-
 }

@@ -1,4 +1,4 @@
-<main *ngIf="(article$ | async) as article">
+<main *ngIf="(article$ | async) as article; else noArticle">
     <img class="backButton" [routerLink]="['/articles/list']" src="/assets/backarrow.png" alt="backButton">
     <h1>{{article.title | titlecase}}</h1>
     <div class="date">{{article.createdAt | date:'dd/MM/yyyy'}}</div>
@@ -23,3 +23,9 @@
         </section>
     </div>
 </main>
+<ng-template #noArticle>
+    <main style="display:flex;">
+        <img class="backButton" style="height:24px; margin-left: 1rem; flex-grow:0;" [routerLink]="['/articles/list']" src="/assets/backarrow.png" alt="backButton">
+        <span style="margin-left: 1rem; margin-top:0.25rem; flex-grow:1; text-align: center;">L'article est introuvable.</span>
+    </main>
+</ng-template>
