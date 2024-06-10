@@ -13,6 +13,7 @@ export class CommentService {
   constructor(private http: HttpClient) {
   }
 
+  // add a new comment to an article
   create$(newComment : INewCommentRequest) : Observable<any>{
     return this.http.post<any>(`api/article/${newComment.articleId}/comment`, newComment)
   }

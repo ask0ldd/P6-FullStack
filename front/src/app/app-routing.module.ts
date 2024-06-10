@@ -13,7 +13,6 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: '**', component: HomeComponent },
 ];
-// {path: 'rental/new', component: RentalNewComponent, canActivate:[authGuard]},
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
