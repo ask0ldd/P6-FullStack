@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'profile', canActivate: [AuthGuard], component: UserProfileComponent },
   { path: 'themes', canActivate: [AuthGuard], component: TopicsComponent },
   { path: '', component: HomeComponent },
-  { path: '**', component: HomeComponent },
+  { path: '**', redirectTo:'articles/list' },
 ];
 
 @NgModule({
